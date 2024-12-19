@@ -9,16 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/button": "^2.2.7",
+    "@nextui-org/system": "^2.4.4",
+    "@nextui-org/theme": "^2.4.3",
+    "@tiptap/extension-color": "^2.10.3",
+    "@tiptap/extension-list-item": "^2.10.3",
+    "@tiptap/extension-text-style": "^2.10.3",
+    "@tiptap/pm": "^2.10.3",
+    "@tiptap/react": "^2.10.3",
+    "@tiptap/starter-kit": "^2.10.3",
+    "framer-motion": "^11.15.0",
+    "jodit": "^4.2.47",
+    "next": "15.1.1",
+    "quill": "^2.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.1"
+    "sass": "^1.83.0"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
