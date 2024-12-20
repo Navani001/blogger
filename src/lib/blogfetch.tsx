@@ -1,11 +1,13 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
 
-export default async function create_database(formData: any) {
+export default async function get_article(formData: any) {
     
     // Connect to the Neon database
     const sql = neon(`${process.env.DATABASE_URL}`);
-    const comment = formData;
+    const url = formData;
+    console.log("backend",url)
     // Insert the comment from the form into the Postgres database
-    await sql('INSERT INTO blogs (username,article,url) VALUES ($1,$2,$3)', ["raj",comment,"naruto"]);
+    const result = await sql("SELECT * FROM blogs WHERE url = $1", [url]);
+return result
   }
