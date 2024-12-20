@@ -1,10 +1,26 @@
-
 .ProseMirror-focused {
   outline: none !important;
 }
-.ProseMirror{
-  width: 80vw;
-  height: 85vh;
+
+.editor-content {
+  height: 90%;
+  overflow: hidden; /* Prevent scrollbar at editor container level */
+}
+
+.ProseMirror {
+  margin-top: 10px;
+ height: 70vh;
+ 
+  overflow-y: auto;
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 button{
   border:1px solid rgb(79, 72, 72) !important;
@@ -131,7 +147,7 @@ button{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem;
+   
   
     .sticky {
       position: sticky;

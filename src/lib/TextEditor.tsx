@@ -17,8 +17,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 
 const MenuBar = () => {
+  
   const { editor } = useCurrentEditor()
-// Remove the focus from the editor
 const addImage = useCallback(() => {
   const url = window.prompt('URL')
 
@@ -37,7 +37,7 @@ const addImage = useCallback(() => {
   
 
   return (
-    <div className="control-group">
+    <div className="control-group h-[10%]">
       <div className="button-group">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -231,7 +231,7 @@ const extensions = [
 
     //   return 'Can you add some further context?'
     // },
-  }),
+  }), 
 ]
 
 
@@ -246,11 +246,14 @@ console.log(content)
     },[content])
   return (
   
-    <EditorProvider slotBefore={<MenuBar />} extensions={extensions} content={content} onUpdate={({editor})=>{
+    <div className='w-full p-8 overflow-y-auto '>
+    <EditorProvider   editorContainerProps={{
+    className: 'editor-content', // Apply your custom class here
+  }} slotBefore={<MenuBar />} extensions={extensions} content={content} onUpdate={({editor})=>{
         setcontent(editor.getHTML())
-       
     }}></EditorProvider>
+    </div>
     
-   
+
   )
 }

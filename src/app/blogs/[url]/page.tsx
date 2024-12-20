@@ -21,7 +21,6 @@ console.log(content)
     },[content])
   return (
     <div >
-      
        <div dangerouslySetInnerHTML={{ __html: content }} />
     </div>
   );

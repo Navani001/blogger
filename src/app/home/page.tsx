@@ -10,8 +10,10 @@ const contentmain = `
 export default function Home() {
     const [content,setcontent]=useState<string>(contentmain)
   return (
-    <div>
+    <div className="h-full w-full">
+      
       <Tiptap content={content} setcontent={setcontent}/>
+   
       <button type="submit" onClick={()=>{
         create_database(content)
       }}>Submit</button>

@@ -5,6 +5,8 @@
 :root {
  
 
+  width: 100vw;
+  height: 100vh;
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -12,13 +14,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    
+    width: 100vw;
+    height: 100vh;
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
