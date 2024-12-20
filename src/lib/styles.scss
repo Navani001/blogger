@@ -1,4 +1,27 @@
+
+.ProseMirror-focused {
+  outline: none !important;
+}
+.ProseMirror{
+  width: 80vw;
+  height: 85vh;
+}
+button{
+  border:1px solid rgb(79, 72, 72) !important;
+  border-radius: 10px;
+  padding: 5px;
+}
+
 .tiptap {
+ 
+  p.is-editor-empty:first-child::before {
+    color: gray;
+    content:"write your blog here";
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+ 
     :first-child {
       margin-top: 0;
     }
@@ -94,7 +117,8 @@
   }
 
   .is-active{
-    background-color: aqua;
+    background-color: rgb(25, 0, 255);
+    color: black;
 }
 .button-group {
     display: flex;

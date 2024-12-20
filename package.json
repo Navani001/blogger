@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@nextui-org/button": "^2.2.7",
     "@nextui-org/system": "^2.4.4",
     "@nextui-org/theme": "^2.4.3",
     "@tiptap/extension-color": "^2.10.3",
+    "@tiptap/extension-image": "^2.10.4",
     "@tiptap/extension-list-item": "^2.10.3",
+    "@tiptap/extension-placeholder": "^2.10.4",
     "@tiptap/extension-text-style": "^2.10.3",
     "@tiptap/pm": "^2.10.3",
     "@tiptap/react": "^2.10.3",

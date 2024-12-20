@@ -1,11 +1,21 @@
+'use client'
 import Tiptap from "../../lib/TextEditor";
-import Image from "next/image";
 
 
+import create_database from "@/lib/blogcreate";
+import { useState } from "react";
+const contentmain = `
+
+`
 export default function Home() {
+    const [content,setcontent]=useState<string>(contentmain)
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <Tiptap/>
+    <div>
+      <Tiptap content={content} setcontent={setcontent}/>
+      <button type="submit" onClick={()=>{
+        create_database(content)
+      }}>Submit</button>
+     
     </div>
   );
 }
