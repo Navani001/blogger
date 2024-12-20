@@ -187,9 +187,7 @@ const MenuBar = () => {
         <button onClick={() => {
     const url = window.prompt('URL')
 
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run()
-    }
+ 
   }}>Add image from URL</button>
       </div>
     </div>
