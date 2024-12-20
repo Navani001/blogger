@@ -13,7 +13,8 @@ export default {
      
     },
   },
-  plugins: [nextui()],
+  plugins: [nextui(),require('@tailwindcss/typography'),
+    require('@nextui-org/react')],
 } satisfies Config;
 
 

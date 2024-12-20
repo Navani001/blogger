@@ -1,14 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.article-content {
+  width: 100%;
+  overflow-x: hidden;
+}
 
+.article-content img {
+  max-width: 100%;
+  height: auto;
+}
 :root {
  
 
   width: 100vw;
   height: 100vh;
-  --background: #ffffff;
-  --foreground: #171717;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 
@@ -16,8 +29,7 @@
   :root {
     width: 100vw;
     height: 100vh;
-    --background: #0a0a0a;
-    --foreground: #ededed;
+   
   }
 }
 
@@ -25,6 +37,6 @@ body {
   width: 100vw;
   height: 100vh;
   color: var(--foreground);
-  background: var(--background);
+  background: white;
   font-family: Arial, Helvetica, sans-serif;
 }
