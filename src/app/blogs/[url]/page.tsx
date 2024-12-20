@@ -3,7 +3,7 @@ import get_article from "@/lib/blogfetch";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Home({ params }: { params: { url: string } }) {
+export default function Home({ params }: { params: any }) {
     const { url } = params;
     console.log(url)
     const[content,setcontent]=useState("")
