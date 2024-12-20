@@ -3,23 +3,38 @@
 
 import Placeholder from '@tiptap/extension-placeholder'
 import './styles.scss'
+import Document from '@tiptap/extension-document'
+import Dropcursor from '@tiptap/extension-dropcursor'
+import Image from '@tiptap/extension-image'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import { Color } from '@tiptap/extension-color'
 import ListItem from '@tiptap/extension-list-item'
 import TextStyle from '@tiptap/extension-text-style'
 import { EditorProvider, useCurrentEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor()
 // Remove the focus from the editor
+const addImage = useCallback(() => {
+  const url = window.prompt('URL')
 
+  if (url && editor) {
+    editor.chain().focus().insertContent({
+      type: 'image',
+      attrs: { src: url }
+    }).run()
+  }
+}, [editor])
 
   if (!editor) {
     
     return null
   }
+  
 
   return (
     <div className="control-group">
@@ -184,17 +199,14 @@ const MenuBar = () => {
         >
           Purple
         </button>
-        <button onClick={() => {
-    const url = window.prompt('URL')
-
- 
-  }}>Add image from URL</button>
+        <button onClick={addImage}>Add image from URL</button>
       </div>
     </div>
   )
 }
 
 const extensions = [
+  Document, Paragraph, Text, Image, Dropcursor,
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
   TextStyle,
  
