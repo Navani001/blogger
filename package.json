@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^1.0.12",
+    "@ai-sdk/openai": "^1.0.11",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@google/generative-ai": "^0.21.0",
     "@mui/icons-material": "^6.2.1",
     "@mui/material": "^6.2.1",
     "@mui/styled-engine-sc": "^6.2.1",
@@ -20,6 +23,10 @@
     "@nextui-org/system": "^2.4.4",
     "@nextui-org/theme": "^2.4.3",
     "@tailwindcss/typography": "^0.5.15",
+    "@tiptap-pro/extension-details": "^2.17.0",
+    "@tiptap-pro/extension-details-summary": "^2.17.0",
+    "@tiptap-pro/extension-emoji": "^2.17.0",
+    "@tiptap-pro/extension-unique-id": "^2.17.0",
     "@tiptap/extension-color": "^2.10.4",
     "@tiptap/extension-image": "^2.10.4",
     "@tiptap/extension-list-item": "^2.10.3",
@@ -28,6 +35,7 @@
     "@tiptap/pm": "^2.10.3",
     "@tiptap/react": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
+    "ai": "^4.0.22",
     "framer-motion": "^11.15.0",
     "jodit": "^4.2.47",
     "lucide-react": "^0.469.0",
@@ -36,7 +44,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sass": "^1.83.0",
-    "styled-components": "^6.1.13"
+    "styled-components": "^6.1.13",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^20",
