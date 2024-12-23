@@ -11,9 +11,7 @@ declare global {
   }
 }
 
-interface AdSenseProps {
-  slot: string
-}
+
 
 export default function Home({ params }: { params: any }) {
   const { url } = params;

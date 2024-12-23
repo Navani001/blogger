@@ -12,13 +12,30 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useChat, useCompletion } from "ai/react";
+import FloatingMenuBar from "./FloatingMenubar";
 
 const MenuBar = () => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({id:'creation'});
-  const { completion, input:i2, handleInputChange:hi2, handleSubmit:hs3 } = useCompletion({
-    api: '/api/completion',
+  var s = 0;
+  var e = 0;
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    id: "creation",
+  });
+  const rangeRef = useRef({ start: 0, end: 0 });
+  const {
+    completion,
+    input: i2,
+    setInput,
+    handleSubmit: hs3,
+  } = useCompletion({
+    api: "/api/completion",
   });
 
   const { editor } = useCurrentEditor();
@@ -38,17 +55,34 @@ const MenuBar = () => {
   }, [editor]);
 
   useEffect(() => {
+    const { start, end } = rangeRef.current;
+    console.log("range", start, end);
+    console.log(completion);
+    if (completion) {
+      editor?.commands.deleteRange({ from: start, to: end });
+      let en: number = start + completion.length;
+      rangeRef.current = { start, end: en };
+      console.log(completion);
+      editor?.commands.insertContentAt(start, completion);
+    }
+  }, [completion]);
+  useEffect(() => {
     if (messages[messages.length - 1]?.role === "assistant") {
       const newContent = "<p>" + messages[messages.length - 1].content + "</p>";
-      console.log(newContent);
+
       editor?.commands.setContent(newContent);
-      // setcontent(newContent);
+      setcontent(newContent);
     }
     console.log(messages);
   }, [messages]);
 
   if (!editor) return null;
-  const toggleCodeBlockWithAction = () => {
+  useEffect(() => {
+    console.log(i2);
+    hs3();
+    // handleSubmit()
+  }, [i2]);
+  const toggleCodeBlockWithAction = async () => {
     if (!editor) return;
 
     const { state } = editor;
@@ -57,131 +91,36 @@ const MenuBar = () => {
     const resolvedPos = state.doc.resolve(from);
     const parentNode = resolvedPos.node(resolvedPos.depth);
     const start = resolvedPos.start(resolvedPos.depth); // Start of the code block
-    const end = resolvedPos.end(resolvedPos.depth);     // End of the code block
-    console.log('Code block range:', { start, end })
-    editor.commands.deleteRange({ from: start, to: end })
+    const end = resolvedPos.end(resolvedPos.depth); // End of the code block
+    rangeRef.current = { start, end };
+
+    console.log("Code block range:", start, end);
 
     if (parentNode.type.name === "codeBlock") {
-      console.log(
-        "Currently a code block. Text content:",
-        parentNode.textContent
-      );
+      setInput(parentNode.textContent);
+
+      // console.log(
+      //   "Currently a code block. Text content:",
+      //   parentNode.textContent
+      // );
     } else if (parentNode.type.name === "paragraph") {
-      console.log(
-        "Currently a paragraph. Text content:",
-        parentNode.textContent
-      );
+      setInput(parentNode.textContent);
+
+      // console.log(
+      //   "Currently a paragraph. Text content:",
+      //   parentNode.textContent
+      // );
     }
-    handleSubmit()
+    // editor.commands.deleteRange({ from: start, to: end })
+
+    // handleSubmit()
   };
   return (
     <div className="control-group h-[10%]">
       <div className="button-group">
         <input value={input} onChange={handleInputChange}></input>
         <button onClick={handleSubmit}>Request AI</button>
-        <button onClick={
-          toggleCodeBlockWithAction}>auto complete </button>
-
-        <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
-          className={editor.isActive("bold") ? "is-active" : ""}
-        >
-          Bold
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
-          className={editor.isActive("italic") ? "is-active" : ""}
-        >
-          Italic
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editor.can().chain().focus().toggleStrike().run()}
-          className={editor.isActive("strike") ? "is-active" : ""}
-        >
-          Strike
-        </button>
-        <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editor.can().chain().focus().toggleCode().run()}
-          className={editor.isActive("code") ? "is-active" : ""}
-        >
-          Code
-        </button>
-        <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-          Clear marks
-        </button>
-        <button onClick={() => editor.chain().focus().clearNodes().run()}>
-          Clear nodes
-        </button>
-        <button
-          onClick={() => editor.chain().focus().setParagraph().run()}
-          className={editor.isActive("paragraph") ? "is-active" : ""}
-        >
-          Paragraph
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-          }
-        >
-          H1
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 2 }) ? "is-active" : ""
-          }
-        >
-          H2
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 3 }) ? "is-active" : ""
-          }
-        >
-          H3
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 4 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 4 }) ? "is-active" : ""
-          }
-        >
-          H4
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 5 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 5 }) ? "is-active" : ""
-          }
-        >
-          H5
-        </button>
-        <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 6 }).run()
-          }
-          className={
-            editor.isActive("heading", { level: 6 }) ? "is-active" : ""
-          }
-        >
-          H6
-        </button>
+        <button onClick={toggleCodeBlockWithAction}>auto complete </button>
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={editor.isActive("bulletList") ? "is-active" : ""}
@@ -297,8 +236,13 @@ const TiptapEditor: React.FC<EditorProps> = ({ content, setcontent }) => {
   }
 
   return (
-    <div className="w-full p-8 overflow-y-auto">
-      <EditorProvider {...editorConfig} slotBefore={<MenuBar />}>
+    <div className="w-full p-8 overflow-y-auto relative">
+      <EditorProvider
+        {...editorConfig}
+       onUp
+        slotBefore={<MenuBar />}
+      >
+        <FloatingMenuBar />
         <EditorContent />
       </EditorProvider>
     </div>
