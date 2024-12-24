@@ -22,7 +22,7 @@ import React, {
 import { useChat, useCompletion } from "ai/react";
 import FloatingMenuBar from "./FloatingMenubar";
 
-const MenuBar = () => {
+const MenuBar = ({setcontent}:any) => {
   var s = 0;
   var e = 0;
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -239,8 +239,15 @@ const TiptapEditor: React.FC<EditorProps> = ({ content, setcontent }) => {
     <div className="w-full p-8 overflow-y-auto relative">
       <EditorProvider
         {...editorConfig}
-       onUp
-        slotBefore={<MenuBar />}
+       onUpdate={({ editor }: { editor: any }) => {
+        // Log the editor's current content as JSON
+        console.log(editor.getJSON());
+      
+        // Optionally handle other editor updates
+        const content = editor.getHTML();
+        console.log("Editor HTML:", content);
+      }}
+        slotBefore={<MenuBar setcontent={setcontent} />}
       >
         <FloatingMenuBar />
         <EditorContent />

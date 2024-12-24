@@ -11,11 +11,13 @@ import {
   Image,
   Palette,
 } from "lucide-react";
-
+type EditorAction = {
+  [key: string]: (...args: any[]) => void;
+};
 const NavBar = ({ editor }: any) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const editorActions = {
-    Add_Image: () => {
+  const editorActions :EditorAction= {
+    "Add_Image": () => {
       const url = window.prompt("URL");
       if (url && editor) {
         editor
@@ -29,30 +31,30 @@ const NavBar = ({ editor }: any) => {
       }
     },
 
-    Bold: () => {
+    "Bold": () => {
       editor.chain().focus().toggleBold().run();
     },
-    Strike: () => {
+    "Strike": () => {
       editor?.chain().focus().toggleStrike().run();
     },
 
-    Italic: () => {
+    "Italic": () => {
       editor.chain().focus().toggleItalic().run();
     },
 
-    Code: () => {
+    "Code": () => {
       editor.chain().focus().toggleCode().run();
     },
 
-    Clear_Marks: () => {
+    "Clear_Marks": () => {
       editor.chain().focus().unsetAllMarks().run();
     },
 
-    Clear_Nodes: () => {
+    "Clear_Nodes": () => {
       editor.chain().focus().clearNodes().run();
     },
 
-    Heading: (level: any) => {
+    "Heading": (level: any) => {
       console.log(level);
       editor
         .chain()
@@ -61,42 +63,42 @@ const NavBar = ({ editor }: any) => {
         .run();
     },
 
-    Bullet_List: () => {
+    "Bullet_List": () => {
       editor.chain().focus().toggleBulletList().run();
     },
 
-    Ordered_List: () => {
+    "Ordered_List": () => {
       editor.chain().focus().toggleOrderedList().run();
     },
 
-    Code_Block: () => {
+    "Code_Block": () => {
       editor.chain().focus().toggleCodeBlock().run();
     },
 
-    Blockquote: () => {
+    "Blockquote": () => {
       editor.chain().focus().toggleBlockquote().run();
     },
 
-    Horizontal_Rule: () => {
+    "Horizontal_Rule": () => {
       editor.chain().focus().setHorizontalRule().run();
     },
 
-    Hard_Break: () => {
+    "Hard_Break": () => {
       editor.chain().focus().setHardBreak().run();
     },
 
-    Undo: () => {
+    "Undo": () => {
       editor.chain().focus().undo().run();
     },
 
-    Redo: () => {
+    "Redo": () => {
       editor.chain().focus().redo().run();
     },
 
-    setColor: (color: any) => {
+    "setColor": (color: any) => {
       editor.chain().focus().setColor(color).run();
     },
-    Paragraph: () => {
+    "Paragraph": () => {
       editor?.chain().focus().setParagraph().run();
     },
   };
@@ -144,7 +146,7 @@ const NavBar = ({ editor }: any) => {
     if (["H1", "H2", "H3", "H4", "H5", "H6", "H7"].includes(action)) {
       editorActions["Heading"](action);
     } else if (action in editorActions) {
-      editorActions[action]();
+      editorActions[action+'']();
     }
   };
 

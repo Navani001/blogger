@@ -19,6 +19,7 @@ export default function Home() {
 const [title,settitle] = useState<string>("")
   const handleSubmitblog = async () => {
    console.log("title",title)
+   console.log("content",content)
     await create_database(content,title);
   };
 useEffect(()=>{
