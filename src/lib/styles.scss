@@ -29,6 +29,14 @@ button{
 }
 
 .tiptap {
+  a {
+    color: var("purple") !important;
+    cursor: pointer;
+
+    &:hover {
+      color: var("red");
+    }
+  }
  
   p.is-editor-empty:first-child::before {
     color: gray;

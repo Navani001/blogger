@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useCurrentEditor } from "@tiptap/react";
 
 import {
@@ -15,6 +15,32 @@ type EditorAction = {
   [key: string]: (...args: any[]) => void;
 };
 const NavBar = ({ editor }: any) => {
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes('link').href
+    const url = window.prompt('URL', previousUrl)
+
+    // cancelled
+    if (url === null) {
+      return
+    }
+
+    // empty
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink()
+        .run()
+
+      return
+    }
+
+    // update link
+    try {
+      
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url })
+        .run()
+    } catch (e:any) {
+      alert(e.message)
+    }
+  }, [editor])
   const [activeDropdown, setActiveDropdown] = useState(null);
   const editorActions :EditorAction= {
     "Add_Image": () => {
@@ -101,6 +127,9 @@ const NavBar = ({ editor }: any) => {
     "Paragraph": () => {
       editor?.chain().focus().setParagraph().run();
     },
+    "Link":()=>{
+      setLink()
+    }
   };
 
   const buttonGroups = {

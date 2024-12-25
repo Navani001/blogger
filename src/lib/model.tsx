@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Input } from "@nextui-org/react";
+import { useCurrentEditor } from "@tiptap/react";
+import create_database from "./blogcreate";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -20,22 +22,33 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function Publish({
-  handleSumbit,
+
   title,
   settitle,
 }: {
-  handleSumbit: any;
+ 
   title: any;
   settitle: any;
 }) {
   const [open, setOpen] = React.useState(false);
-
+ const { editor } = useCurrentEditor();
+ 
+ const handleSubmitblog = async () => {
+    console.log("title",title)
+    console.log(editor)
+    if (editor) {
+     const content = editor.getHTML(); // Get content as HTML
+     const jsonContent = editor.getJSON(); // Optionally, get content as JSON
+     await create_database(content,title);
+     console.log("content",content)
+   }
+   };
   const handleClickOpen = () => {
  
     setOpen(true);
   };
   const handleClose = async () => {
-    handleSumbit(); // Ensure this is spelled correctly if it's "handleSubmit"
+    handleSubmitblog(); // Ensure this is spelled correctly if it's "handleSubmit"
     console.log("Start");
     
     await new Promise<void>((resolve) => {
