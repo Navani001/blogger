@@ -2,17 +2,15 @@
 import { useEffect, useState } from "react";
 import Tiptap from "../../lib/TextEditor";
 import { auth } from "@/lib/auth";
+import { SignIn } from "@/lib/auth/signin-button";
 
 export default async function Home() {
   const session=await auth()
   console.log(session)
+  
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto py-6">
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          <Tiptap />
-        </div>
-      </div>
+     <SignIn></SignIn>
     </div>
   );
 }

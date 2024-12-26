@@ -1,7 +1,17 @@
 import React from 'react';
 import { Search, Bookmark, User } from 'lucide-react';
+import { SignOut } from '@/lib/auth/signout-button';
+import { SignIn } from '@/lib/auth/signin-button';
+import { auth } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-const BlogHomepage = () => {
+const BlogHomepage = async () => {
+  const session =await auth()
+  console.log(session)
+  if(!session?.user){
+    redirect("/login")
+
+  }
   const featuredPosts = [
     {
       title: "Getting Started with Next.js and TypeScript",
@@ -28,6 +38,7 @@ const BlogHomepage = () => {
         <div className="max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold text-gray-800">Blogger</div>
+            <SignOut></SignOut>
             <div className="flex items-center space-x-6">
               <div className="relative">
                 <input
