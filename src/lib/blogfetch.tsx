@@ -8,6 +8,6 @@ export default async function get_article(formData: any) {
     const url = formData;
     console.log("backend",url)
     // Insert the comment from the form into the Postgres database
-    const result = await sql("SELECT * FROM blogs WHERE url = $1", [url]);
+    const result = await sql("SELECT * FROM blogss WHERE url = $1", [url]);
 return result
   }

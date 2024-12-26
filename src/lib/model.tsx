@@ -32,14 +32,15 @@ export default function Publish({
 }) {
   const [open, setOpen] = React.useState(false);
  const { editor } = useCurrentEditor();
- 
+ const [desc,setdesc]=React.useState("")
+const [url,seturl] =React.useState("")
  const handleSubmitblog = async () => {
     console.log("title",title)
     console.log(editor)
     if (editor) {
      const content = editor.getHTML(); // Get content as HTML
      const jsonContent = editor.getJSON(); // Optionally, get content as JSON
-     await create_database(content,title);
+     await create_database(content,title,url,desc);
      console.log("content",content)
    }
    };
@@ -92,7 +93,7 @@ export default function Publish({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers sx={{ width: "500px", height: "300px" }}>
-          <Typography>Enter the type of your web page</Typography>
+          <Typography>Enter the title of your web page</Typography>
           <Typography gutterBottom sx={{}}>
             <input
               placeholder="Enter the title with _ as space"
@@ -100,6 +101,28 @@ export default function Publish({
               value={title}
               onChange={(e) => {
                 settitle(e.target.value);
+              }}
+            ></input>
+          </Typography>
+          <Typography>Enter the  url your web page</Typography>
+          <Typography gutterBottom sx={{}}>
+            <input
+              placeholder="Enter the title with _ as space"
+              className="w-full border-2 border-grey focus:outline-none  "
+              value={url}
+              onChange={(e) => {
+                seturl(e.target.value);
+              }}
+            ></input>
+          </Typography>
+          <Typography>Enter the description of your web page</Typography>
+          <Typography gutterBottom sx={{}}>
+            <input
+              placeholder="Enter the title with _ as space"
+              className="w-full border-2 border-grey focus:outline-none  "
+              value={desc}
+              onChange={(e) => {
+                setdesc(e.target.value);
               }}
             ></input>
           </Typography>

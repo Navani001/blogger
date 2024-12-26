@@ -21,7 +21,7 @@ export default function Home({ params }: { params: any }) {
     const fetch = async () => {
       const data: any = await get_article(url);
       console.log(data);
-      setcontent(data[0]?.article);
+      setcontent(data[0]?.content);
     };
     fetch();
   }, []);

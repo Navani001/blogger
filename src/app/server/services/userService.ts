@@ -13,7 +13,7 @@ export async function getUserFromDb(email: any, password: any) {
     return {
         name:result[0].username,
         email: result[0].email,
-        id:result[0].id
+        id:parseInt(result[0].id)
     }
  }
 

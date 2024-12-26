@@ -37,6 +37,7 @@
     "@tiptap/react": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
     "ai": "^4.0.22",
+    "date-fns": "^4.1.0",
     "framer-motion": "^11.15.0",
     "jodit": "^4.2.47",
     "lucide-react": "^0.469.0",
