@@ -34,25 +34,30 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
           email: {},
           password: {},
         },
-        authorize: async (credentials) => {
-          let user = null
-          console.log(credentials)
-   
+        authorize: async (credentials: Partial<Record<"email" | "password", unknown>>) => {
+          let user = null;
+          console.log(credentials);
+
           // logic to salt and hash password
-          const pwHash = credentials.password
-   
+          const pwHash = credentials.password;
+
           // logic to verify if the user exists
-          user = await getUserFromDb(credentials.email, pwHash)
-   console.log("in auth",user)
+          user = await getUserFromDb(credentials.email as string, pwHash as string);
+          console.log("in auth", user);
           if (!user) {
             // No user found, so this is their first attempt to login
             // Optionally, this is also the place you could do a user registration
-            throw new Error("Invalid credentials.")
-            return null
+            throw new Error("Invalid credentials.");
+            return null;
           }
-   
+
           // return user object with their profile data
-          return user
+          return {
+            id: user.id.toString(), // Convert id to string as expected by User type
+            name: user.name,
+            email: user.email,
+          };
         },
+
       }),]
 })

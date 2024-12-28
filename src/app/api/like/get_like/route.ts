@@ -8,7 +8,8 @@ export async function GET(request: Request, res:any) {
     const url = new URL(request?.url); // Full URL of the incoming request
     const blogId = url.searchParams.get('blogid');
     console.log(blogId)
-    const result1 = await sql("INSERT INTO user_interaction (user_id, blog_id, interaction_type) VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT unique_user_interaction DO UPDATE SET status=not user_interaction.status RETURNING id", [session?.user?.id,blogId,"like"]);
+    const result1 = await sql("select * from user_interaction where user_id=$1 and blog_id=$2 and interaction_type=$3", [session?.user?.id,blogId,"like"]);
+    console.log(result1)
 
-    return NextResponse.json({message:"success"})
+    return NextResponse.json({data:result1[0].status,message:"success"})
 }
