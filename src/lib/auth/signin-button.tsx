@@ -8,6 +8,7 @@ export function SignIn() {
         "use server"
         const email = formData.get("email")
         const password = formData.get("password")
+        console.log(email,password)
         const data=await signIn("credentials",  {
             email,
             password,

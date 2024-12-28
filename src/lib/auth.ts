@@ -36,6 +36,7 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
         },
         authorize: async (credentials) => {
           let user = null
+          console.log(credentials)
    
           // logic to salt and hash password
           const pwHash = credentials.password
