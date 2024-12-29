@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Input } from "@nextui-org/react";
 import { useCurrentEditor } from "@tiptap/react";
 import create_database from "./blogcreate";
+import ShareBody from "./sharebody";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -31,6 +32,10 @@ export default function Publish({
   settitle: any;
 }) {
   const [open, setOpen] = React.useState(false);
+  const [shareUrl, setShareUrl] = React.useState(
+    window.location.origin
+  );
+  const [opensharepage,setopensharepage] = React.useState(false)
  const { editor } = useCurrentEditor();
  const [desc,setdesc]=React.useState("")
 const [url,seturl] =React.useState("")
@@ -40,9 +45,11 @@ const [url,seturl] =React.useState("")
     if (editor) {
      const content = editor.getHTML(); // Get content as HTML
      const jsonContent = editor.getJSON(); // Optionally, get content as JSON
-     await create_database(content,title,url,desc);
+    //  await create_database(content,title,url,desc);
      console.log("content",content)
+   
    }
+   
    };
   const handleClickOpen = () => {
  
@@ -51,7 +58,7 @@ const [url,seturl] =React.useState("")
   const handleClose = async () => {
     handleSubmitblog(); // Ensure this is spelled correctly if it's "handleSubmit"
     console.log("Start");
-    
+    setShareUrl(shareUrl+"/"+url);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
         console.log("After 2 seconds");
@@ -60,7 +67,8 @@ const [url,seturl] =React.useState("")
     });
     
     console.log("End");
-    setOpen(false); // Assuming this updates a state or toggles a modal.
+    setopensharepage(true)
+    // setOpen(false); // Assuming this updates a state or toggles a modal.
   };
 
   return (
@@ -72,6 +80,8 @@ const [url,seturl] =React.useState("")
       >
         Publish
       </Button>
+      {
+        (!opensharepage) ?
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -132,7 +142,7 @@ const [url,seturl] =React.useState("")
             comfirm Publish
           </Button>
         </DialogActions>
-      </BootstrapDialog>
+      </BootstrapDialog>: <ShareBody open={open} setOpen={setOpen} shareUrl={shareUrl}></ShareBody>}
     </React.Fragment>
   );
 }

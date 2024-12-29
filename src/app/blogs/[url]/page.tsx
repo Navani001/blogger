@@ -15,6 +15,7 @@ import {
   CardBody,
   Divider,
 } from "@nextui-org/react";
+import Share from "@/lib/sharemodel";
 
 declare global {
   interface Window {
@@ -24,86 +25,89 @@ declare global {
 
 export default function Home({ params }: { params: any }) {
   const unwrappedParams = use(params);
+  
   const { url } = unwrappedParams as { url: string };
+  const [openshare,setopenshare]=useState(false)
   const [blogid, setblogid] = useState("");
+ 
   const [liked,setliked]=useState(false)
   const [comment, setcomment] = useState([]);
   const [individualcomment, setindividualcomment] = useState("");
   const [content, setcontent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handlelike = () => {
-    setliked(!liked)
-    const params = new URLSearchParams({
-      blogid: blogid,
-    });
-    fetch(`/api/like/set_like?${params.toString()}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) =>console.log(data));
+    // setliked(!liked)
+    // const params = new URLSearchParams({
+    //   blogid: blogid,
+    // });
+    // fetch(`/api/like/set_like?${params.toString()}`)
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error("Network response was not ok");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then((data) =>console.log(data));
   };
-  useEffect(() => {
-    const fetchcontent = async () => {
-      const data: any = await get_article(url);
-      setblogid(data[0].id);
-      setcontent(data[0]?.content);
-      const params = new URLSearchParams({
-        blogid: data[0].id,
-      });
-      fetch(`/api/comment/get_comment?${params.toString()}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => setcomment(data.data));
-        fetch(`/api/like/get_like?${params.toString()}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => setliked(data.data));
-    };
-    fetchcontent();
-  }, []);
+  // useEffect(() => {
+  //   const fetchcontent = async () => {
+  //     const data: any = await get_article(url);
+  //     setblogid(data[0].id);
+  //     setcontent(data[0]?.content);
+  //     const params = new URLSearchParams({
+  //       blogid: data[0].id,
+  //     });
+  //     fetch(`/api/comment/get_comment?${params.toString()}`)
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => setcomment(data.data));
+  //       fetch(`/api/like/get_like?${params.toString()}`)
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => setliked(data.data));
+  //   };
+  //   fetchcontent();
+  // }, []);
 
   const handlecommentsumbit = async () => {
-    if (!individualcomment.trim()) return;
+    // if (!individualcomment.trim()) return;
 
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/comment/post_comment", {
-        method: "POST",
-        body: JSON.stringify({
-          blogid: blogid,
-          comment: individualcomment,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+    // setIsSubmitting(true);
+    // try {
+    //   const response = await fetch("/api/comment/post_comment", {
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       blogid: blogid,
+    //       comment: individualcomment,
+    //     }),
+    //     headers: {
+    //       "Content-type": "application/json",
+    //     },
+    //   });
 
-      const data = await response.json();
-      if (response.ok) {
-        // Refresh comments after posting
-        const params = new URLSearchParams({ blogid });
-        const newComments = await fetch(
-          `/api/comment/get_comment?${params.toString()}`
-        ).then((res) => res.json());
-        setcomment(newComments.data);
-        setindividualcomment(""); // Clear input after successful post
-      }
-    } catch (error) {
-      console.error("Failed to post comment:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   const data = await response.json();
+    //   if (response.ok) {
+    //     // Refresh comments after posting
+    //     const params = new URLSearchParams({ blogid });
+    //     const newComments = await fetch(
+    //       `/api/comment/get_comment?${params.toString()}`
+    //     ).then((res) => res.json());
+    //     setcomment(newComments.data);
+    //     setindividualcomment(""); // Clear input after successful post
+    //   }
+    // } catch (error) {
+    //   console.error("Failed to post comment:", error);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   useEffect(() => {
@@ -145,6 +149,8 @@ export default function Home({ params }: { params: any }) {
 
         {/* Enhanced Comments Section */}
         <button onClick={handlelike} className={liked?"bg-slate-700":""}>like</button>
+        
+<Share></Share>
         <div className="mt-8 max-w-4xl mx-auto">
           <Card className="mb-6">
             <CardBody>
