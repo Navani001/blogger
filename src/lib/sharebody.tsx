@@ -30,7 +30,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ShareBody({open,setOpen,shareUrl}:any) {
+export default function ShareBody({open,setOpen,shareUrl,setopensharepage}:any) {
 
   const [showCopyAlert, setShowCopyAlert] = React.useState(false);
 
@@ -38,6 +38,7 @@ export default function ShareBody({open,setOpen,shareUrl}:any) {
 
   const handleClose = () => {
     setOpen(false);
+    setopensharepage(false)
   };
 
   const handleCopyUrl = async () => {
