@@ -3,33 +3,37 @@ import { signIn } from "../auth"
  
 export function SignIn() {
   return (
+
     <form
+    className="bg-[red]  flex items-center justify-center"
       action={async (formData) => {
         "use server"
         const email = formData.get("email")
         const password = formData.get("password")
-        console.log(email,password)
+       
         const data=await signIn("credentials",  {
             email,
             password,
             redirectTo: "/"
           })}}
     >
-      <label>
+      <div className="flex items-center justify-center">
         Email
         <input name="email" type="text" />
-      </label>
-      <label>
+      </div>
+      <div>
         Password
         <input name="password" type="password" />
-      </label>
+      </div>
       <button>Sign In</button>
       <button onClick={async() => {
-        "use server"
-        await signIn("google",{redirectTo:"/"}
+      "use server"
+      await signIn("google",{redirectTo:"/"}
 
-        )
-      }}>Signin with Google</button>
+      )
+    }}>Signin with Google</button>
     </form>
+    
+    
   )
 }

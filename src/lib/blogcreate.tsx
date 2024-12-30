@@ -13,6 +13,7 @@ export default async function create_database(formData: any,title: string,url:an
     
     // Insert the comment from the form into the Postgres database
     const result:any =await sql('INSERT INTO blogss (title,content,url,author_id,status) VALUES ($1,$2,$3,$4,$5) RETURNING id', [title,comment,url,session?.user?.id,"published"]);
+    const result2:any =await sql('INSERT INTO blog_metrics (blog_id) VALUES ($1)', [result[0].id]);
     return result;
 
    
