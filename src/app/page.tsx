@@ -9,7 +9,7 @@ import Recommend from '@/lib/recommenddata';
 
 const BlogHomepage = async () => {
   const session =await auth()
-  console.log(session)
+
   if(!session?.user){
     redirect("/login")
 

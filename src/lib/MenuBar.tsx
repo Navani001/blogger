@@ -53,7 +53,7 @@ export const MenuBar = () => {
         editor?.commands.setContent(newContent);
        
       }
-      console.log(messages);
+    
     }, [messages]);
   
     if (!editor) return null;

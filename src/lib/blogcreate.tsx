@@ -20,9 +20,9 @@ export default async function create_database(formData: any, title: string, url:
     });
 
     // Convert embedding array to Postgres vector format
-    console.log(embedding)
+   
     const vectorString = `[${embedding.join(',')}]`;
-    console.log(vectorString);
+ 
     const result: any = await sql('INSERT INTO blogss (title, content, url, author_id, status, content_embedding) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', 
         [title, comment, url, session?.user?.id, "published", vectorString]);
         // const r:any=await sql("INSERT INTO login (username, password, email, avatar_url, role,preference_embedding) VALUES ('ram', '234', 'ram@gmail.com', 'www.google.com', 'user',$1)",[vectorString])

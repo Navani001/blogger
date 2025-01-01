@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   model: google("gemini-1.5-flash-exp-0827"),
         prompt
   });
-  console.log("Result", result.toDataStreamResponse())
+
 
   return result.toDataStreamResponse();
 }

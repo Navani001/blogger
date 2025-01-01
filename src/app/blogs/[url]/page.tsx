@@ -47,32 +47,52 @@ export default function Home({ params }: { params: any }) {
         }
         return response.json();
       })
-      .then((data) =>console.log(data));
+      
   };
   useEffect(() => {
     const fetchcontent = async () => {
-      const data: any = await get_article(url);
-      setblogid(data[0].id);
-      setcontent(data[0]?.content);
-      const params = new URLSearchParams({
-        blogid: data[0].id,
+      fetch("/api/content/get_content", {
+        method: "POST",
+        body: JSON.stringify({
+          url,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+        next: { revalidate: 3600 }, 
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+      .then((data) =>{ setcontent(data.data.content)
+        setblogid(data.data.id);
+        const params = new URLSearchParams({
+          blogid:data.data.id,
+        });
+        fetch(`/api/comment/get_comment?${params.toString()}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => setcomment(data.data));
+          fetch(`/api/like/get_like?${params.toString()}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => setliked(data.data));
       });
-      fetch(`/api/comment/get_comment?${params.toString()}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => setcomment(data.data));
-        fetch(`/api/like/get_like?${params.toString()}`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => setliked(data.data));
+     
+     
+      
+     
     };
     fetchcontent();
   }, []);
