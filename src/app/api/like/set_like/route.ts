@@ -9,7 +9,16 @@ export async function GET(request: Request) {
     const blogId = url.searchParams.get('blogid');
     console.log(blogId)
     
-    const result1 = await sql("INSERT INTO user_interaction (user_id, blog_id, interaction_type) VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT unique_user_interaction DO UPDATE SET status=not user_interaction.status RETURNING id", [session?.user?.id,blogId,"like"]);
-
+    // const result1 = await sql("INSERT INTO user_interaction (user_id, blog_id, interaction_type) VALUES ($1, $2, $3) ON CONFLICT ON CONSTRAINT unique_user_interaction DO UPDATE SET status= NOT user_interaction.status RETURNING id", [session?.user?.id,blogId,"like"]);
+    const result = await sql(
+        `
+        INSERT INTO user_interaction (user_id, blog_id, interaction_type) 
+        VALUES ($1, $2, $3) 
+        ON CONFLICT ON CONSTRAINT unique_user_interaction 
+        DO UPDATE SET status = NOT user_interaction.status 
+        RETURNING id;
+        `,
+        [session?.user?.id, blogId, "like"]
+    );
     return NextResponse.json({message:"success"})
 }
