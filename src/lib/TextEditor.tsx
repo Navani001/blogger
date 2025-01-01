@@ -14,7 +14,18 @@ import { extensions } from "./Extension";
 const TiptapEditor = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [title, settitle] = useState<string>("");
+//  useEffect(()=>{
+//     fetch(`/api/recommend`)
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.json();
+//     })
+//     .then((data) => console.log(data));
+ 
 
+//   },[])
   useEffect(() => {
     setIsMounted(true);
   }, []);

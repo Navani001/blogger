@@ -1,9 +1,11 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { Search, Bookmark, User } from 'lucide-react';
 import { SignOut } from '@/lib/auth/signout-button';
 import { SignIn } from '@/lib/auth/signin-button';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
+import Recommend from '@/lib/recommenddata';
 
 const BlogHomepage = async () => {
   const session =await auth()
@@ -12,6 +14,16 @@ const BlogHomepage = async () => {
     redirect("/login")
 
   }
+  // useEffect(()=>{
+  //     fetch(`/api/recommend`)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => console.log(data));
+  //   },[])
   const featuredPosts = [
     {
       title: "Getting Started with Next.js and TypeScript",
@@ -77,38 +89,7 @@ const BlogHomepage = async () => {
       {/* Featured Posts */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Featured Posts</h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {featuredPosts.map((post, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-blue-600 font-medium">
-                    {post.category}
-                  </span>
-                  <span className="text-sm text-gray-500">{post.readTime}</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="h-8 w-8 rounded-full bg-gray-200" />
-                    <div className="ml-3">
-                      <p className="text-sm font-medium text-gray-900">
-                        {post.author}
-                      </p>
-                      <p className="text-sm text-gray-500">{post.date}</p>
-                    </div>
-                  </div>
-                  <button className="text-blue-600 hover:text-blue-700 font-medium">
-                    Read more
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Recommend></Recommend>
       </div>
 
       {/* Topics Section */}
