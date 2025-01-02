@@ -81,7 +81,7 @@ const NavBar = ({ editor }: any) => {
     },
 
     "Heading": (level: any) => {
-      console.log(level);
+     
       editor
         .chain()
         .focus()
