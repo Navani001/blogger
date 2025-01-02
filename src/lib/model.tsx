@@ -30,9 +30,9 @@ export default function Publish({
   title: any;
   settitle: any;
 }) {
-    const [value, setValue] = React.useState([]);
+  const [value, setValue] = React.useState([]);
   const [open, setOpen] = React.useState(false);
-  const [autocompleteelement,setautocompleteelement]=React.useState([])
+  const [autocompleteelement, setautocompleteelement] = React.useState([])
   const [shareUrl, setShareUrl] = React.useState(window.location.origin);
   const [opensharepage, setopensharepage] = React.useState(false);
   const { editor } = useCurrentEditor();
@@ -44,39 +44,39 @@ export default function Publish({
     if (editor) {
       const content = editor.getHTML(); // Get content as HTML
       const jsonContent = editor.getJSON(); // Optionally, get content as JSON
-       const result=await create_database(content,title,url,desc,value);
+      const result = await create_database(content, title, url, desc, value);
       console.log("content", content);
       try {
         const response = await fetch(`/api/tags/set_tags`, {
           method: "POST",
           body: JSON.stringify({
-            blogid:  result[0].id,
+            blogid: result[0].id,
             tags: value,
           }),
           headers: {
             "Content-type": "application/json",
           },
         });
-  
+
         const data = await response.json();
         console.log(data)
       } catch (error) {
         console.log(error)
-        
-    }
+
+      }
     }
   };
-  React.useEffect(()=>{
+  React.useEffect(() => {
 
     fetch(`/api/tags/get_tags`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) =>setautocompleteelement(data.data));
-  },[])
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => setautocompleteelement(data.data));
+  }, [])
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -97,7 +97,7 @@ export default function Publish({
 
     console.log("End");
     setopensharepage(true);
-   
+
     // setOpen(false); // Assuming this updates a state or toggles a modal.
   };
 
@@ -112,7 +112,7 @@ export default function Publish({
       </Button>
       {!opensharepage ? (
         <BootstrapDialog
-        
+
           aria-labelledby="customized-dialog-title"
           open={open}
         >
@@ -131,12 +131,12 @@ export default function Publish({
           >
             <CloseIcon />
           </IconButton>
-          <DialogContent dividers sx={{ width: "500px", height: "300px" }}>
+          <DialogContent dividers sx={{ width: "500px", height: "auto" }}>
             <Typography>Enter the title of your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input
-                placeholder="Enter the title with _ as space"
-                className="w-full border-2 border-grey focus:outline-none  "
+                placeholder="Enter the title"
+                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2"
                 value={title}
                 onChange={(e) => {
                   settitle(e.target.value);
@@ -146,8 +146,8 @@ export default function Publish({
             <Typography>Enter the url your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input
-                placeholder="Enter the title with _ as space"
-                className="w-full border-2 border-grey focus:outline-none  "
+                placeholder="Enter the url"
+                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2"
                 value={url}
                 onChange={(e) => {
                   seturl(e.target.value);
@@ -155,12 +155,12 @@ export default function Publish({
               ></input>
             </Typography>
             <Typography>Enter the tags of your web page</Typography>
-          <SelectInputField autocompleteelement={autocompleteelement} value={value} setValue={setValue}></SelectInputField>
+            <SelectInputField autocompleteelement={autocompleteelement} value={value} setValue={setValue}></SelectInputField>
             <Typography>Enter the description of your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input
-                placeholder="Enter the title with _ as space"
-                className="w-full border-2 border-grey focus:outline-none  "
+                placeholder="Enter the description"
+                className="p-2 w-full rounded-[5px] border-1 mt-2"
                 value={desc}
                 onChange={(e) => {
                   setdesc(e.target.value);
@@ -169,7 +169,7 @@ export default function Publish({
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={ handleConfirmPublish}>
+            <Button sx={{backgroundColor:'blue',padding:'8px 12px',margin:'5px 0' , color:'#ffffff' , fontWeight:'500' , border:'none', borderRadius:'12px'}} autoFocus onClick={handleConfirmPublish}>
               comfirm Publish
             </Button>
           </DialogActions>

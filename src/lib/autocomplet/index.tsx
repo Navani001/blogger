@@ -3,7 +3,6 @@ import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import {
-  autocomplete,
   changeBackground,
   changeBackground2,
   changeVarient,
@@ -28,7 +27,11 @@ console.log(value)
       limitTags={2}
       disabled={disabled}
       disableCloseOnSelect
-      sx={autocomplete}
+      sx={{
+        '& .MuiFilledInput-root,':{
+          padding:'10px 0 10px 0',
+        },
+      }}
       filterOptions={(options: any, params: any) => {
         const filtered = filter(options, params);
         const selectedValues = value.map((val: any) => val.title);
@@ -101,7 +104,7 @@ console.log(value)
           )}
         </li>
       )}
-      style={{ width: 500 }}
+      className="w-full "
       renderInput={(params) => (
         <TextField
           {...params}
@@ -111,41 +114,16 @@ console.log(value)
               ...(error ? changeBackground : {}),
               ...(disabled ? changeBackground2 : {}),
               ...changeVarient,
-              '& .MuiAutocomplete-option': {
-                backgroundColor: 'red !important',
-                paddingTop: 0,
-                paddingBottom: 0,
-              },
-              '& .MuiAutocomplete-popper': {
-                marginTop: '10px !important', // Force margin with !important
-              },
-
-              '& .MuiPaper-root': {
-                backgroundColor: 'white',
-                marginTop: '10px !im',
-                border: '2px solid #E3E3E3',
-                borderRadius: '10px',
-              },
-              '& .MuiAutocomplete-listbox': {
-                'padding': '8px 0',
-                'color': 'black',
-                '& .MuiAutocomplete-option': {
-                  padding: '8px 16px',
-                },
-              },
-              '& .MuiAutocomplete-paper': {
-                marginTop: '10px', // Add margin-top here
-              },
               '& .MuiFilledInput-input': {
-                color: 'black',
-                paddingBottom: '5px',
+                padding:'0'
               },
+              
             } as SxProps<Theme>
           }
         
           label={
             startIcon ? (
-              <span style={{ color: 'grey', fontSize: '12px', marginLeft: '37px' }}>
+              <span style={{ color: 'grey', fontSize: '12px' }}>
                 Required
                 <span style={requiredLabelStyle}>*</span>
               </span>

@@ -8,39 +8,7 @@ export const changeVarient: SxProps = {
     },
   };
 
-  export const autocomplete: SxProps = {
-    
-          '& .MuiAutocomplete-popper': {
-            marginTop: '10px !important', // Force margin with !important
-          },
   
-          '& .MuiPaper-root': {
-            backgroundColor: 'white',
-            marginTop: '10px !im',
-            border: '2px solid #E3E3E3',
-            borderRadius: '10px',
-          },
-          '& .MuiAutocomplete-listbox': {
-            'padding': '8px 0',
-            'color': 'black',
-            '& .MuiAutocomplete-option': {
-              padding: '8px 16px',
-            },
-          },
-          '& .MuiAutocomplete-option': {
-            'padding': '0px 0px !important',
-            'minHeight': '0px !important', // Set a fixed height
-            'display': 'flex',
-            'alignItems': 'center',
-            '&[aria-selected="true"]': {
-              minHeight: '0px !important', // Same height for selected state
-              backgroundColor: 'rgba(25, 118, 210, 0.08)', // Optional: background for selected state
-            },
-            '&:hover': {
-              minHeight: '0px !important', // Same height for hover state
-            },
-          },
-        }
 export const changeBackground: SxProps = {
     '& .MuiFilledInput-root': {
       'backgroundColor': 'white !important',
