@@ -35,15 +35,7 @@ const TiptapEditor = () => {
   return (
     <div className="m-5 rounded-lg shadow-2xl bg-[red] overflow-y-auto relative">
       <EditorProvider
-   content ={ `
-   <p><span style="font-family: Inter">Did you know that Inter is a really nice font for interfaces?</span></p>
-   <p><span style="font-family: Comic Sans MS, Comic Sans">It doesn’t look as professional as Comic Sans.</span></p>
-   <p><span style="font-family: serif">Serious people use serif fonts anyway.</span></p>
-   <p><span style="font-family: monospace">The cool kids can apply monospace fonts aswell.</span></p>
-   <p><span style="font-family: cursive">But hopefully we all can agree, that cursive fonts are the best.</span></p>
-   <p><span style="font-family: var(--title-font-family)">Then there are CSS variables, the new hotness.</span></p>
-   <p><span style="font-family: 'Exo 2'">TipTap even can handle exotic fonts as Exo 2.</span></p>
- `}
+
         {...editorConfig}
         onUpdate={({ editor }: { editor: any }) => {
           // Log the editor's current content as JSON

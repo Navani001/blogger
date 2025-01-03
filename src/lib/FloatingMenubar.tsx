@@ -173,7 +173,7 @@ const NavBar = ({ editor }: any) => {
     font:{
       label: "Font",
       icon: <Image size={16} />,
-      items: ["Inter","Comic Sans","Serif","Monospace","Cursive","CSS variable","Exo2","Unset font family"],
+      items: ["Inter","Comic Sans MS","serif","Monospace","Cursive","Exo 2"],
 
     },
 
