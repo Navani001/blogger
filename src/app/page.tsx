@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, {  } from 'react';
 import { Search, Bookmark, User } from 'lucide-react';
 import { SignOut } from '@/lib/auth/signout-button';
 import { SignIn } from '@/lib/auth/signin-button';

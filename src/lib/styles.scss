@@ -32,11 +32,11 @@
 
 .tiptap {
   a {
-    color: var("purple") !important;
+    color: "purple" !important;
     cursor: pointer;
 
     &:hover {
-      color: var("red");
+      color: "red";
     }
   }
  

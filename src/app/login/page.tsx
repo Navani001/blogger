@@ -1,5 +1,4 @@
 
-import { useEffect, useState } from "react";
 import Tiptap from "../../lib/TextEditor";
 import { auth } from "@/lib/auth";
 import { SignIn } from "@/lib/auth/signin-button";
