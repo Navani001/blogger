@@ -16,34 +16,36 @@ type EditorAction = {
 };
 const NavBar = ({ editor }: any) => {
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL', previousUrl)
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
 
     // cancelled
     if (url === null) {
-      return
+      return;
     }
 
     // empty
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink()
-        .run()
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
 
-      return
+      return;
     }
 
     // update link
     try {
-      
-      editor.chain().focus().extendMarkRange('link').setLink({ href: url })
-        .run()
-    } catch (e:any) {
-      alert(e.message)
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: url })
+        .run();
+    } catch (e: any) {
+      alert(e.message);
     }
-  }, [editor])
+  }, [editor]);
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const editorActions :EditorAction= {
-    "Add_Image": () => {
+  const editorActions: EditorAction = {
+    Add_Image: () => {
       const url = window.prompt("URL");
       if (url && editor) {
         editor
@@ -57,31 +59,30 @@ const NavBar = ({ editor }: any) => {
       }
     },
 
-    "Bold": () => {
+    Bold: () => {
       editor.chain().focus().toggleBold().run();
     },
-    "Strike": () => {
+    Strike: () => {
       editor?.chain().focus().toggleStrike().run();
     },
 
-    "Italic": () => {
+    Italic: () => {
       editor.chain().focus().toggleItalic().run();
     },
 
-    "Code": () => {
+    Code: () => {
       editor.chain().focus().toggleCode().run();
     },
 
-    "Clear_Marks": () => {
+    Clear_Marks: () => {
       editor.chain().focus().unsetAllMarks().run();
     },
 
-    "Clear_Nodes": () => {
+    Clear_Nodes: () => {
       editor.chain().focus().clearNodes().run();
     },
 
-    "Heading": (level: any) => {
-     
+    Heading: (level: any) => {
       editor
         .chain()
         .focus()
@@ -89,59 +90,64 @@ const NavBar = ({ editor }: any) => {
         .run();
     },
 
-    "Bullet_List": () => {
+    Bullet_List: () => {
       editor.chain().focus().toggleBulletList().run();
     },
 
-    "Ordered_List": () => {
+    Ordered_List: () => {
       editor.chain().focus().toggleOrderedList().run();
     },
 
-    "Code_Block": () => {
+    Code_Block: () => {
       editor.chain().focus().toggleCodeBlock().run();
     },
 
-    "Blockquote": () => {
+    Blockquote: () => {
       editor.chain().focus().toggleBlockquote().run();
     },
 
-    "Horizontal_Rule": () => {
+    Horizontal_Rule: () => {
       editor.chain().focus().setHorizontalRule().run();
     },
+    MergeorSpilit: () => {
+      editor.chain().focus().mergeOrSplit().run();
+    },
 
-    "Hard_Break": () => {
+    Hard_Break: () => {
       editor.chain().focus().setHardBreak().run();
     },
 
-    "Undo": () => {
+    Undo: () => {
       editor.chain().focus().undo().run();
     },
 
-    "Redo": () => {
+    Redo: () => {
       editor.chain().focus().redo().run();
     },
 
-    "setColor": (color: any) => {
+    setColor: (color: any) => {
       editor.chain().focus().setColor(color).run();
     },
-    "Paragraph": () => {
+    Paragraph: () => {
       editor?.chain().focus().setParagraph().run();
     },
-    "Link":()=>{
-      setLink()
-    },"Underline":()=>{
- 
-         editor.chain().focus().toggleUnderline().run()
-          
-          
+    Link: () => {
+      setLink();
+    },
+    Underline: () => {
+      editor.chain().focus().toggleUnderline().run();
+    },
+    Delete: () => {
+      editor.chain().focus().deleteTable().run()
     }
+    
   };
 
   const buttonGroups = {
     text: {
       label: "Text",
       icon: <Type size={16} />,
-      items: ["Bold", "Italic", "Strike", "Code", "Paragraph","Underline"],
+      items: ["Bold", "Italic", "Strike", "Code", "Paragraph", "Underline"],
     },
     headings: {
       label: "Headings",
@@ -164,10 +170,22 @@ const NavBar = ({ editor }: any) => {
       icon: <Image size={16} />,
       items: ["Link"],
     },
+    font:{
+      label: "Font",
+      icon: <Image size={16} />,
+      items: ["Inter","Comic Sans","Serif","Monospace","Cursive","CSS variable","Exo2","Unset font family"],
+
+    },
+
     format: {
       label: "Format",
       icon: <Palette size={16} />,
       items: ["Clear_Marks", "Clear_Nodes"],
+    },
+    table: {
+      label: "Table",
+      icon: <Image size={16} />,
+      items: ["MergeorSpilit", "Delete"],
     },
   };
 
@@ -180,7 +198,7 @@ const NavBar = ({ editor }: any) => {
     if (["H1", "H2", "H3", "H4", "H5", "H6", "H7"].includes(action)) {
       editorActions["Heading"](action);
     } else if (action in editorActions) {
-      editorActions[action+'']();
+      editorActions[action + ""]();
     }
   };
 
@@ -205,20 +223,25 @@ const NavBar = ({ editor }: any) => {
               }`}
             />
           </button>
+      
           {activeDropdown === groupKey && (
             <div className="absolute z-10 mt-1 py-1 bg-white border rounded-md shadow-lg min-w-[140px]">
               {group.items.map((item) => (
+                
                 <button
                   key={item}
                   className="w-full px-3 py-1.5 text-sm text-gray-700 text-left hover:bg-gray-50 flex items-center gap-2"
-                  onClick={() => handleButtonClick(item)}
+                 
+                  onClick={() =>{ groupKey!="font"? handleButtonClick(item):editor.chain().focus().setFontFamily(item).run()}}
                 >
                   <span className="w-4 h-4"></span>
                   {item}
+        
                 </button>
               ))}
             </div>
           )}
+          
         </div>
       ))}
     </nav>

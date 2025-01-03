@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Button } from "@mui/material";
 import BasicPopover from "./popover";
 export const MenuBar = () => {
+  
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
   });
@@ -13,7 +14,8 @@ export const MenuBar = () => {
     setcolor(newColor);
     editor?.chain().focus().setColor(newColor).run();
   };
-  
+  const [row,setrow]=useState(3)
+  const [col,setcol]=useState(3)
   const [color,setcolor]=useState("#000000")
   const rangeRef = useRef({ start: 0, end: 0 });
   const {
@@ -141,12 +143,15 @@ export const MenuBar = () => {
       
     { 
       // button: <Button onClick={handleSubmit}>AI Writer</Button>,
-      popover:<BasicPopover title={"Table"} body={<div><input type='number'  placeholder='enter no of rows ' className='border-1 border-black'></input> <input type='number'  placeholder='enter no of colums ' className='border-1 border-black'></input> <button  onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>Generate table</button></div>}/>
+      popover:<BasicPopover title={"Table"} body={<div><input value={row} onChange={(e:any)=>{setrow(e.target.value)}} type='number'  placeholder='enter no of rows ' className='border-1 border-black'></input> <input type='number' value={col} onChange={(e:any)=>{setcol(e.target.value)}}  placeholder='enter no of colums ' className='border-1 border-black'></input> <button  onClick={() => editor.chain().focus().insertTable({ rows: row, cols: col, withHeaderRow: true }).run()}>Generate table</button></div>}/>
     },
   ];
 
   return (
     <div className="control-group h-[10%] ">
+        <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"/>
       <div className="button-group">
         {buttons.map((item, index) => (
           <div key={index}>
