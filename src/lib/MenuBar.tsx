@@ -1,12 +1,20 @@
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import { Button } from "@mui/material";
+import BasicPopover from "./popover";
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
   });
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = e.target.value;
+    setcolor(newColor);
+    editor?.chain().focus().setColor(newColor).run();
+  };
+  
+  const [color,setcolor]=useState("#000000")
   const rangeRef = useRef({ start: 0, end: 0 });
   const {
     completion,
@@ -112,13 +120,28 @@ export const MenuBar = () => {
       isDisabled: () => !editor.can().chain().focus().redo().run(),
     },
     {
-      title: "Purple",
-      action: () => editor.chain().focus().setColor("#958DF1").run(),
-      isActive: () => editor.isActive("textStyle", { color: "#958DF1" }),
+      title: "Color",
+    action: () => editor.chain().focus().setColor(color).run(),
+    isActive: () => editor.isActive("textStyle", { color }),
+    input: <input 
+      type="color" 
+      value={color} 
+      onChange={handleColorChange}
+    />
     },
     {
       title: "Add image from URL",
       action: addImage,
+    },
+   
+    { 
+      // button: <Button onClick={handleSubmit}>AI Writer</Button>,
+      popover:<BasicPopover title={"AI writer"} body={<div><input type='text' value={input} placeholder='enter the prompt' onChange={handleInputChange} className='border-1 border-black'></input>  <button onClick={handleSubmit}>Generate</button></div>}/>
+    },
+      
+    { 
+      // button: <Button onClick={handleSubmit}>AI Writer</Button>,
+      popover:<BasicPopover title={"Table"} body={<div><input type='number'  placeholder='enter no of rows ' className='border-1 border-black'></input> <input type='number'  placeholder='enter no of colums ' className='border-1 border-black'></input> <button  onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>Generate table</button></div>}/>
     },
   ];
 
@@ -126,15 +149,22 @@ export const MenuBar = () => {
     <div className="control-group h-[10%] ">
       <div className="button-group">
         {buttons.map((item, index) => (
-          <button
-            key={index}
-            onClick={item.action}
-            className={item.isActive?.() ? "is-active" : "buttonn"}
-            disabled={item.isDisabled?.()}
-          >
-            <div><EditIcon sx={{fontSize:'small'}} />&ensp;</div>
-            <div >{item.title}</div>
-          </button>
+          <div key={index}>
+            {item.popover ? item.popover : (
+              <button
+                onClick={item.action}
+                className={item.isActive?.() ? "is-active" : "buttonn"}
+                disabled={item.isDisabled?.()}
+              >
+                {item.input ? item.input : null}
+
+                <div>
+                  <EditIcon sx={{ fontSize: 'small' }} />&ensp;
+                </div>
+                <div>{item.title}</div>
+              </button>
+            )}
+          </div>
         ))}
       </div>
     </div>

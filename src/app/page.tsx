@@ -24,24 +24,7 @@ const BlogHomepage = async () => {
   //     })
   //     .then((data) => console.log(data));
   //   },[])
-  const featuredPosts = [
-    {
-      title: "Getting Started with Next.js and TypeScript",
-      excerpt: "Learn how to build modern web applications with Next.js and TypeScript",
-      author: "Jane Smith",
-      date: "Dec 18, 2024",
-      category: "Development",
-      readTime: "5 min read"
-    },
-    {
-      title: "Mastering Tailwind CSS",
-      excerpt: "A comprehensive guide to using Tailwind CSS in your projects",
-      author: "John Doe",
-      date: "Dec 17, 2024",
-      category: "Design",
-      readTime: "8 min read"
-    }
-  ];
+  
 
   return (
     <div className="w-full h-full bg-gray-50">
@@ -88,7 +71,7 @@ const BlogHomepage = async () => {
 
       {/* Featured Posts */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8">Featured Posts</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-8 ">Featured Posts</h2>
         <Recommend></Recommend>
       </div>
 

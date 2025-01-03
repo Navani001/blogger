@@ -129,6 +129,11 @@ const NavBar = ({ editor }: any) => {
     },
     "Link":()=>{
       setLink()
+    },"Underline":()=>{
+ 
+         editor.chain().focus().toggleUnderline().run()
+          
+          
     }
   };
 
@@ -136,7 +141,7 @@ const NavBar = ({ editor }: any) => {
     text: {
       label: "Text",
       icon: <Type size={16} />,
-      items: ["Bold", "Italic", "Strike", "Code", "Paragraph"],
+      items: ["Bold", "Italic", "Strike", "Code", "Paragraph","Underline"],
     },
     headings: {
       label: "Headings",
