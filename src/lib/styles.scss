@@ -9,7 +9,9 @@
 
 .ProseMirror {
   margin-top: 10px;
- height: 70vh;
+  background-color: aqua;
+  padding-left: 10px;
+ height: 80vh;
  
   overflow-y: auto;
   position: relative;
@@ -22,11 +24,11 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-button{
-  border:1px solid rgb(79, 72, 72) !important;
-  border-radius: 10px;
-  padding: 5px;
-}
+// button{
+//   border:1px solid rgb(79, 72, 72) !important;
+//   border-radius: 10px;
+//   padding: 5px;
+// }
 
 .tiptap {
   a {
@@ -140,14 +142,38 @@ button{
     }
   }
 
+  .buttonn{
+    display: flex;
+    font-size: 14px;
+    border-radius: 20px;
+    padding: 5px 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .buttonn:hover{
+    background-color: red;
+  }
+
   .is-active{
     background-color: rgb(25, 0, 255);
     color: black;
+    font-size: 14px;
+    padding: 5px 10px;
+    display: flex;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
 }
 .button-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem;
+    gap: 3px;
+    background-color: aqua;
+    border-radius: 20px;
+    margin: 0 24px;
+    overflow: hidden;
+    padding:5px;
   }
 .control-group {
     align-items: flex-start;

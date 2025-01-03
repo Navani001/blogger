@@ -13,6 +13,7 @@ import { useCurrentEditor } from "@tiptap/react";
 import create_database from "./blogcreate";
 import ShareBody from "./sharebody";
 import { SelectInputField } from "./autocomplet";
+import ShareIcon from '@mui/icons-material/Share';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -105,10 +106,11 @@ export default function Publish({
     <React.Fragment>
       <Button
         variant="outlined"
-        sx={{ backgroundColor: "blue", color: "black" }}
+        sx={{ backgroundColor: "skyblue",padding:'8px 15px', color: "black" ,borderRadius:'20px' , border:'none' ,textTransform:'none' , fontSize:'14px'}}
         onClick={handleClickOpen}
       >
-        Publish
+        <ShareIcon sx={{fontSize:'medium'}}/>
+        <div className="ml-2">Publish</div>
       </Button>
       {!opensharepage ? (
         <BootstrapDialog

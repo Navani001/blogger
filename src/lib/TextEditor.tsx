@@ -44,7 +44,7 @@ const TiptapEditor = () => {
   }
 
   return (
-    <div className="w-full p-8 overflow-y-auto relative">
+    <div className="m-5 rounded-lg shadow-2xl bg-[red] overflow-y-auto relative">
       <EditorProvider
         {...editorConfig}
         onUpdate={({ editor }: { editor: any }) => {
@@ -56,20 +56,17 @@ const TiptapEditor = () => {
           console.log("Editor HTML:", content);
         }}
         slotBefore={[ <Navbar
-          maxWidth="full"
-          position="sticky"
-          className="bg-white shadow-sm"
+          
         >
-          <NavbarBrand>
+          <div className="flex gap-4 py-4">
+            <div>i</div>
             <p className="font-bold text-2xl">Blogger</p>
-          </NavbarBrand>
-          <NavbarContent justify="end">
+          </div>
+          <div>
             <Publish settitle={settitle} title={title} />
-          </NavbarContent>
+          </div>
         </Navbar>,<MenuBar />]}
-      >
-        {" "}
-       
+      >       
         <FloatingMenuBar />
         <EditorContent />
       </EditorProvider>
