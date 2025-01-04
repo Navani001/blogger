@@ -58,6 +58,7 @@ export const MenuBar = () => {
   if (!editor) return null;
 
   useEffect(() => {
+    console.log(i2)
     hs3();
   }, [i2]);
 
