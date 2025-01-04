@@ -29,6 +29,12 @@
 //   border-radius: 10px;
 //   padding: 5px;
 // }
+mark {
+  
+  
+  box-decoration-break: clone;
+  padding: 0.3rem 0rem;
+}
 table {
   border-collapse: collapse;
   margin: 0;

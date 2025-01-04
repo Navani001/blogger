@@ -16,7 +16,7 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Gapcursor from '@tiptap/extension-gapcursor'
-
+import Highlight from '@tiptap/extension-highlight'
 
 export const extensions = [
     Document,
@@ -32,6 +32,7 @@ export const extensions = [
     TableRow,
     TableHeader,
     TableCell,
+    Highlight.configure({ multicolor: true }),
     Link.configure({
       openOnClick: false,
       autolink: true,

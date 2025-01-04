@@ -74,6 +74,7 @@ const EditorContent = () => {
   }, []);
 
   useEffect(() => {
+
     if (!isMounted) return;
 
     const lastMessage = messages[messages.length - 1];
