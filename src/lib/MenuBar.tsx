@@ -69,6 +69,7 @@ export const MenuBar = () => {
   };
 
   const buttons = [
+    
     {
       title: "Auto complete",
       action: toggleCodeBlockWithAction,
