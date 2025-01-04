@@ -3,7 +3,7 @@ import { neon } from '@neondatabase/serverless';
 import { auth } from './auth';
 import { google } from "@ai-sdk/google";
 import { embed } from 'ai';
-
+//commit
 export default async function create_database(formData: any, title: string, url: any, desc: any, value: any) {
     const session = await auth();
     const sql = neon(`${process.env.DATABASE_URL}`);
