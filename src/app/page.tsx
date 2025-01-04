@@ -1,11 +1,12 @@
 
 import React, {  } from 'react';
-import { Search, Bookmark, User } from 'lucide-react';
+import {  Bookmark, User } from 'lucide-react';
 import { SignOut } from '@/lib/auth/signout-button';
 import { SignIn } from '@/lib/auth/signin-button';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Recommend from '@/lib/recommenddata';
+import Search from '@/lib/search';
 
 const BlogHomepage = async () => {
   const session =await auth()
@@ -36,12 +37,9 @@ const BlogHomepage = async () => {
             <SignOut></SignOut>
             <div className="flex items-center space-x-6">
               <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search posts..."
-                  className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              
+          
+                <Search/>
               </div>
               <button className="p-2 hover:bg-gray-100 rounded-full">
                 <Bookmark className="h-6 w-6 text-gray-600" />

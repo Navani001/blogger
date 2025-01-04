@@ -14,7 +14,7 @@ import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function SelectInputField({ varient = 'checked', startIcon = false, value,setValue,error = false, disabled = false ,autocompleteelement}: any) {
+export function SelectInputField({ varient = 'checked', onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
 
 React.useEffect(()=>{
 console.log(value)
@@ -22,7 +22,7 @@ console.log(value)
 },[value])
   return (
     <Autocomplete
-      isOptionEqualToValue={(option: any, value: any) => option.name === value.name}
+      isOptionEqualToValue={(option: any, value: any) => option[searchfield] === value.name}
       multiple
       limitTags={2}
       disabled={disabled}
@@ -36,13 +36,13 @@ console.log(value)
         const filtered = filter(options, params);
         const selectedValues = value.map((val: any) => val.title);
         const reordered = [
-          ...filtered.filter((option: any) => selectedValues.includes(option.name)), // Selected options
-          ...filtered.filter((option: any) => !selectedValues.includes(option.name)), // Non-selected options
+          ...filtered.filter((option: any) => selectedValues.includes(option[searchfield])), // Selected options
+          ...filtered.filter((option: any) => !selectedValues.includes(option[searchfield])), // Non-selected options
         ];
 
         const { inputValue } = params;
         // Suggest the creation of a new value
-        const isExisting = options.some((option: any) => inputValue === option.name);
+        const isExisting = options.some((option: any) => inputValue === option[searchfield]);
 
         if (inputValue !== '' && !isExisting) {
           reordered.push({
@@ -61,9 +61,10 @@ console.log(value)
         setValue(newValue);
       }}
       options={autocompleteelement}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option) => option[searchfield]}
       renderOption={(props, option, { selected }) => (
         <li
+        
           {...props}
           style={
             option.isAddOption
@@ -78,7 +79,7 @@ console.log(value)
           {varient === 'checked' ? (
             <>
               <Checkbox style={{ marginRight: 8 }} checked={selected} />
-              {option.name}
+              {option[searchfield]}
             </>
           ) : varient === 'checked_end' ? (
             <Box
@@ -90,7 +91,7 @@ console.log(value)
                 height: '35px',
               }}
             >
-              {option.name}
+              {option[searchfield]}
               <Checkbox
                 sx={{ borderRadius: 3 }}
                 style={{ marginRight: 8 }}
@@ -100,7 +101,9 @@ console.log(value)
               />
             </Box>
           ) : (
-            option.name
+            <Box onClick={()=>onclick(option["url"])} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {option[searchfield]}
+            </Box>
           )}
         </li>
       )}
