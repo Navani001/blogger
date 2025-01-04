@@ -22,7 +22,18 @@ export const MenuBar = () => {
   const [col, setcol] = useState(3);
   const [color, setcolor] = useState("#000000");
   const rangeRef = useRef({ start: 0, end: 0 });
+  const customrange = useRef({ start: 0, end: 0 });
+  const [customrequest, setcustomrequest] = useState("Extend it");
   const { completion, input: i2, setInput, handleSubmit: hs3 } = useCompletion({ api: "/api/completion" });
+  const {
+    messages: custommessage,
+    input: custominput,
+    setInput: setcustominput,
+    handleSubmit: customsumbit,
+  } = useChat({
+    id: "custom",
+    api: "/api/custom",
+  });
   const { editor } = useCurrentEditor();
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +58,10 @@ export const MenuBar = () => {
       editor?.commands.insertContentAt(start, completion);
     }
   }, [completion]);
-
+  useEffect(() => {
+    customsumbit()
+    console.log(custominput);
+  }, [custominput]);
   useEffect(() => {
     if (messages[messages.length - 1]?.role === "assistant") {
       const newContent = `<p>${messages[messages.length - 1].content}</p>`;
@@ -155,6 +169,33 @@ export const MenuBar = () => {
     // },
   ];
 
+  useEffect(() => {
+    if (custommessage[custommessage.length - 1]?.role === "assistant") {
+      const content = custommessage[custommessage.length - 1].content;
+      const newContent = `<p>${content}</p>`;
+
+      const { start, end } = customrange.current;
+
+      console.log(start, end);
+      const docSize: any = editor?.state.doc.content.size;
+
+      const safeEnd = Math.min(Math.max(start, end), docSize);
+      editor?.commands.deleteRange({ from: start, to: safeEnd });
+      const en: number = start + content.length - 1;
+      customrange.current = { start, end: en };
+      editor?.commands.insertContentAt(start, newContent);
+    }
+  }, [custommessage]);
+  const custominputai = () => {
+    if (!editor) return;
+    const { from, to } = editor.view.state.selection;
+    console.log(from, to);
+    
+    customrange.current = { start: from, end: to };
+    const selectedText = editor.state.doc.textBetween(from, to);
+    setcustominput(selectedText + customrequest);
+  };
+
   return (
     <div className="control-group h-[10%]">
       <link
@@ -231,6 +272,20 @@ export const MenuBar = () => {
               </div>
             }
           />
+          <BasicPopover
+          title={"custom"}
+          body={
+            <div>
+               <input
+          type="text"
+          value={customrequest}
+         
+          onChange={(e) => setcustomrequest(e.target.value)}
+        />{" "}
+              <button onClick={custominputai}>Generate</button>
+            </div>
+          }
+        />
         </div>
       </div>
     </div>
