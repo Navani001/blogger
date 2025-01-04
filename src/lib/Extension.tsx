@@ -9,12 +9,29 @@ import TextStyle from "@tiptap/extension-text-style";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
+import Underline from '@tiptap/extension-underline'
+import FontFamily from '@tiptap/extension-font-family'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import Gapcursor from '@tiptap/extension-gapcursor'
+
+
 export const extensions = [
     Document,
     Paragraph,
     Text,
     Image,
     Dropcursor,
+    Underline,
+    FontFamily,Gapcursor,
+    Table.configure({
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
     Link.configure({
       openOnClick: false,
       autolink: true,
@@ -26,7 +43,6 @@ export const extensions = [
           const parsedUrl = url.includes(":")
             ? new URL(url)
             : new URL(`${ctx.defaultProtocol}://${url}`);
-  
           // use default validation
           if (!ctx.defaultValidate(parsedUrl.href)) {
             return false;

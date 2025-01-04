@@ -1,4 +1,5 @@
 "use client";
+import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const Recommend = () => {
@@ -40,10 +41,13 @@ const Recommend = () => {
   ];
 
   return (
-    <div className="grid md:grid-cols-2 gap-8">
-      {/* Use either rec data or fallback to featuredPosts */}
-      {(rec.length > 0 ? rec : featuredPosts).map((post, index) => (
-        <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="flex gap-6 overflow-x-auto scrollbar-hide">
+      {(rec.length > 0 ? rec : featuredPosts).map((post:any, index) => (
+        <div 
+          key={index} 
+          onClick={()=>{redirect(`/blogs/${post.url}` || "/login")}}
+          className="flex-none w-[350px] snap-start bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+        >
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm text-blue-600 font-medium">
@@ -52,7 +56,7 @@ const Recommend = () => {
               <span className="text-sm text-gray-500">{post.readTime}</span>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h3>
-            <p className="text-gray-600 mb-4">{post.excerpt}</p>
+            <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <div className="h-8 w-8 rounded-full bg-gray-200" />

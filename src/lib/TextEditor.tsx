@@ -14,18 +14,7 @@ import { extensions } from "./Extension";
 const TiptapEditor = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [title, settitle] = useState<string>("");
-//  useEffect(()=>{
-//     fetch(`/api/recommend`)
-//     .then((response) => {
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok");
-//       }
-//       return response.json();
-//     })
-//     .then((data) => console.log(data));
- 
 
-//   },[])
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -44,8 +33,9 @@ const TiptapEditor = () => {
   }
 
   return (
-    <div className="m-5 rounded-lg shadow-2xl bg-[red] overflow-y-auto relative">
+    <div className="m-5 rounded-lg shadow-2xl bg-[#f9fbfd] overflow-y-auto relative">
       <EditorProvider
+
         {...editorConfig}
         onUpdate={({ editor }: { editor: any }) => {
           // Log the editor's current content as JSON
@@ -58,7 +48,7 @@ const TiptapEditor = () => {
         slotBefore={[ <Navbar
           
         >
-          <div className="flex gap-4 py-4">
+          <div className="flex gap-4 py-4 ">
             <div>i</div>
             <p className="font-bold text-2xl">Blogger</p>
           </div>

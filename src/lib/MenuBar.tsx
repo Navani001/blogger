@@ -1,35 +1,40 @@
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
-import { useCallback, useEffect, useRef } from "react";
-import EditIcon from '@mui/icons-material/Edit';
+import { useCallback, useEffect, useRef, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import CodeIcon from "@mui/icons-material/Code";
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
+import RedoIcon from "@mui/icons-material/Redo";
+import UndoIcon from "@mui/icons-material/Undo";
+import PaletteIcon from "@mui/icons-material/Palette";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { Button } from "@mui/material";
-export const MenuBar = () => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
-    id: "creation",
-  });
-  const rangeRef = useRef({ start: 0, end: 0 });
-  const {
-    completion,
-    input: i2,
-    setInput,
-    handleSubmit: hs3,
-  } = useCompletion({
-    api: "/api/completion",
-  });
+import BasicPopover from "./popover";
 
+export const MenuBar = () => {
+  const { messages, input, handleInputChange, handleSubmit } = useChat({ id: "creation" });
+  const [row, setrow] = useState(3);
+  const [col, setcol] = useState(3);
+  const [color, setcolor] = useState("#000000");
+  const rangeRef = useRef({ start: 0, end: 0 });
+  const { completion, input: i2, setInput, handleSubmit: hs3 } = useCompletion({ api: "/api/completion" });
   const { editor } = useCurrentEditor();
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = e.target.value;
+    setcolor(newColor);
+    editor?.chain().focus().setColor(newColor).run();
+  };
 
   const addImage = useCallback(() => {
     const url = window.prompt("URL");
     if (url && editor) {
-      editor
-        .chain()
-        .focus()
-        .insertContent({
-          type: "image",
-          attrs: { src: url },
-        })
-        .run();
+      editor.chain().focus().insertContent({ type: "image", attrs: { src: url } }).run();
     }
   }, [editor]);
 
@@ -69,74 +74,163 @@ export const MenuBar = () => {
   };
 
   const buttons = [
-    
     {
       title: "Auto complete",
+      icon: <EditIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
       action: toggleCodeBlockWithAction,
     },
     {
       title: "Bullet list",
+      icon: <FormatListBulletedIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive("bulletList"),
     },
     {
       title: "Ordered list",
+      icon: <FormatListNumberedIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive("orderedList"),
     },
     {
       title: "Code block",
+      icon: <CodeIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().toggleCodeBlock().run(),
       isActive: () => editor.isActive("codeBlock"),
     },
     {
       title: "Blockquote",
+      icon: <FormatQuoteIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().toggleBlockquote().run(),
       isActive: () => editor.isActive("blockquote"),
     },
     {
       title: "Horizontal rule",
+      icon: <HorizontalRuleIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().setHorizontalRule().run(),
     },
     {
-      title: "Hard break",
-      action: () => editor.chain().focus().setHardBreak().run(),
-    },
-    {
       title: "Undo",
+      icon: <UndoIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().undo().run(),
       isDisabled: () => !editor.can().chain().focus().undo().run(),
     },
     {
       title: "Redo",
+      icon: <RedoIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
       action: () => editor.chain().focus().redo().run(),
       isDisabled: () => !editor.can().chain().focus().redo().run(),
     },
     {
-      title: "Purple",
-      action: () => editor.chain().focus().setColor("#958DF1").run(),
-      isActive: () => editor.isActive("textStyle", { color: "#958DF1" }),
+      title: "Color Picker",
+      icon: <PaletteIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      input: (
+        <div className="relative w-6 h-6 rounded-full overflow-hidden border ml-2 border-gray-400">
+          <input
+            type="color"
+            value={color}
+            onChange={handleColorChange}
+            className="absolute top-0 left-0 w-full h-full opacity-0 ml-2 cursor-pointer"
+          />
+          <div
+            style={{ backgroundColor: color }}
+            className="w-full h-full rounded-full"
+          ></div>
+        </div>
+      ),
+      action: () => editor.chain().focus().setColor(color).run(),
+      isActive: () => editor.isActive("textStyle", { color }),
     },
     {
       title: "Add image from URL",
+      icon: <AddPhotoAlternateIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
       action: addImage,
     },
+    // {
+    //   title: "AI Writer",
+
+    //   popover: (
+    //     
+    //   ),
+    // },
   ];
 
   return (
-    <div className="control-group h-[10%] ">
-      <div className="button-group">
-        {buttons.map((item, index) => (
-          <button
-            key={index}
-            onClick={item.action}
-            className={item.isActive?.() ? "is-active" : "buttonn"}
-            disabled={item.isDisabled?.()}
-          >
-            <div><EditIcon sx={{fontSize:'small'}} />&ensp;</div>
-            <div >{item.title}</div>
-          </button>
-        ))}
+    <div className="control-group h-[10%]">
+      <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+      />
+      <div className="flex justify-between w-full px-4">
+        <div className="flex gap-1 bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center p-[5px] shadow-md" >
+
+
+          {buttons.map((item, index) => (
+            <div key={index}>
+
+              <button
+                onClick={item.action}
+                className={item.isActive?.() ? "is-active" : "buttonn"}
+                disabled={item.isDisabled?.()}
+              >
+                <div>{item.icon}</div>
+                <div>{item.title}</div>
+                {item.input && <div>{item.input}</div>}
+              </button>
+
+            </div>
+          ))}
+
+        </div>
+
+        <div className="flex">
+
+          <BasicPopover
+            title="AI"
+            icon={<SmartToyIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />}
+            body={
+              <div>
+                <input
+                  type="text"
+                  value={input}
+                  placeholder="Enter the prompt"
+                  onChange={handleInputChange}
+                  className="border-1 border-black"
+                />
+                <button onClick={handleSubmit}>Generate</button>
+              </div>
+            }
+          />
+
+          <BasicPopover
+            icon={<TableChartIcon sx={{ fontSize: 'medium', marginRight: '8px' }} />}
+            title="Table"
+            body={
+              <div>
+                <input
+                  value={row}
+                  onChange={(e) => setrow(parseInt(e.target.value))}
+                  type="number"
+                  placeholder="Rows"
+                  className="border-1 border-black"
+                />
+                <input
+                  value={col}
+                  onChange={(e) => setcol(parseInt(e.target.value))}
+                  type="number"
+                  placeholder="Columns"
+                  className="border-1 border-black"
+                />
+                <button
+                  onClick={() =>
+                    editor.chain().focus().insertTable({ rows: row, cols: col, withHeaderRow: true }).run()
+                  }
+                >
+                  Generate table
+                </button>
+              </div>
+            }
+          />
+        </div>
       </div>
     </div>
   );
