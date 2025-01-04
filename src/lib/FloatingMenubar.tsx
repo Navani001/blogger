@@ -15,6 +15,7 @@ type EditorAction = {
   [key: string]: (...args: any[]) => void;
 };
 const NavBar = ({ editor }: any) => {
+ 
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
@@ -144,6 +145,7 @@ const NavBar = ({ editor }: any) => {
   };
 
   const buttonGroups = {
+    
     text: {
       label: "Text",
       icon: <Type size={16} />,
@@ -223,6 +225,7 @@ const NavBar = ({ editor }: any) => {
               }`}
             />
           </button>
+          
       
           {activeDropdown === groupKey && (
             <div className="absolute z-10 mt-1 py-1 bg-white border rounded-md shadow-lg min-w-[140px]">
@@ -258,8 +261,9 @@ const FloatingMenuBar = () => {
 
   useEffect(() => {
     if (!editor) return;
-
+    
     const updateMenuPosition = () => {
+   
       const { from, to } = editor.state.selection;
 
       // Check if there's a selection
