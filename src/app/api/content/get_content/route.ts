@@ -1,17 +1,16 @@
-'use server';
-import { neon } from '@neondatabase/serverless';
-import { auth } from '@/lib/auth'; 
+"use server";
+import { neon } from "@neondatabase/serverless";
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
-export async function POST(request: Request, res:any) {
-    const session =await auth()
-    const sql = neon(`${process.env.DATABASE_URL}`);
+export async function POST(request: Request, res: any) {
+  const session = await auth();
+  const sql = neon(`${process.env.DATABASE_URL}`);
 
-    const { url} = await request.json();
-   
-   
-    const result = await sql("SELECT * FROM blogss WHERE url = $1", [url]);
+  const { url } = await request.json();
 
-    return NextResponse.json({data:result[0],message:"success"})
+  const result = await sql("SELECT * FROM blogss WHERE url = $1", [url]);
+
+  return NextResponse.json({ data: result[0], message: "success" });
 }
 // export default async function get_article(formData: any) {
 //   // Connect to the Neon database
