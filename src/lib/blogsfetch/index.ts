@@ -11,7 +11,7 @@ export const fetchblog = async (): Promise<Blog[]> => {
     const session =await auth()
    console.log(session)
   try {
-    const response = await fetch("http://localhost:3000/api/getblogs", {
+    const response = await fetch("http://bloggingai.vercel.app/api/getblogs", {
       method: "POST",
       body: JSON.stringify({ id: session?.user?.id }),
       headers: { 

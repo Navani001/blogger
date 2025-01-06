@@ -12,6 +12,8 @@ const BlogPost = ({ params }: { params: any }) => {
       },
     ],
     options: {
+        toolbar: {
+            show: false,},
       chart: {
         id: "example-chart",
       },
