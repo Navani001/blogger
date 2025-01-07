@@ -2,12 +2,34 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
-import { getUserFromDb } from "@/app/server/services/userService"
+import { getidFromDb, getUserFromDb } from "@/app/server/services/userService"
 export const {handlers,signIn,signOut,auth}=NextAuth({
     pages: {
         signIn: "/login",
       },
+      
       callbacks: {
+        async signIn({ user, account, profile }) {
+          if (account?.provider === "google") {
+            try {
+             
+              // const existingUser = await prisma.user.findUnique({
+              //   where: { email: user.email! },
+              // })
+           const data= await getidFromDb(user.email,user.image,user.name)
+          
+            if(data && user){
+              user.id = data.id.toString();
+            }
+              // return true
+            } catch (error) {
+              console.error("Error during Google sign in:", error)
+              return false
+            }
+          }
+          console.log("user",user)
+          return true
+        },
         async session({ session, token }:any) {
           // Attach additional user data to the session
           session.user.id = token.id;

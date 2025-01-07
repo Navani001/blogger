@@ -9,7 +9,7 @@ export async function GET(request: Request, res:any) {
     console.log(url)
     const blogId = url.searchParams.get('blogid');
  console.log(blogId)
-    const result = await sql("SELECT * FROM user_interaction WHERE blog_id=$1 and interaction_type='like' and status=true  order by created_at", [blogId]);
+    const result = await sql("SELECT * FROM user_interaction WHERE blog_id=$1  and interaction_type='comment' order by created_at", [blogId]);
    console.log(result)
     return NextResponse.json({data:result,message:"success"})
 }

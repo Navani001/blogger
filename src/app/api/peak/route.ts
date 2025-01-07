@@ -6,10 +6,9 @@ export async function GET(request: Request, res:any) {
 
     const sql = neon(`${process.env.DATABASE_URL}`);
     const url = new URL(request?.url); // Full URL of the incoming request
-    console.log(url)
     const blogId = url.searchParams.get('blogid');
- console.log(blogId)
-    const result = await sql("SELECT * FROM user_interaction WHERE blog_id=$1 and interaction_type='like' and status=true  order by created_at", [blogId]);
-   console.log(result)
+ 
+    const result = await sql("SELECT DATE(created_at) as interaction_date,COUNT(*) as interaction_count FROM user_interaction WHERE blog_id = $1 AND status = true group by created_at order by interaction_count desc limit 1", [blogId]);
+   
     return NextResponse.json({data:result,message:"success"})
 }
