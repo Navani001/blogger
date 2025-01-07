@@ -88,7 +88,7 @@ export default function Publish({
     console.log("closing")
     handleSubmitblog(); // Ensure this is spelled correctly if it's "handleSubmit"
     console.log("Start");
-    setShareUrl(shareUrl + "/" + url);
+    setShareUrl(shareUrl + "/blogs/" + url);
     await new Promise<void>((resolve) => {
       setTimeout(() => {
         console.log("After 2 seconds");

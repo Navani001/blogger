@@ -42,7 +42,7 @@ const Recommend = () => {
 
   return (
     <div className="flex gap-6 overflow-x-auto scrollbar-hide">
-      {(rec.length > 0 ? rec : featuredPosts).map((post:any, index) => (
+      {rec.length > 0 ?(rec).map((post:any, index) => (
         <div 
           key={index} 
           onClick={()=>{redirect(`/blogs/${post.url}` || "/login")}}
@@ -71,7 +71,7 @@ const Recommend = () => {
             </div>
           </div>
         </div>
-      ))}
+      )):<div>Loading </div>}
     </div>
   );
 };

@@ -12,10 +12,12 @@ interface RowData {
 }
 export default function Home() {
   const [blogs, setblogs] = useState([]);
+  const [loading,setloading]=useState(true)
   useEffect(() => {
     const fetch = async () => {
       const data: any = await fetchblog();
       setblogs(data.data);
+      setloading(false)
     };
     fetch();
   }, []);
@@ -37,17 +39,18 @@ export default function Home() {
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="p-6">
-            {blogs.length === 0 ? (
+            {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
                 <p className="mt-4 text-gray-600">Loading blog posts...</p>
               </div>
             ) : (
+            blogs.length!=0 ? 
               <CustomPaginationActionsTable
                 rows={blogs}
                 handleView={handleView}
                 isview={true}
-              />
+              />:<div>No Data Found</div>
             )}
           </div>
         </div>
