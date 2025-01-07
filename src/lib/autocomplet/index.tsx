@@ -14,7 +14,7 @@ import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function SelectInputField({ varient = 'checked', onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
+export function SelectInputField({ islabel=true,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
 
 React.useEffect(()=>{
 console.log(value)
@@ -23,8 +23,8 @@ console.log(value)
   return (
     <Autocomplete
       isOptionEqualToValue={(option: any, value: any) => option[searchfield] === value.name}
-      multiple
-      limitTags={2}
+      multiple={multiple}
+      limitTags={1}
       disabled={disabled}
       disableCloseOnSelect
       sx={{
@@ -125,7 +125,7 @@ console.log(value)
           }
         
           label={
-            startIcon ? (
+            islabel ? (
               <span style={{ color: 'grey', fontSize: '12px' }}>
                 Required
                 <span style={requiredLabelStyle}>*</span>

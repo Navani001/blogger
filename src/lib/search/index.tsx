@@ -26,9 +26,9 @@ const Search = () => {
   // Example data to display when there's no API response or to show featured content
 
   return (
-    <div className="w-[160px] h-full bg-gray-50">
+    <div className="w-[250px] h-full bg-gray-50">
  
-         <SelectInputField varient="" autocompleteelement={rec} value={value} searchfield="title" onclick={(url:any)=>{redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField>
+         <SelectInputField varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField>
          </div>
   );
 };

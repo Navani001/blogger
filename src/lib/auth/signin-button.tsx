@@ -39,7 +39,7 @@ export function SignIn() {
         <input className="p-2 w-full rounded-[5px] border-1 mb-3 " name="password" type="password" />
         <p className="text-end underline text-[#353448] text-[14px] font-bold cursor-pointer mb-4">Forgot Password?</p>
         <div className="flex justify-center">
-          <Button type="submit" sx={{backgroundColor:'blue' , color:'#ffffff' , marginBottom:'12px' ,fontWeight:'600' , textTransform:'none'}} className="w-full py-[10px] rounded-md border-none ">Log In or Sign up</Button>
+          <Button type="submit" sx={{backgroundColor:'blue' , color:'#ffffff' , marginBottom:'12px' ,fontWeight:'600' , textTransform:'none'}} className="w-full py-[10px] rounded-md border-none ">Log In </Button>
         </div>
         <div className="w-full h-[1px] bg-[#4c4c4e] mb-3"></div>
         <div className="flex justify-center">
@@ -47,7 +47,7 @@ export function SignIn() {
             "use server"
             await signIn("google", { redirectTo: "/" }
             )
-          }}>Signin with Google</Button>
+          }}>Signin or login with Google</Button>
         </div>
       </div>
     </form>
