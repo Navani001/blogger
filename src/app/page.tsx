@@ -4,9 +4,10 @@ import { SignOut } from "@/lib/auth/signout-button";
 import { SignIn } from "@/lib/auth/signin-button";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Recommend from "@/lib/recommenddata";
+
 import Search from "@/lib/search";
 import BasicPopover from "@/lib/popover";
+import Recommend from "@/lib/recommend";
 
 const BlogHomepage = async () => {
   const session = await auth();
@@ -115,19 +116,12 @@ const BlogHomepage = async () => {
       </div>
 
       {/* Featured Posts - Card Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">
-          Featured Posts
-        </h2>
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <Recommend />
-        </div>
-      </div>
-
+      <Recommend/>
+   
       {/* Topics Section - More Interactive */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
-          Explore Topics
+        Explore Blogs with Tags
         </h2>
         <div className="flex flex-wrap gap-3">
           {[

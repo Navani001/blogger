@@ -3,44 +3,14 @@ import { format, parseISO } from "date-fns";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const Recommend = () => {
-  const [rec, setRec] = useState([]);
+const RecommendMap = (props:any) => {
+ const {data} = props;
 
-  useEffect(() => {
-    // Fetch data from API when the component mounts
-    fetch("/api/recommend")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => setRec(data.data)) // Update state with the fetched data
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []); // Empty dependency array to run this effect once on mount
-  useEffect(() => {
-    console.log(rec);
-  }, [rec]);
-  // Example data to display when there's no API response or to show featured content
-  const featuredPosts = [
-    {
-      title: "Getting Started with Next.js and TypeScript",
-      excerpt:
-        "Learn how to build modern web applications with Next.js and TypeScript",
-      author: "Jane Smith",
-      date: "Dec 18, 2024",
-      category: "Development",
-      readTime: "5 min read",
-    },
-  
-  ];
 
   return (
     <div className="flex gap-6 overflow-x-auto scrollbar-hide">
-      {rec.length > 0 ? (
-        rec.map((post: any, index) => (
+      {data.length > 0 ? (
+        data.map((post: any, index:any) => (
           <div
             key={index}
             onClick={() => {
@@ -98,8 +68,9 @@ const Recommend = () => {
       ) : (
         <div>Loading </div>
       )}
+      
     </div>
   );
 };
 
-export default Recommend;
+export default RecommendMap;
