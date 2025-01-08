@@ -60,7 +60,8 @@ const Recommend = () => {
             <p className="text-gray-600 mb-4 line-clamp-2">{post.descs}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <div className="h-8 w-8 rounded-full bg-gray-200" />
+                <div className="h-8 w-8 rounded-full bg-gray-200"  style={{ backgroundImage: `url('${post.avatar_url}')`, backgroundPosition: 'center',
+    backgroundSize: 'cover' }} />
                 <div className="ml-3">
                   <p className="text-sm font-medium text-gray-900">{post.username
 }</p>
