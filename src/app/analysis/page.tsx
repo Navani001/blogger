@@ -21,9 +21,9 @@ export default function Home() {
     };
     fetch();
   }, []);
-  const handleView = (row: RowData) => {
+  const handleView = (row: any) => {
     console.log("Viewing:", row);
-    redirect(`analysis/${row.url}`);
+    redirect(`analysis/${row.id}`);
   };
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">

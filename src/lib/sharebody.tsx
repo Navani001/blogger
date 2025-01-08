@@ -10,7 +10,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Input } from "@nextui-org/react";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from "@mui/material/Snackbar";
@@ -30,15 +29,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ShareBody({open,setOpen,shareUrl,setopensharepage}:any) {
-
+export default function ShareBody({
+  open,
+  setOpen,
+  shareUrl,
+  setopensharepage,
+}: any) {
   const [showCopyAlert, setShowCopyAlert] = React.useState(false);
-
-  
 
   const handleClose = () => {
     setOpen(false);
-    setopensharepage(false)
+    setopensharepage(false);
   };
 
   const handleCopyUrl = async () => {
@@ -70,8 +71,6 @@ export default function ShareBody({open,setOpen,shareUrl,setopensharepage}:any) 
 
   return (
     <React.Fragment>
-   
-
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -128,19 +127,16 @@ export default function ShareBody({open,setOpen,shareUrl,setopensharepage}:any) 
             >
               WhatsApp
             </Button>
-         
+
             <TwitterShareButton url={shareUrl} title={"share this page"}>
-              <div
-              
-              >
-                Twitter
-              </div>
+              <div className="flex gap-2 p-3 bg-[#1DA1F2] rounded-md">
+                <TwitterIcon size={25}/>
+                Twitter</div>
             </TwitterShareButton>
-            <LinkedinShareButton url={shareUrl} title={"share this page"}>
-              <div
-             
-              >
-               Linkedin
+            <LinkedinShareButton  url={shareUrl} title={"share this page"}>
+              <div className="bg-[#0A66C2] p-3 rounded-md flex gap-2">
+                <LinkedInIcon />
+                Linkedin
               </div>
             </LinkedinShareButton>
             {/* <Button

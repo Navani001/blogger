@@ -20,7 +20,7 @@ const BlogPost = ({ params }: { params: any }) => {
     series: [
       {
         name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       },
     ],
     options: {
@@ -31,7 +31,7 @@ const BlogPost = ({ params }: { params: any }) => {
         id: "example-chart",
       },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May"],
+        categories: ["1", "2", "3", "4", "5",'6','7'],
       },
     },
   });
@@ -39,7 +39,7 @@ const BlogPost = ({ params }: { params: any }) => {
     series: [
       {
         name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       },
     ],
     options: {
@@ -50,7 +50,7 @@ const BlogPost = ({ params }: { params: any }) => {
         id: "example-chart",
       },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May"],
+        categories:["1", "2", "3", "4", "5",'6','7'],
       },
     },
   });
@@ -142,10 +142,11 @@ const BlogPost = ({ params }: { params: any }) => {
       }));
     }
   }, [commentdata, commentsort]);
+  const { url } = unwrappedParams as { url: string };
   useEffect(() => {
     const fetch_place = async () => {
       const params = new URLSearchParams({
-        blogid: "14",
+        blogid: url,
       });
       fetch(`/api/peak?${params.toString()}`, {
         next: { revalidate: 3600 },
@@ -196,7 +197,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
     fetch_place();
   }, []);
-  const { url } = unwrappedParams as { url: string };
+ 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
       <div className="max-w-7xl mx-auto">
@@ -223,7 +224,7 @@ const BlogPost = ({ params }: { params: any }) => {
             value={`${(
               (commentdata.length / (data.length + commentdata.length)) *
               100
-            ).toFixed(1)}%`}
+            ).toFixed(1)}%` }
             subtitle="Comments per view"
             icon="💭"
           />
