@@ -14,7 +14,7 @@ import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function SelectInputField({ islabel=true,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
+export function SelectInputField({title="Required",islabel=true,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
 
 React.useEffect(()=>{
 console.log(value)
@@ -127,17 +127,17 @@ console.log(value)
           label={
             islabel ? (
               <span style={{ color: 'grey', fontSize: '12px' }}>
-                Required
+             {title}
                 <span style={requiredLabelStyle}>*</span>
               </span>
             ) : (
               <span style={{ color: 'grey', fontSize: '12px' }}>
-                Required
+                {title}
                 <span style={requiredLabelStyle}>*</span>
               </span>
             )
           }
-          placeholder='Favorites'
+          // placeholder='Favorites'
           variant='filled'
         />
       )}

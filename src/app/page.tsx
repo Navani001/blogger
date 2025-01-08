@@ -5,9 +5,10 @@ import { SignOut } from "@/lib/auth/signout-button";
 import { SignIn } from "@/lib/auth/signin-button";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-
+import { MdLogout } from "react-icons/md";
+import { MdOutlineContactSupport } from "react-icons/md";
 import {FaGithub } from 'react-icons/fa';
-
+import { IoDocumentTextOutline } from "react-icons/io5";
 import Search from "@/lib/search";
 import BasicPopover from "@/lib/popover";
 import Recommend from "@/lib/recommend";
@@ -15,6 +16,7 @@ import Tags from "@/lib/tag";
 import ContactUs from "@/lib/contactus";
 import ContactBody from "@/lib/contactbody";
 import { LinkedinIcon } from "react-share";
+import { CardAbout } from "@/lib/card";
 
 
 
@@ -76,10 +78,12 @@ const BlogHomepage = async () => {
                     
                       <a href="/analysis" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         {/* <DocumentTextIcon className="h-4 w-4 mr-3 text-gray-400" /> */}
+                        <IoDocumentTextOutline  className="h-4 w-4 mr-1 text-gray-700" />
                         Blogs Analysis
                       </a>
                       <div className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         {/* <CogIcon className="h-4 w-4 mr-3 text-gray-400" /> */}
+                        <MdOutlineContactSupport className="h-4 w-4 mr-1 text-gray-700" />
                   <ContactBody/>
                       </div>
                     </div>
@@ -91,8 +95,10 @@ const BlogHomepage = async () => {
                         className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md"
                       >
                         <LogoutIcon className="h-4 w-4 mr-3" />
+                        
                         Sign out
                       </button> */}
+                  
                       <SignOut />
                     </div>
                   </div>
@@ -138,95 +144,11 @@ const BlogHomepage = async () => {
        {/* <Tags/> */}
       </div>
 
-      {/* Footer - Modern and Clean */}
-      {/* <footer className="bg-gray-50 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              {
-                title: "About",
-                links: ["About Us", "Careers", "Contact"],
-              },
-              {
-                title: "Help",
-                links: ["FAQs", "Guidelines", "Support"],
-              },
-              {
-                title: "Legal",
-                links: ["Privacy", "Terms", "Cookie Policy"],
-              },
-              {
-                title: "Follow",
-                links: ["Twitter", "Facebook", "Instagram"],
-              },
-            ].map((section) => (
-              <div key={section.title}>
-                <h3 className="font-semibold text-gray-900 mb-4">
-                  {section.title}
-                </h3>
-                <ul className="space-y-3">
-                  {section.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-gray-600 hover:text-blue-600 transition-colors"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500">
-            © 2025 Blogger. All rights reserved.
-          </div>
-        </div>
-      </footer> */}
+    
       {/* Footer - Personal Project */}
 <footer className="bg-gray-50 border-t border-gray-100">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {/* About Section */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">About this Project</h3>
-        <p className="text-gray-600 mb-4">
-          A personal blogging platform built with Next.js, Tailwind CSS, and TypeScript.
-          Share your thoughts and connect with readers.
-        </p>
-        <div className="flex space-x-4">
-          <a target="__blank" href="https://github.com/Navani001" className="text-gray-400 hover:text-gray-500">
-            <span className="sr-only">GitHub</span>
-            <FaGithub  size={30}/>
-          </a>
-          <a target="__blank" href="https://www.linkedin.com/in/navani-hk/" className="text-gray-400 hover:text-gray-500">
-            <span className="sr-only">LinkedIn</span>
-           <LinkedinIcon size={30} style={{borderRadius:"5px"}}/>
-          </a>
-        </div>
-      </div>
-
-      {/* Contact Section */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact</h3>
-        <p className="text-gray-600 mb-2">Have questions or suggestions?</p>
-        <a 
-          href="mailto:navaneetha2006krishnan@gmail.com"
-          className="text-blue-600 hover:text-blue-700 font-medium"
-        >
-         navaneetha2006krishnan@gmail.com
-        </a>
-      </div>
-    </div>
-
-    {/* Copyright */}
-    <div className="mt-8 pt-8 border-t border-gray-200">
-      <p className="text-center text-gray-500 text-sm">
-        © {new Date().getFullYear()} Your Name. Built with Next.js and Tailwind CSS.
-      </p>
-    </div>
-  </div>
+ 
+<CardAbout/>
 </footer>
     </div>
   );

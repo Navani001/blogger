@@ -7,10 +7,11 @@ import Dialog from "@mui/material/Dialog";
 import { Card } from "@mui/material";
 import { auth } from "../auth";
 
-export default  function ContactUs() {
+export default  function ContactUs({name, email}:any) {
+  
   const [formData, setFormData] = React.useState({
-    name: '',
-    email: '',
+    name,
+    email,
     subject: '',
     message: ''
   });
@@ -88,7 +89,7 @@ export default  function ContactUs() {
                     type="text"
                     name="name"
                     id="name"
-         
+         disabled
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md  focus:ring-blue-500 focus:border-blue-500"
@@ -104,7 +105,7 @@ export default  function ContactUs() {
                     Email
                   </label>
                   <input
-                   
+                   disabled
                     type="email"
                     name="email"
                     id="email"
