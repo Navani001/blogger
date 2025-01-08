@@ -10,7 +10,11 @@ const Recommend = () => {
 const [trending,settrending]=useState([])
   useEffect(() => {
     // Fetch data from API when the component mounts
-    fetch("/api/recommend")
+    fetch("/api/recommend",{    next: { revalidate: 3600 }, // Cache for 1 hour
+      cache: "force-cache",
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -21,7 +25,11 @@ const [trending,settrending]=useState([])
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-      fetch("/api/trending")
+      fetch("/api/trending",{    next: { revalidate: 3600 }, // Cache for 1 hour
+        cache: "force-cache",
+        headers: {
+          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+        },})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

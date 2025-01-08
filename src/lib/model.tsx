@@ -69,7 +69,11 @@ export default function Publish({
   };
   React.useEffect(() => {
 
-    fetch(`/api/tags/get_tags`)
+    fetch(`/api/tags/get_tags`,{    next: { revalidate: 3600 }, // Cache for 1 hour
+      cache: "force-cache",
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

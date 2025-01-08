@@ -10,7 +10,11 @@ const Search = () => {
   const [value,setvalue] = useState([])
   useEffect(() => {
     // Fetch data from API when the component mounts
-    fetch('/api/allblog')
+    fetch('/api/allblog',{    next: { revalidate: 3600 }, // Cache for 1 hour
+      cache: "force-cache",
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      },})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

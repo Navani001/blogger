@@ -28,7 +28,11 @@ const BlogPost = ({ params }: { params: any }) => {
   const handlelike = () => {
     setliked(!liked);
     const params = new URLSearchParams({ blogid });
-    fetch(`/api/like/set_like?${params.toString()}`).then((response) => {
+    fetch(`/api/like/set_like?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
+    cache: "force-cache",
+    headers: {
+      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+    },}).then((response) => {
       if (!response.ok) throw new Error("Network response was not ok");
       return response.json();
     });
@@ -40,7 +44,9 @@ const BlogPost = ({ params }: { params: any }) => {
         method: "POST",
         body: JSON.stringify({ url }),
         headers: { "Content-type": "application/json" },
-        next: { revalidate: 3600 },
+        next: { revalidate: 3600 }, // Cache for 1 hour
+        cache: "force-cache",
+    
       })
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
@@ -52,12 +58,20 @@ const BlogPost = ({ params }: { params: any }) => {
           const params = new URLSearchParams({ blogid: data.data.id });
 
           // Fetch comments
-          fetch(`/api/comment/get_comment?${params.toString()}`)
+          fetch(`/api/comment/get_comment?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },})
             .then((response) => response.json())
             .then((data) => setcomment(data.data));
 
           // Fetch like status
-          fetch(`/api/like/get_like?${params.toString()}`)
+          fetch(`/api/like/get_like?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },})
             .then((response) => response.json())
             .then((data) => setliked(data.data));
         });

@@ -22,6 +22,9 @@ data,setdata
         body: JSON.stringify({ tag:url }),
         headers: { "Content-type": "application/json" },
         next: { revalidate: 3600 },
+    // Cache for 1 hour
+        cache: "force-cache",
+     
       })
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
