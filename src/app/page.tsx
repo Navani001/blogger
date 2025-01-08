@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import Search from "@/lib/search";
 import BasicPopover from "@/lib/popover";
 import Recommend from "@/lib/recommend";
+import Tags from "@/lib/tag";
 
 const BlogHomepage = async () => {
   const session = await auth();
@@ -123,25 +124,7 @@ const BlogHomepage = async () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
         Explore Blogs with Tags
         </h2>
-        <div className="flex flex-wrap gap-3">
-          {[
-            "Technology",
-            "Design",
-            "Development",
-            "Writing",
-            "Business",
-            "Lifestyle",
-            "Art",
-            "Science",
-          ].map((topic) => (
-            <button
-              key={topic}
-              className="px-6 py-3 rounded-full border border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors text-gray-700 font-medium"
-            >
-              {topic}
-            </button>
-          ))}
-        </div>
+       <Tags/>
       </div>
 
       {/* Footer - Modern and Clean */}
