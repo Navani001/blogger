@@ -13,6 +13,7 @@ import { Heart, Share2, MessageCircle } from "lucide-react";
 import Share from "@/lib/sharemodel";
 
 const BlogPost = ({ params }: { params: any }) => {
+ 
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
 

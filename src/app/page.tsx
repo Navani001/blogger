@@ -10,7 +10,7 @@ import BasicPopover from "@/lib/popover";
 
 const BlogHomepage = async () => {
   const session = await auth();
-console.log(session)
+
   if (!session?.user) {
     redirect("/login");
   }

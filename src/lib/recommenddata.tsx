@@ -1,4 +1,5 @@
 "use client";
+import { format, parseISO } from 'date-fns';
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -19,7 +20,7 @@ const Recommend = () => {
         console.error("Error fetching data:", error);
       });
   }, []); // Empty dependency array to run this effect once on mount
-  
+  useEffect(()=>{console.log(rec)},[rec])
   // Example data to display when there's no API response or to show featured content
   const featuredPosts = [
     {
@@ -56,13 +57,14 @@ const Recommend = () => {
               <span className="text-sm text-gray-500">{post.readTime}</span>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">{post.title}</h3>
-            <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
+            <p className="text-gray-600 mb-4 line-clamp-2">{post.descs}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <div className="h-8 w-8 rounded-full bg-gray-200" />
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">{post.author}</p>
-                  <p className="text-sm text-gray-500">{post.date}</p>
+                  <p className="text-sm font-medium text-gray-900">{post.username
+}</p>
+                  <p className="text-sm text-gray-500"> {format(parseISO(post.created_at), 'MMM dd, yyyy')}</p>
                 </div>
               </div>
               <button className="text-blue-600 hover:text-blue-700 font-medium">
