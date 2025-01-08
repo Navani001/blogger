@@ -53,12 +53,12 @@ const Recommend = () => {
                 <span className="text-sm text-blue-600 font-medium">
                   {post.category || "Development"}
                 </span>
-                <span className="text-sm text-gray-500">{post.readTime}</span>
+                <span className="text-sm text-gray-500">{post.read_time || "5"}min</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 {post.title}
               </h3>
-              <p className="text-gray-600 mb-4 line-clamp-2">{post.descs}</p>
+              <p className="text-gray-600 mb-4 line-clamp-2">{post.descs || "placeholder"}</p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
