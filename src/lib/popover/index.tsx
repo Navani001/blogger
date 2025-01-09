@@ -5,7 +5,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-export default function BasicPopover({ title, body, icon }: any) {
+export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"12px",   padding: "10px 15px",} }: any) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {
@@ -22,16 +22,18 @@ export default function BasicPopover({ title, body, icon }: any) {
   return (
     <div>
       <Button
+      
         sx={{
           borderRadius: "20px",
-          padding: "10px 15px",
+       
           minWidth: "0px",
-          fontSize: "12px",
+   
           textTransform: "none",
           marginRight: "10px",
           "&.MuiButton-root": {
-            backgroundColor: "white"
-          }
+            backgroundColor: "black"
+          },
+          ...(titlestyle || {})
         }}
         aria-describedby={id}
         variant="contained"

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useCurrentEditor } from "@tiptap/react";
-
+import { createPortal } from "react-dom";
 import {
   ChevronDown,
   Wand2,
@@ -15,7 +15,6 @@ type EditorAction = {
   [key: string]: (...args: any[]) => void;
 };
 const NavBar = ({ editor }: any) => {
- 
   const setLink = useCallback(() => {
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
@@ -139,54 +138,58 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().toggleUnderline().run();
     },
     Delete: () => {
-      editor.chain().focus().deleteTable().run()
-    }
-    
+      editor.chain().focus().deleteTable().run();
+    },
   };
 
   const buttonGroups = {
-    
     text: {
       label: "Text",
-      icon: <Type size={16} />,
+      icon: <Type size={12} />,
       items: ["Bold", "Italic", "Strike", "Code", "Paragraph", "Underline"],
     },
     headings: {
       label: "Headings",
-      icon: <Type size={16} className="font-bold" />,
+      icon: <Type size={12} className="font-bold" />,
       items: ["H1", "H2", "H3", "H4", "H5", "H6"],
     },
     lists: {
       label: "Lists",
-      icon: <ListOrdered size={16} />,
+      icon: <ListOrdered size={12} />,
       items: ["Bullet_List", "Ordered_List"],
     },
     blocks: {
       label: "Blocks",
-      icon: <Code size={16} />,
+      icon: <Code size={12} />,
       items: ["Code_Block", "Blockquote", "Horizontal_Rule", "Hard_Break"],
     },
 
     insert: {
       label: "Insert",
-      icon: <Image size={16} />,
+      icon: <Image size={12} />,
       items: ["Link"],
     },
-    font:{
+    font: {
       label: "Font",
-      icon: <Image size={16} />,
-      items: ["Inter","Comic Sans MS","serif","Monospace","Cursive","Exo 2"],
-
+      icon: <Image size={12} />,
+      items: [
+        "Inter",
+        "Comic Sans MS",
+        "serif",
+        "Monospace",
+        "Cursive",
+        "Exo 2",
+      ],
     },
 
     format: {
       label: "Format",
-      icon: <Palette size={16} />,
+      icon: <Palette size={12} />,
       items: ["Clear_Marks", "Clear_Nodes"],
     },
     table: {
       label: "Table",
-      icon: <Image size={16} />,
+      icon: <Image size={12} />,
       items: ["MergeorSpilit", "Delete"],
     },
   };
@@ -204,47 +207,75 @@ const NavBar = ({ editor }: any) => {
     }
   };
 
+  const buttonRefs: any = useRef({});
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+
   const toggleDropdown = (group: any) => {
+    if (buttonRefs.current[group]) {
+      const rect = buttonRefs.current[group].getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+      });
+    }
     setActiveDropdown(activeDropdown === group ? null : group);
   };
 
   return (
-    <nav className="flex items-center gap-0.5 p-1 bg-white border-b">
+    <nav className="flex items-center w-[330px] md:w-[660px] lg:w-[820px] lg:text-[16px] gap-0.5 p-1 bg-gray-100 border-b lg:p-1 overflow-x-auto scrollbar-hide text-sm md:text-[14px]">
       {Object.entries(buttonGroups).map(([groupKey, group]) => (
-        <div key={groupKey} className="relative">
+        <div key={groupKey} className="relative flex-shrink-0">
           <button
-            className="flex items-center gap-1.5 px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
+            ref={(el) => {
+              //+
+              if (el) {
+                //+
+                buttonRefs.current[groupKey] = el; //+
+              } //+
+            }}
+            className="text-[10px]  md:text-[14px] lg:text-[16px] lg:gap-3 flex items-center gap-1 md:gap-2 px-1 py-1 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
             onClick={() => toggleDropdown(groupKey)}
           >
             {group.icon}
             {group.label}
             <ChevronDown
               size={12}
-              className={`transform transition-transform ${
+              className={`transform ${
                 activeDropdown === groupKey ? "rotate-180" : ""
               }`}
             />
           </button>
-          
-      
-          {activeDropdown === groupKey && (
-            <div className="absolute z-10 mt-1 py-1 bg-white border rounded-md shadow-lg min-w-[140px]">
-              {group.items.map((item) => (
-                
-                <button
-                  key={item}
-                  className="w-full px-3 py-1.5 text-sm text-gray-700 text-left hover:bg-gray-50 flex items-center gap-2"
-                 
-                  onClick={() =>{ groupKey!="font"? handleButtonClick(item):editor.chain().focus().setFontFamily(item).run()}}
-                >
-                  <span className="w-4 h-4"></span>
-                  {item}
-        
-                </button>
-              ))}
-            </div>
-          )}
-          
+
+          {activeDropdown === groupKey &&
+            createPortal(
+              <div
+                className="fixed z-[9999]"
+                style={{
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`,
+                }}
+              >
+                <div className="bg-white border rounded-md shadow-lg">
+                  <div className="max-h-[200px] w-[180px] overflow-y-auto">
+                    {group.items.map((item) => (
+                      <button
+                        key={item}
+                        className="w-full px-3 py-1.5 text-sm text-gray-700 text-left hover:bg-gray-50 flex items-center gap-2"
+                        onClick={() => {
+                          groupKey !== "font"
+                            ? handleButtonClick(item)
+                            : editor.chain().focus().setFontFamily(item).run();
+                          setActiveDropdown(null);
+                        }}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>,
+              document.body
+            )}
         </div>
       ))}
     </nav>
@@ -253,6 +284,16 @@ const NavBar = ({ editor }: any) => {
 
 const FloatingMenuBar = () => {
   const { editor } = useCurrentEditor();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const MENU_WIDTH = window.innerWidth>=660?660:330; // Width of your menu
+  const PADDING = 20; // Padding from edges
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const [menuPosition, setMenuPosition] = useState({
     top: 0,
     left: 0,
@@ -261,37 +302,46 @@ const FloatingMenuBar = () => {
 
   useEffect(() => {
     if (!editor) return;
-    
+
     const updateMenuPosition = () => {
-   
       const { from, to } = editor.state.selection;
 
-      // Check if there's a selection
       if (from !== to) {
         const startPos = editor.view.coordsAtPos(from);
         const endPos = editor.view.coordsAtPos(to);
 
         if (startPos && endPos) {
+          const centerX = (startPos.left + endPos.left) / 2;
+          const spaceOnRight = windowWidth - centerX;
+          const spaceOnLeft = centerX;
+
+          let leftPos;
+          if (spaceOnRight >= MENU_WIDTH + PADDING) {
+            leftPos = centerX;
+          } else if (spaceOnLeft >= MENU_WIDTH + PADDING) {
+            leftPos = centerX - MENU_WIDTH;
+          } else {
+            leftPos = Math.max(PADDING, windowWidth - MENU_WIDTH - PADDING);
+          }
+
           setMenuPosition({
-            top: startPos.top,
-            left: (startPos.left + endPos.left) / 2, // Center between start and end
+            top: startPos.top - PADDING,
+            left: leftPos,
             visible: true,
           });
         }
       } else {
-        // No selection, hide the menu
-        setMenuPosition((prev) => ({ ...prev, visible: false }));
+        setMenuPosition(prev => ({ ...prev, visible: false }));
       }
     };
 
-    // Attach the listener
-    editor.on("selectionUpdate", updateMenuPosition);
-
-    // Cleanup listener on unmount
-    return () => {
-      editor.off("selectionUpdate", updateMenuPosition);
+    const cleanup = () => {
+      editor.off('selectionUpdate', updateMenuPosition);
     };
-  }, [editor]);
+
+    editor.on('selectionUpdate', updateMenuPosition);
+    return cleanup;
+  }, [editor, windowWidth, MENU_WIDTH, PADDING]);
 
   if (!menuPosition.visible) return null;
 
@@ -299,31 +349,18 @@ const FloatingMenuBar = () => {
     <div
       style={{
         position: "absolute",
-        top: menuPosition.top,
+        top: menuPosition.top+20,
         left: menuPosition.left,
         zIndex: 1000,
-        background: "white",
         border: "1px solid #ddd",
-        borderRadius: "4px",
+        borderRadius: "10px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-        padding: "8px",
+        padding: "0px",
+        width: `${MENU_WIDTH}px`,
       }}
       className="floating-menu"
     >
       <NavBar editor={editor} />
-      {/* <button
-          onClick={() => editor?.chain().focus().setParagraph().run()}
-          className={editor?.isActive("paragraph") ? "is-active" : ""}
-        >
-          Paragraph
-        </button>
-        <button
-          onClick={() => editor?.chain().focus().toggleStrike().run()}
-          disabled={!editor?.can().chain().focus().toggleStrike().run()}
-          className={editor?.isActive("strike") ? "is-active" : ""}
-        >
-          Strike
-        </button> */}
     </div>
   );
 };

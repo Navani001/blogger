@@ -110,10 +110,10 @@ export default function Publish({
     <React.Fragment>
       <Button
         variant="outlined"
-        sx={{ backgroundColor: "skyblue",padding:'8px 15px', color: "black" ,borderRadius:'20px' , border:'none' ,textTransform:'none' , fontSize:'14px'}}
+        sx={{ backgroundColor: "skyblue",padding:'5px 10px', color: "black" ,borderRadius:'20px' , border:'none' ,textTransform:'none' , fontSize:'10px'}}
         onClick={handleClickOpen}
       >
-        <ShareIcon sx={{fontSize:'medium'}}/>
+        <ShareIcon sx={{fontSize:'small'}}/>
         <div className="ml-2">Publish</div>
       </Button>
       {!opensharepage ? (

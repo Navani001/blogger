@@ -50,7 +50,7 @@ const TiptapEditor = () => {
         >
           <div className="flex gap-4 py-4 ">
             <div>i</div>
-            <p className="font-bold text-2xl">Blogger</p>
+            <p className="font-bold text-lg">Blogger</p>
           </div>
           <div>
             <Publish settitle={settitle} title={title} />
@@ -58,7 +58,8 @@ const TiptapEditor = () => {
         </Navbar>,<MenuBar />]}
       >       
         <FloatingMenuBar />
-        <EditorContent />
+        <div className=""> <EditorContent /></div>
+       
       </EditorProvider>
     </div>
   );

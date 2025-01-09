@@ -15,16 +15,25 @@ import TableChartIcon from "@mui/icons-material/TableChart";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { Button } from "@mui/material";
 import BasicPopover from "./popover";
-
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { cn } from "@nextui-org/theme";
 export const MenuBar = () => {
-  const { messages, input, handleInputChange, handleSubmit } = useChat({ id: "creation" });
+  const { messages, input, handleInputChange, handleSubmit } = useChat({
+    id: "creation",
+  });
   const [row, setrow] = useState(3);
   const [col, setcol] = useState(3);
   const [color, setcolor] = useState("#000000");
+  const [popover, setpopover] = useState(false);
   const rangeRef = useRef({ start: 0, end: 0 });
   const customrange = useRef({ start: 0, end: 0 });
   const [customrequest, setcustomrequest] = useState("Extend it");
-  const { completion, input: i2, setInput, handleSubmit: hs3 } = useCompletion({ api: "/api/completion" });
+  const {
+    completion,
+    input: i2,
+    setInput,
+    handleSubmit: hs3,
+  } = useCompletion({ api: "/api/completion" });
   const {
     messages: custommessage,
     input: custominput,
@@ -45,7 +54,11 @@ export const MenuBar = () => {
   const addImage = useCallback(() => {
     const url = window.prompt("URL");
     if (url && editor) {
-      editor.chain().focus().insertContent({ type: "image", attrs: { src: url } }).run();
+      editor
+        .chain()
+        .focus()
+        .insertContent({ type: "image", attrs: { src: url } })
+        .run();
     }
   }, [editor]);
 
@@ -59,7 +72,7 @@ export const MenuBar = () => {
     }
   }, [completion]);
   useEffect(() => {
-    customsumbit()
+    customsumbit();
     console.log(custominput);
   }, [custominput]);
   useEffect(() => {
@@ -72,7 +85,7 @@ export const MenuBar = () => {
   if (!editor) return null;
 
   useEffect(() => {
-    console.log(i2)
+    console.log(i2);
     hs3();
   }, [i2]);
 
@@ -91,82 +104,88 @@ export const MenuBar = () => {
   const buttons = [
     {
       title: "Auto complete",
-      icon: <EditIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      icon: <EditIcon sx={{ fontSize: "medium"}} />,
       action: toggleCodeBlockWithAction,
     },
     {
       title: "Bullet list",
-      icon: <FormatListBulletedIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      icon: (
+        <FormatListBulletedIcon
+          sx={{ fontSize: "medium" }}
+        />
+      ),
       action: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive("bulletList"),
     },
     {
       title: "Ordered list",
-      icon: <FormatListNumberedIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      icon: (
+        <FormatListNumberedIcon
+          sx={{ fontSize: "medium" }}
+        />
+      ),
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive("orderedList"),
     },
     {
       title: "Code block",
-      icon: <CodeIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
+      icon: <CodeIcon sx={{ fontSize: "large" }} />,
       action: () => editor.chain().focus().toggleCodeBlock().run(),
       isActive: () => editor.isActive("codeBlock"),
     },
     {
       title: "Blockquote",
-      icon: <FormatQuoteIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
+      icon: <FormatQuoteIcon sx={{ fontSize: "large"}} />,
       action: () => editor.chain().focus().toggleBlockquote().run(),
       isActive: () => editor.isActive("blockquote"),
     },
     {
-      title: "Horizontal rule",
-      icon: <HorizontalRuleIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
+      title: "Color Pickers",
+      icon: <div className="relative w-4 h-4 rounded-full overflow-hidden border border-gray-400">
+      <input
+        type="color"
+        value={color}
+        onChange={handleColorChange}
+        className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+      />
+      <div
+        style={{ backgroundColor: color }}
+        className="w-full h-full rounded-full"
+      ></div>
+    </div>,
+    
+      action: () => editor.chain().focus().setColor(color).run(),
+      isActive: () => editor.isActive("textStyle", { color }),
+    },
+    {
+      title: "Line",
+      icon: (
+        <HorizontalRuleIcon sx={{ fontSize: "large"}} />
+      ),
       action: () => editor.chain().focus().setHorizontalRule().run(),
     },
     {
       title: "Undo",
-      icon: <UndoIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      icon: <UndoIcon sx={{ fontSize: "medium",marginRight:"2px" }} />,
       action: () => editor.chain().focus().undo().run(),
       isDisabled: () => !editor.can().chain().focus().undo().run(),
     },
     {
       title: "Redo",
-      icon: <RedoIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
+      icon: <RedoIcon sx={{ fontSize: "medium",marginRight:"2px" }} />,
       action: () => editor.chain().focus().redo().run(),
       isDisabled: () => !editor.can().chain().focus().redo().run(),
     },
+
     {
-      title: "Color Picker",
-      icon: <PaletteIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />,
-      input: (
-        <div className="relative w-6 h-6 rounded-full overflow-hidden border ml-2 border-gray-400">
-          <input
-            type="color"
-            value={color}
-            onChange={handleColorChange}
-            className="absolute top-0 left-0 w-full h-full opacity-0 ml-2 cursor-pointer"
-          />
-          <div
-            style={{ backgroundColor: color }}
-            className="w-full h-full rounded-full"
-          ></div>
-        </div>
+      title: "Add image",
+      icon: (
+        <AddPhotoAlternateIcon
+          sx={{ fontSize: "medium" }}
+        />
       ),
-      action: () => editor.chain().focus().setColor(color).run(),
-      isActive: () => editor.isActive("textStyle", { color }),
-    },
-    {
-      title: "Add image from URL",
-      icon: <AddPhotoAlternateIcon sx={{ fontSize: 'large', margin: '0 8px 0 0' }} />,
       action: addImage,
     },
-    // {
-    //   title: "AI Writer",
-
-    //   popover: (
-    //     
-    //   ),
-    // },
   ];
 
   useEffect(() => {
@@ -190,45 +209,89 @@ export const MenuBar = () => {
     if (!editor) return;
     const { from, to } = editor.view.state.selection;
     console.log(from, to);
-    
+
     customrange.current = { start: from, end: to };
     const selectedText = editor.state.doc.textBetween(from, to);
     setcustominput(selectedText + customrequest);
   };
 
   return (
-    <div className="control-group h-[10%]">
+    <div className="control-group h-[10%] ">
       <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet"
       />
       <div className="flex justify-between w-full px-4">
-        <div className="flex gap-1 bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center p-[5px] shadow-md" >
-
-
+        <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden ">
           {buttons.map((item, index) => (
             <div key={index}>
-
               <button
                 onClick={item.action}
-                className={item.isActive?.() ? "is-active" : "buttonn"}
+                className={item.isActive?.() ? "is-active" : "buttonn xl:gap-2"}
                 disabled={item.isDisabled?.()}
               >
                 <div>{item.icon}</div>
                 <div>{item.title}</div>
-                {item.input && <div>{item.input}</div>}
+             
               </button>
-
             </div>
           ))}
-
         </div>
+        <div className="relative inline-block">
+    <button
+      onClick={() => setpopover(!popover)}
+      className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden"
+    >
+      <BsThreeDotsVertical className="w-5 h-5" />
+    </button>
 
-        <div className="flex">
-
+    <div 
+      className={cn(
+        "absolute top-full left-0 mt-2 z-50 transform origin-top-right transition-all duration-200 ease-out md:overflow-scroll scrollbar-hide ",
+        {
+          "opacity-100 scale-100": popover,
+          "opacity-0 scale-95 pointer-events-none": !popover
+        }
+      )}
+    >
+      <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9] rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden">
+        {buttons.map((item, index) => (
+           <button
+           key={index}
+           style={{margin:"0",gap:5}}
+           onClick={item.action}
+           className={item.isActive?.() ? "is-active" : "buttonn lg:text-[13px] gap-3"}
+           disabled={item.isDisabled?.()}
+         >
+           <div>{item.title!="Color Picker"?item.icon:""}</div>
+           <div>{item.title}</div>
+       
+         </button>
+        ))}
+      </div>
+    </div>
+  </div>
+        <div className="flex justify-center items-center text-[10px]">
           <BasicPopover
             title="AI"
-            icon={<SmartToyIcon sx={{ fontSize: 'medium', margin: '0 8px 0 0' }} />}
+            titlestyle={{
+              fontSize: {
+                xs: '10px',
+                sm: '10px',
+                md: '14px',
+                lg: '12px'
+              },
+             
+              padding: "5px 10px",
+            }}
+            icon={
+              <SmartToyIcon sx={{    fontSize: {
+                xs: '10px',
+                sm: '10px',
+                md: '14px',
+                lg: '12px'
+              }, margin: "0 8px 0 0" }} />
+            }
             body={
               <div>
                 <input
@@ -244,7 +307,23 @@ export const MenuBar = () => {
           />
 
           <BasicPopover
-            icon={<TableChartIcon sx={{ fontSize: 'medium', marginRight: '8px' }} />}
+            icon={
+              <TableChartIcon className="md:text-lg" sx={{    fontSize: {
+                xs: '10px',
+                sm: '10px',
+                md: '14px',
+                lg: '12px'
+              }, marginRight: "8px" }} />
+            }
+            titlestyle={{
+              fontSize: {
+                xs: '10px',
+                sm: '10px',
+                md: '14px',
+                lg: '12px'
+              },
+              padding: "5px 10px",
+            }}
             title="Table"
             body={
               <div>
@@ -264,7 +343,15 @@ export const MenuBar = () => {
                 />
                 <button
                   onClick={() =>
-                    editor.chain().focus().insertTable({ rows: row, cols: col, withHeaderRow: true }).run()
+                    editor
+                      .chain()
+                      .focus()
+                      .insertTable({
+                        rows: row,
+                        cols: col,
+                        withHeaderRow: true,
+                      })
+                      .run()
                   }
                 >
                   Generate table
@@ -273,19 +360,27 @@ export const MenuBar = () => {
             }
           />
           <BasicPopover
-          title={"custom"}
-          body={
-            <div>
-               <input
-          type="text"
-          value={customrequest}
-         
-          onChange={(e) => setcustomrequest(e.target.value)}
-        />{" "}
-              <button onClick={custominputai}>Generate</button>
-            </div>
-          }
-        />
+            title={"custom"}
+            titlestyle={{
+              fontSize: {
+                xs: '10px',
+                sm: '10px',
+                md: '14px',
+                lg: '12px'
+              },
+              padding: "5px 10px",
+            }}
+            body={
+              <div>
+                <input
+                  type="text"
+                  value={customrequest}
+                  onChange={(e) => setcustomrequest(e.target.value)}
+                />{" "}
+                <button onClick={custominputai}>Generate</button>
+              </div>
+            }
+          />
         </div>
       </div>
     </div>
