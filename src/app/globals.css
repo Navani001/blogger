@@ -5,10 +5,6 @@
   display: none;
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
 .article-content {
   width: 100%;
   overflow-x: hidden;
@@ -28,7 +24,7 @@
   }
   
   /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
+  msOverflowStyle: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
 

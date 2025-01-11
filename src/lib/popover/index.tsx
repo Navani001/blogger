@@ -5,7 +5,7 @@ import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
-export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"12px",   padding: "10px 15px",} }: any) {
+export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"12px",   padding: "10px 15px"} }: any) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {

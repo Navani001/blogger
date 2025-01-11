@@ -32,7 +32,7 @@ const Search = () => {
   return (
     <div className="w-[250px] h-full bg-gray-50">
  
-         <SelectInputField title="Search.."  varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField>
+         <SelectInputField title="Search.." islabel={false}  varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField>
          </div>
   );
 };

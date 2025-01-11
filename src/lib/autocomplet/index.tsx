@@ -133,7 +133,7 @@ console.log(value)
             ) : (
               <span style={{ color: 'grey', fontSize: '12px' }}>
                 {title}
-                <span style={requiredLabelStyle}>*</span>
+              
               </span>
             )
           }

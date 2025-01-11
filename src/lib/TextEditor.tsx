@@ -37,14 +37,6 @@ const TiptapEditor = () => {
       <EditorProvider
 
         {...editorConfig}
-        onUpdate={({ editor }: { editor: any }) => {
-          // Log the editor's current content as JSON
-          console.log(editor.getJSON());
-
-          // Optionally handle other editor updates
-          const content = editor.getHTML();
-          console.log("Editor HTML:", content);
-        }}
         slotBefore={[ <Navbar
           
         >

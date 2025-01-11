@@ -26,9 +26,10 @@ export default function Tags() {
   return (
     <div className="flex gap-3 scrollbar-default overflow-x-scroll">
       {tags.length != 0 ? (
-        tags.map((tags: any) => (
+        tags.map((tags: any,index) => (
           <button
-            key={tags.id}
+        
+            key={index}
             onClick={() => {
               redirect(`/trending/${tags.name}`);
             }}

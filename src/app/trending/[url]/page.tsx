@@ -10,6 +10,7 @@ const BlogPost = ({ params }: { params: any }) => {
  
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
+  const [loading,setLoading]=useState(true)
 
 const [
 data,setdata
@@ -31,10 +32,13 @@ data,setdata
           return response.json();
         })
         .then((data) => {
+
           setdata(data.result);
         });
+     
     };
     fetchcontent();
+    setLoading(false)
   }, [url]);
 
 useEffect(()=>{console.log(data)},[data])
@@ -45,7 +49,7 @@ useEffect(()=>{console.log(data)},[data])
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Trending Blogs in {url}</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.map((post:any, index) => (
+          {data?.length>0 && data.map((post:any, index) => (
             <div
               key={index}
               onClick={() => redirect(`/blogs/${post.url}`)}
@@ -73,17 +77,17 @@ useEffect(()=>{console.log(data)},[data])
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div className="flex items-center">
                     <div className="h-10 w-10 rounded-full bg-gray-200 overflow-hidden">
-                      {post.avatar_url ? (
+                  
                         <img
                           src={post.avatar_url}
                           alt={`${post.username}'s avatar`}
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+                          }}
                         />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-blue-500 text-white">
-                          {post.username?.[0]?.toUpperCase()}
-                        </div>
-                      )}
+                   
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900">{post.username}</p>
@@ -100,6 +104,9 @@ useEffect(()=>{console.log(data)},[data])
               </div>
             </div>
           ))}
+          {
+            data?.length==0 && loading!=true &&<div>Not Data is Found</div>
+          }
         </div>
       </div>
     );

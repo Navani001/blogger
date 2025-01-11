@@ -222,7 +222,7 @@ export const MenuBar = () => {
         rel="stylesheet"
       />
       <div className="flex justify-between w-full px-4">
-        <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden ">
+        <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
           {buttons.map((item, index) => (
             <div key={index}>
               <button
@@ -277,9 +277,9 @@ export const MenuBar = () => {
             titlestyle={{
               fontSize: {
                 xs: '10px',
-                sm: '10px',
-                md: '14px',
-                lg: '12px'
+                sm: '12px',
+                md: '12px',
+                lg: '13px'
               },
              
               padding: "5px 10px",
@@ -287,9 +287,9 @@ export const MenuBar = () => {
             icon={
               <SmartToyIcon sx={{    fontSize: {
                 xs: '10px',
-                sm: '10px',
+                sm: '14px',
                 md: '14px',
-                lg: '12px'
+                lg: '13px'
               }, margin: "0 8px 0 0" }} />
             }
             body={
@@ -310,17 +310,17 @@ export const MenuBar = () => {
             icon={
               <TableChartIcon className="md:text-lg" sx={{    fontSize: {
                 xs: '10px',
-                sm: '10px',
-                md: '14px',
-                lg: '12px'
+                sm: '14px',
+                md: '13px',
+                lg: '13px'
               }, marginRight: "8px" }} />
             }
             titlestyle={{
               fontSize: {
                 xs: '10px',
-                sm: '10px',
-                md: '14px',
-                lg: '12px'
+                sm: '12px',
+                md: '12px',
+                lg: '13px'
               },
               padding: "5px 10px",
             }}
@@ -364,9 +364,9 @@ export const MenuBar = () => {
             titlestyle={{
               fontSize: {
                 xs: '10px',
-                sm: '10px',
-                md: '14px',
-                lg: '12px'
+                sm: '12px',
+                md: '12px',
+                lg: '13px'
               },
               padding: "5px 10px",
             }}

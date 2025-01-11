@@ -110,17 +110,23 @@ export default function Publish({
     <React.Fragment>
       <Button
         variant="outlined"
-        sx={{ backgroundColor: "skyblue",padding:'5px 10px', color: "black" ,borderRadius:'20px' , border:'none' ,textTransform:'none' , fontSize:'10px'}}
+        sx={{ backgroundColor: "skyblue",padding:'5px 10px', color: "black" ,borderRadius:'20px' , border:'none' ,textTransform:'none' , fontSize:'10px',display:'flex',justifyContent: 'center',alignItems:"center"}}
         onClick={handleClickOpen}
       >
-        <ShareIcon sx={{fontSize:'small'}}/>
-        <div className="ml-2">Publish</div>
+        <ShareIcon sx={{ fontSize: {
+                xs: '10px',
+                sm: '12px',
+                md: '13px',
+                lg: '14px'
+              }}}/>
+        <div className="ml-2 xl:text-[12px] md:text-[11px] sm:text-[11px]">Publish</div>
       </Button>
       {!opensharepage ? (
         <BootstrapDialog
 
           aria-labelledby="customized-dialog-title"
           open={open}
+        
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
             Publish the document
@@ -137,7 +143,11 @@ export default function Publish({
           >
             <CloseIcon />
           </IconButton>
-          <DialogContent dividers sx={{ width: "500px", height: "auto" }}>
+          <DialogContent dividers sx={{ width:{
+                xs: '350px',
+                sm: '500px',
+               
+              }, height: "auto" }}>
             <Typography>Enter the title of your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input
@@ -161,7 +171,7 @@ export default function Publish({
               ></input>
             </Typography>
             <Typography>Enter the tags of your web page</Typography>
-            <SelectInputField autocompleteelement={autocompleteelement} value={value} setValue={setValue}></SelectInputField>
+            <SelectInputField title={"Enter tags"} islabel={false} autocompleteelement={autocompleteelement} value={value} setValue={setValue}></SelectInputField>
             <Typography>Enter the description of your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input

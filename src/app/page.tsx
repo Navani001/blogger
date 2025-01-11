@@ -49,7 +49,7 @@ const BlogHomepage = async () => {
               </button> */}
 
               <a
-                href="/home"
+                href="/editor"
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm hover:shadow-md"
               >
                 Write a blog
@@ -58,6 +58,7 @@ const BlogHomepage = async () => {
             
                 <BasicPopover
                   title={""}
+                  titlestyle={{"&.MuiButton-root": {backgroundColor: "white"}}}
                   body={
                     <div className="w-64 py-2">
                     {/* User Info */}
@@ -134,14 +135,14 @@ const BlogHomepage = async () => {
       </div>
 
       {/* Featured Posts - Card Layout */}
-      {/* <Recommend/> */}
+      <Recommend/>
    
       {/* Topics Section - More Interactive */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
         Explore Blogs with Tags
         </h2>
-       {/* <Tags/> */}
+       <Tags/>
       </div>
 
     

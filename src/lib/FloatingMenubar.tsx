@@ -223,8 +223,8 @@ const NavBar = ({ editor }: any) => {
 
   return (
     <nav className="flex items-center w-[330px] md:w-[660px] lg:w-[820px] lg:text-[16px] gap-0.5 p-1 bg-gray-100 border-b lg:p-1 overflow-x-auto scrollbar-hide text-sm md:text-[14px]">
-      {Object.entries(buttonGroups).map(([groupKey, group]) => (
-        <div key={groupKey} className="relative flex-shrink-0">
+      {Object.entries(buttonGroups).map(([groupKey, group],index) => (
+        <div key={index} className="relative flex-shrink-0">
           <button
             ref={(el) => {
               //+
@@ -257,9 +257,9 @@ const NavBar = ({ editor }: any) => {
               >
                 <div className="bg-white border rounded-md shadow-lg">
                   <div className="max-h-[200px] w-[180px] overflow-y-auto">
-                    {group.items.map((item) => (
+                    {group.items.map((item,index) => (
                       <button
-                        key={item}
+                        key={index}
                         className="w-full px-3 py-1.5 text-sm text-gray-700 text-left hover:bg-gray-50 flex items-center gap-2"
                         onClick={() => {
                           groupKey !== "font"

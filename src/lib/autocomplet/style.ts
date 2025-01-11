@@ -105,7 +105,7 @@ export const helperTextStyle: SxProps = {
     display: 'none',
     width: '0px'
   },
-  '-ms-overflow-style': 'none', // For Internet Explorer and Edge
+  'msOverflowStyle': 'none', // For Internet Explorer and Edge
 },
   '& .MuiInputBase-root': {
     'backgroundColor': 'white !important',
