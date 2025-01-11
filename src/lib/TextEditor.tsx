@@ -8,6 +8,7 @@ import { useChat } from "ai/react";
 import FloatingMenuBar from "./FloatingMenubar";
 import { MenuBar } from "./MenuBar";
 import { extensions } from "./Extension";
+import Image from "next/image";
 
 
 
@@ -40,8 +41,8 @@ const TiptapEditor = () => {
         slotBefore={[ <Navbar
           
         >
-          <div className="flex gap-4 py-4 ">
-            <div>i</div>
+          <div className="flex gap-1 py-4 ">
+            <div><Image width={26} height={26} alt="icon" src="/android-chrome-192x192.png"></Image></div>
             <p className="font-bold text-lg">Blogix</p>
           </div>
           <div>
