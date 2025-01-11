@@ -21,7 +21,7 @@ export function SignIn() {
       <div className="h-auto min-h-[300px] w-[380px] bg-[#FFFFFF] p-6 rounded-[12px] shadow-lg">
         <div className="flex gap-4 mb-3">
           <div>i</div>  {/* logo */}
-          <div className="font-bold text-[16px] text-[#6623e3]">Blogger</div>
+          <div className="font-bold text-[16px] text-[#6623e3]">Blogix</div>
         </div>
         <div className="font-bold text-[20px] mb-1">
           Welcome!

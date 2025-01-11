@@ -42,7 +42,7 @@ const TiptapEditor = () => {
         >
           <div className="flex gap-4 py-4 ">
             <div>i</div>
-            <p className="font-bold text-lg">Blogger</p>
+            <p className="font-bold text-lg">Blogix</p>
           </div>
           <div>
             <Publish settitle={settitle} title={title} />
