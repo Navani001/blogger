@@ -11,12 +11,12 @@ import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
 import Share from "@/lib/sharemodel";
+import CustomizedSnackbars from "@/lib/toast";
 
 const BlogPost = ({ params }: { params: any }) => {
- 
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
-
+  const [open, setOpen] = React.useState(false);
   const [blogid, setblogid] = useState("");
   const [liked, setliked] = useState(false);
   const [comment, setcomment] = useState([]);
@@ -26,16 +26,30 @@ const BlogPost = ({ params }: { params: any }) => {
 
   // Existing functionality remains the same
   const handlelike = () => {
-    setliked(!liked);
+  
     const params = new URLSearchParams({ blogid });
-    fetch(`/api/like/set_like?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
-    cache: "force-cache",
-    headers: {
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
-    },}).then((response) => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    });
+    try {
+      fetch(`/api/like/set_like?${params.toString()}`, {
+        next: { revalidate: 3600 }, // Cache for 1 hour
+        cache: "force-cache",
+        headers: {
+          "Cache-Control":
+            "public, s-maxage=3600, stale-while-revalidate=86400",
+        },
+      }).then((response) => {
+        console.log(response.status)
+        if(response?.status!=200){
+          setOpen(true);
+          return new Error("Network response was not ok")
+        }
+        setliked(!liked);
+        if (!response.ok) throw new Error("Network response was not ok");
+  
+        return response.json();
+      });
+    } catch (error) {
+      setOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +60,6 @@ const BlogPost = ({ params }: { params: any }) => {
         headers: { "Content-type": "application/json" },
         next: { revalidate: 3600 }, // Cache for 1 hour
         cache: "force-cache",
-    
       })
         .then((response) => {
           if (!response.ok) throw new Error("Network response was not ok");
@@ -58,20 +71,26 @@ const BlogPost = ({ params }: { params: any }) => {
           const params = new URLSearchParams({ blogid: data.data.id });
 
           // Fetch comments
-          fetch(`/api/comment/get_comment?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
-          cache: "force-cache",
-          headers: {
-            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
-          },})
+          fetch(`/api/comment/get_comment?${params.toString()}`, {
+            next: { revalidate: 3600 }, // Cache for 1 hour
+            cache: "force-cache",
+            headers: {
+              "Cache-Control":
+                "public, s-maxage=3600, stale-while-revalidate=86400",
+            },
+          })
             .then((response) => response.json())
             .then((data) => setcomment(data.data));
 
           // Fetch like status
-          fetch(`/api/like/get_like?${params.toString()}`,{    next: { revalidate: 3600 }, // Cache for 1 hour
-          cache: "force-cache",
-          headers: {
-            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
-          },})
+          fetch(`/api/like/get_like?${params.toString()}`, {
+            next: { revalidate: 3600 }, // Cache for 1 hour
+            cache: "force-cache",
+            headers: {
+              "Cache-Control":
+                "public, s-maxage=3600, stale-while-revalidate=86400",
+            },
+          })
             .then((response) => response.json())
             .then((data) => setliked(data.data));
         });
@@ -93,6 +112,9 @@ const BlogPost = ({ params }: { params: any }) => {
         headers: { "Content-type": "application/json" },
       });
 
+if(response?.status!=200){
+  setOpen(true);
+}
       if (response.ok) {
         const params = new URLSearchParams({ blogid });
         const newComments = await fetch(
@@ -102,10 +124,16 @@ const BlogPost = ({ params }: { params: any }) => {
         setindividualcomment("");
       }
     } catch (error) {
+      setOpen(true);
+      console.log("hi iam here")
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleClick = () => {
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -119,6 +147,14 @@ const BlogPost = ({ params }: { params: any }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <CustomizedSnackbars
+        setOpen={setOpen}
+        open={open}
+        content={"User is Not Authorized"}
+        type={"error"}
+        vertical={"top"}
+        horizontal={"right"}
+      />
       <Navbar maxWidth="full" className="h-14 bg-white shadow-sm">
         <NavbarBrand>
           <h1 className="text-xl font-bold text-gray-800">Blog Reader</h1>
@@ -172,18 +208,17 @@ const BlogPost = ({ params }: { params: any }) => {
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
           <div className="mb-6">
-          <Textarea
-  classNames={{
-    input: "p-2 bg-gray-300 rounded-lg ",
-    inputWrapper: "p-0 bg-blue-300"
-  }}
-  className="w-full rounded-lg"
-  minRows={2}
-  placeholder="Enter your description"
-  value={individualcomment}
-  onChange={(e) => setindividualcomment(e.target.value)}
-/>
-
+            <Textarea
+              classNames={{
+                input: "p-2  rounded-lg bg-[#F4F3FA] bg-clip-border",
+                inputWrapper: "p-0",
+              }}
+              className="w-full rounded-lg"
+              minRows={2}
+              placeholder="Enter your description"
+              value={individualcomment}
+              onChange={(e) => setindividualcomment(e.target.value)}
+            />
           </div>
           <Button
             color="primary"

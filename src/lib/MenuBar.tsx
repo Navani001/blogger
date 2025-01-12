@@ -23,6 +23,7 @@ export const MenuBar = () => {
   });
   const [row, setrow] = useState(3);
   const [col, setcol] = useState(3);
+  const [customdata, setCustomData] = useState([{ id: 1, value: "Extend it" }]);
   const [color, setcolor] = useState("#000000");
   const [popover, setpopover] = useState(false);
   const rangeRef = useRef({ start: 0, end: 0 });
@@ -104,26 +105,18 @@ export const MenuBar = () => {
   const buttons = [
     {
       title: "Auto complete",
-      icon: <EditIcon sx={{ fontSize: "medium"}} />,
+      icon: <EditIcon sx={{ fontSize: "medium" }} />,
       action: toggleCodeBlockWithAction,
     },
     {
       title: "Bullet list",
-      icon: (
-        <FormatListBulletedIcon
-          sx={{ fontSize: "medium" }}
-        />
-      ),
+      icon: <FormatListBulletedIcon sx={{ fontSize: "medium" }} />,
       action: () => editor.chain().focus().toggleBulletList().run(),
       isActive: () => editor.isActive("bulletList"),
     },
     {
       title: "Ordered list",
-      icon: (
-        <FormatListNumberedIcon
-          sx={{ fontSize: "medium" }}
-        />
-      ),
+      icon: <FormatListNumberedIcon sx={{ fontSize: "medium" }} />,
       action: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: () => editor.isActive("orderedList"),
     },
@@ -135,55 +128,51 @@ export const MenuBar = () => {
     },
     {
       title: "Blockquote",
-      icon: <FormatQuoteIcon sx={{ fontSize: "large"}} />,
+      icon: <FormatQuoteIcon sx={{ fontSize: "large" }} />,
       action: () => editor.chain().focus().toggleBlockquote().run(),
       isActive: () => editor.isActive("blockquote"),
     },
     {
       title: "Color Pickers",
-      icon: <div className="relative w-4 h-4 rounded-full overflow-hidden border border-gray-400">
-      <input
-        type="color"
-        value={color}
-        onChange={handleColorChange}
-        className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-      />
-      <div
-        style={{ backgroundColor: color }}
-        className="w-full h-full rounded-full"
-      ></div>
-    </div>,
-    
+      icon: (
+        <div className="relative w-4 h-4 rounded-full overflow-hidden border border-gray-400">
+          <input
+            type="color"
+            value={color}
+            onChange={handleColorChange}
+            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+          />
+          <div
+            style={{ backgroundColor: color }}
+            className="w-full h-full rounded-full"
+          ></div>
+        </div>
+      ),
+
       action: () => editor.chain().focus().setColor(color).run(),
       isActive: () => editor.isActive("textStyle", { color }),
     },
     {
       title: "Line",
-      icon: (
-        <HorizontalRuleIcon sx={{ fontSize: "large"}} />
-      ),
+      icon: <HorizontalRuleIcon sx={{ fontSize: "large" }} />,
       action: () => editor.chain().focus().setHorizontalRule().run(),
     },
     {
       title: "Undo",
-      icon: <UndoIcon sx={{ fontSize: "medium",marginRight:"2px" }} />,
+      icon: <UndoIcon sx={{ fontSize: "medium", marginRight: "2px" }} />,
       action: () => editor.chain().focus().undo().run(),
       isDisabled: () => !editor.can().chain().focus().undo().run(),
     },
     {
       title: "Redo",
-      icon: <RedoIcon sx={{ fontSize: "medium",marginRight:"2px" }} />,
+      icon: <RedoIcon sx={{ fontSize: "medium", marginRight: "2px" }} />,
       action: () => editor.chain().focus().redo().run(),
       isDisabled: () => !editor.can().chain().focus().redo().run(),
     },
 
     {
       title: "Add image",
-      icon: (
-        <AddPhotoAlternateIcon
-          sx={{ fontSize: "medium" }}
-        />
-      ),
+      icon: <AddPhotoAlternateIcon sx={{ fontSize: "medium" }} />,
       action: addImage,
     },
   ];
@@ -205,7 +194,7 @@ export const MenuBar = () => {
       editor?.commands.insertContentAt(start, newContent);
     }
   }, [custommessage]);
-  const custominputai = () => {
+  const custominputai = (customrequest: any) => {
     if (!editor) return;
     const { from, to } = editor.view.state.selection;
     console.log(from, to);
@@ -232,130 +221,161 @@ export const MenuBar = () => {
               >
                 <div>{item.icon}</div>
                 <div>{item.title}</div>
-             
               </button>
             </div>
           ))}
         </div>
         <div className="relative inline-block">
-    <button
-      onClick={() => setpopover(!popover)}
-      className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden"
-    >
-      <BsThreeDotsVertical className="w-5 h-5" />
-    </button>
+          <button
+            onClick={() => setpopover(!popover)}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden"
+          >
+            <BsThreeDotsVertical className="w-5 h-5" />
+          </button>
 
-    <div 
-      className={cn(
-        "absolute top-full left-0 mt-2 z-50 transform origin-top-right transition-all duration-200 ease-out md:overflow-scroll scrollbar-hide ",
-        {
-          "opacity-100 scale-100": popover,
-          "opacity-0 scale-95 pointer-events-none": !popover
-        }
-      )}
-    >
-      <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9] rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden">
-        {buttons.map((item, index) => (
-           <button
-           key={index}
-           style={{margin:"0",gap:5}}
-           onClick={item.action}
-           className={item.isActive?.() ? "is-active" : "buttonn lg:text-[13px] gap-3"}
-           disabled={item.isDisabled?.()}
-         >
-           <div>{item.title!="Color Picker"?item.icon:""}</div>
-           <div>{item.title}</div>
-       
-         </button>
-        ))}
-      </div>
-    </div>
-  </div>
+          <div
+            className={cn(
+              "absolute top-full left-0 mt-2 z-50 transform origin-top-right transition-all duration-200 ease-out md:overflow-scroll scrollbar-hide ",
+              {
+                "opacity-100 scale-100": popover,
+                "opacity-0 scale-95 pointer-events-none": !popover,
+              }
+            )}
+          >
+            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9] rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden">
+              {buttons.map((item, index) => (
+                <button
+                  key={index}
+                  style={{ margin: "0", gap: 5 }}
+                  onClick={item.action}
+                  className={
+                    item.isActive?.()
+                      ? "is-active"
+                      : "buttonn lg:text-[13px] gap-3"
+                  }
+                  disabled={item.isDisabled?.()}
+                >
+                  <div>{item.title != "Color Picker" ? item.icon : ""}</div>
+                  <div>{item.title}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="flex justify-center items-center text-[10px]">
           <BasicPopover
             title="AI"
             titlestyle={{
               fontSize: {
-                xs: '10px',
-                sm: '12px',
-                md: '12px',
-                lg: '13px'
+                xs: "10px",
+                sm: "12px",
+                md: "12px",
+                lg: "13px",
               },
-             
+
               padding: "5px 10px",
             }}
             icon={
-              <SmartToyIcon sx={{    fontSize: {
-                xs: '10px',
-                sm: '14px',
-                md: '14px',
-                lg: '13px'
-              }, margin: "0 8px 0 0" }} />
+              <SmartToyIcon
+                sx={{
+                  fontSize: {
+                    xs: "10px",
+                    sm: "14px",
+                    md: "14px",
+                    lg: "13px",
+                  },
+                  margin: "0 8px 0 0",
+                }}
+              />
             }
             body={
-              <div>
-                <input
-                  type="text"
-                  value={input}
-                  placeholder="Enter the prompt"
-                  onChange={handleInputChange}
-                  className="border-1 border-black"
-                />
-                <button onClick={handleSubmit}>Generate</button>
+              <div className=" p-1 bg-white rounded-lg shadow-lg lg:p-2 sm:p-2">
+                <div className="flex gap-1 justify-center items-center ">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={handleInputChange}
+                    placeholder="Enter your prompt..."
+                    className="w-[150px] sm:w-[200px] sm:text-[12px] md:w-[200px] lg:h-[40px] md:text-[13px] h-[30px] px-3 text-[10px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <button
+                    onClick={handleSubmit}
+                    className="w-[50px] h-[25px] px-1  text-[10px] font-medium lg:h-[33px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Generate
+                  </button>
+                </div>
               </div>
             }
           />
 
           <BasicPopover
             icon={
-              <TableChartIcon className="md:text-lg" sx={{    fontSize: {
-                xs: '10px',
-                sm: '14px',
-                md: '13px',
-                lg: '13px'
-              }, marginRight: "8px" }} />
+              <TableChartIcon
+                className="md:text-lg"
+                sx={{
+                  fontSize: {
+                    xs: "10px",
+                    sm: "14px",
+                    md: "13px",
+                    lg: "13px",
+                  },
+                  marginRight: "8px",
+                }}
+              />
             }
             titlestyle={{
               fontSize: {
-                xs: '10px',
-                sm: '12px',
-                md: '12px',
-                lg: '13px'
+                xs: "10px",
+                sm: "12px",
+                md: "12px",
+                lg: "13px",
               },
               padding: "5px 10px",
             }}
             title="Table"
             body={
-              <div>
-                <input
-                  value={row}
-                  onChange={(e) => setrow(parseInt(e.target.value))}
-                  type="number"
-                  placeholder="Rows"
-                  className="border-1 border-black"
-                />
-                <input
-                  value={col}
-                  onChange={(e) => setcol(parseInt(e.target.value))}
-                  type="number"
-                  placeholder="Columns"
-                  className="border-1 border-black"
-                />
-                <button
-                  onClick={() =>
-                    editor
-                      .chain()
-                      .focus()
-                      .insertTable({
-                        rows: row,
-                        cols: col,
-                        withHeaderRow: true,
-                      })
-                      .run()
-                  }
-                >
-                  Generate table
-                </button>
+              <div className="p-2 lg:p-4 w-[150px] sm:w-[170px] md:w-[190px]  bg-white rounded-lg shadow-lg">
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Rows
+                    </label>
+                    <input
+                      type="number"
+                      value={row}
+                      onChange={(e) => setrow(parseInt(e.target.value))}
+                      className="w-full h-[32px] md:h-[34px] px-2 py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Columns
+                    </label>
+                    <input
+                      type="number"
+                      value={col}
+                      onChange={(e) => setcol(parseInt(e.target.value))}
+                      className="w-full h-[32px] px-2 md:h-[34px] py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <button
+                    onClick={() =>
+                      editor
+                        .chain()
+                        .focus()
+                        .insertTable({
+                          rows: row,
+                          cols: col,
+                          withHeaderRow: true,
+                        })
+                        .run()
+                    }
+                    className="w-full  h-[32px] md:h-[34px] bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+                  >
+                    Create Table
+                  </button>
+                </div>
               </div>
             }
           />
@@ -363,22 +383,40 @@ export const MenuBar = () => {
             title={"custom"}
             titlestyle={{
               fontSize: {
-                xs: '10px',
-                sm: '12px',
-                md: '12px',
-                lg: '13px'
+                xs: "10px",
+                sm: "12px",
+                md: "12px",
+                lg: "13px",
               },
               padding: "5px 10px",
             }}
             body={
-              <div>
-                <input
-                  type="text"
-                  value={customrequest}
-                  onChange={(e) => setcustomrequest(e.target.value)}
-                />{" "}
-                <button onClick={custominputai}>Generate</button>
-              </div>
+              <div className="p-3 space-y-2">
+              {customdata.map((item, index) => (
+                <div key={item.id} className="flex items-center gap-2">
+                  <input
+                    placeholder="Enter prompt"
+                    value={item.value}
+                    onChange={(e) => setCustomData(customdata.map((d, i) => 
+                      i === index ? { ...d, value: e.target.value } : d
+                    ))}
+                    className="flex-1 px-2 py-1.5 text-sm  w-[130px] sm:w-[170px] border rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  <button
+                    onClick={() => custominputai(item.value)}
+                    className="px-2 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  >
+                    Go
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => setCustomData([...customdata, { id: Date.now(), value: "" }])}
+                className="w-full px-2 py-1.5 text-xs text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
+              >
+                + Add Prompt
+              </button>
+            </div>
             }
           />
         </div>
