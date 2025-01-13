@@ -57,16 +57,16 @@ export const changeBackground: SxProps = {
         borderBottom: 'none !important',
       },
       '&:hover': {
-        backgroundColor: '#E6EAEB !important',
+        backgroundColor: 'black !important',
       },
       '&.Mui-focused': {
-        borderColor: '#E6EAEB',
-        backgroundColor: '#E6EAEB !important',
+        borderColor: 'black',
+        backgroundColor: 'black !important',
         boxShadow: 'none',
       },
     },
     '& .Mui-focused': {
-      color: '#E6EAEB',
+      color: 'black',
     },
   };
 export const helperTextStyle: SxProps = {
@@ -90,8 +90,8 @@ export const helperTextStyle: SxProps = {
   '& .MuiChip-root': {
     borderRadius: '5px',
     fontSize: '10px',
-    height: '20px',
-    backgroundColor: '#F0F3F6',
+    height: '23px',
+    backgroundColor: '#e5e7eb',
   },
 
   '& .MuiChip-deleteIcon': {
@@ -118,7 +118,7 @@ export const helperTextStyle: SxProps = {
   },
   '& .MuiFilledInput-root': {
     'backgroundColor': 'white !important',
-    'border': '1px solid  #D9DBDD',
+    'border': '1px solid black',
     'borderRadius': '8px',
     '&::before': {
       borderBottom: 'none !important',

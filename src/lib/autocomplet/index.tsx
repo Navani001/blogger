@@ -14,7 +14,7 @@ import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function SelectInputField({title="Required",islabel=true,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
+export function SelectInputField({title="Required",islabel=false,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
 
 React.useEffect(()=>{
 console.log(value)
@@ -28,6 +28,7 @@ console.log(value)
       disabled={disabled}
       disableCloseOnSelect
       sx={{
+        
         '& .MuiFilledInput-root,':{
           padding:'10px 0 10px 0',
         },
@@ -111,34 +112,22 @@ console.log(value)
       renderInput={(params) => (
         <TextField
           {...params}
+         
           sx={
             {
               ...helperTextStyle,
               ...(error ? changeBackground : {}),
               ...(disabled ? changeBackground2 : {}),
               ...changeVarient,
-              '& .MuiFilledInput-input': {
-                padding:'0'
-              },
+   
+ 
               
             } as SxProps<Theme>
           }
         
-          label={
-            islabel ? (
-              <span style={{ color: 'grey', fontSize: '12px' }}>
-             {title}
-                <span style={requiredLabelStyle}>*</span>
-              </span>
-            ) : (
-              <span style={{ color: 'grey', fontSize: '12px' }}>
-                {title}
-              
-              </span>
-            )
-          }
-          // placeholder='Favorites'
-          variant='filled'
+         
+          placeholder={title}
+         
         />
       )}
     />

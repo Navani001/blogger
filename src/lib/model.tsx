@@ -36,6 +36,7 @@ export default function Publish({
   const [autocompleteelement, setautocompleteelement] = React.useState([])
   const [shareUrl, setShareUrl] = React.useState(window.location.origin);
   const [opensharepage, setopensharepage] = React.useState(false);
+  const [estimateTime, setEstimateTime] = React.useState(5)
   const { editor } = useCurrentEditor();
   const [desc, setdesc] = React.useState("");
   const [url, seturl] = React.useState("");
@@ -152,7 +153,7 @@ export default function Publish({
             <Typography gutterBottom sx={{}}>
               <input
                 placeholder="Enter the title"
-                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2"
+                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2 focus:outline-blue-500"
                 value={title}
                 onChange={(e) => {
                   settitle(e.target.value);
@@ -160,10 +161,10 @@ export default function Publish({
               ></input>
             </Typography>
             <Typography>Enter the url your web page</Typography>
-            <Typography gutterBottom sx={{}}>
+            <Typography >
               <input
                 placeholder="Enter the url"
-                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2"
+                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2 focus:outline-blue-500 !important"
                 value={url}
                 onChange={(e) => {
                   seturl(e.target.value);
@@ -171,12 +172,15 @@ export default function Publish({
               ></input>
             </Typography>
             <Typography>Enter the tags of your web page</Typography>
+            <Typography gutterBottom sx={{}} >
+             
             <SelectInputField title={"Enter tags"} islabel={false} autocompleteelement={autocompleteelement} value={value} setValue={setValue}></SelectInputField>
+            </Typography>
             <Typography>Enter the description of your web page</Typography>
             <Typography gutterBottom sx={{}}>
               <input
                 placeholder="Enter the description"
-                className="p-2 w-full rounded-[5px] border-1 mt-2"
+                className="p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500"
                 value={desc}
                 onChange={(e) => {
                   setdesc(e.target.value);

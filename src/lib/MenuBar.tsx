@@ -77,7 +77,7 @@ export const MenuBar = () => {
     }
   }, [completion]);
   useEffect(() => {
-    setAiActive(true)
+ 
     customsumbit();
     console.log(custominput);
   }, [custominput]);
@@ -214,6 +214,7 @@ const aiSumbit=()=>{
 
     customrange.current = { start: from, end: to };
     const selectedText = editor.state.doc.textBetween(from, to);
+    setAiActive(true)
     setcustominput(selectedText + customrequest);
   };
 
