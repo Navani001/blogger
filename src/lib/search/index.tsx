@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SelectInputField } from '../autocomplet';
+import SingleAutocomplet from '../singleautocomplete';
 
 
 const Search = () => {
@@ -31,8 +32,13 @@ const Search = () => {
 
   return (
     <div className="w-[250px] h-full bg-gray-50">
+      <SingleAutocomplet autocompleteelement={rec} onclick={(url:any)=>{
+                        console.log('Search', url);
+                        redirect(`/blogs/${url}`)}} setvalue={setvalue} value={value}/>
  
-         <SelectInputField title="Search.." islabel={false}  varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField>
+         {/* <SelectInputField title="Search.." islabel={false}   varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{
+          console.log('Search', url);
+          redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField> */}
          </div>
   );
 };

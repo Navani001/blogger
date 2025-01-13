@@ -1,52 +1,41 @@
+"use client"
+
 import BasicPopover from "@/lib/popover";
 import { Button } from "@nextui-org/button";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-export default async function Home() {
-  return <div className="min-h-screen  bg-gray-50 flex justify-center items-center">
-<div className="gap-2 flex">
-    <Button className="bg-black min-w-0 h-auto text-white rounded-[20px] gap-1 px-[0.5rem]"> <SmartToyIcon
-                sx={{
-                  fontSize: {
-                    xs: "10px",
-                    sm: "14px",
-                    md: "14px",
-                    lg: "13px",
-                  },
-                  margin: "0 8px 0 0",
-                }}
-              /> Ai</Button>
-    <BasicPopover
-            title="AI"
-            titlestyle={{
-              fontSize: {
-                xs: "10px",
-                sm: "12px",
-                md: "12px",
-                lg: "13px",
-              },
-
-              padding: "5px 10px",
-            }}
-            icon={
-              <SmartToyIcon
-                sx={{
-                  fontSize: {
-                    xs: "10px",
-                    sm: "14px",
-                    md: "14px",
-                    lg: "13px",
-                  },
-                  margin: "0 8px 0 0",
-                }}
-              />
-            }
-            body={
-              <div className=" p-1 bg-white rounded-lg shadow-lg lg:p-2 sm:p-2">
-                \
-              </div>
-            }
-          />
-</div>
-
-  </div>;
+import SingleAutocomplet from "@/lib/singleautocomplete";
+import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
+export default function Home() {
+    const [rec, setRec] = useState([]);
+    const [value,setvalue] = useState([])
+    useEffect(() => {
+      // Fetch data from API when the component mounts
+      fetch('/api/allblog',{    next: { revalidate: 3600 }, // Cache for 1 hour
+        cache: "force-cache",
+        headers: {
+          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+        },})
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => setRec(data.data)) // Update state with the fetched data
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }, []); // Empty dependency array to run this effect once on mount
+    
+ 
+  return (
+    <div className="min-h-screen  bg-gray-50 flex justify-center items-center">
+      <div className="gap-2 flex">
+        <SingleAutocomplet autocompleteelement={rec} onclick={(url:any)=>{
+                  console.log('Search', url);
+                  redirect(`/blogs/${url}`)}} setvalue={setvalue} value={value}/>
+      </div>
+    </div>
+  );
 }

@@ -103,13 +103,15 @@ console.log(value)
             </Box>
           ) : (
             <Box onClick={()=>onclick(option["url"])} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {option[searchfield]}
+            {/* {option[searchfield]} */}
+            {option["url"]}
             </Box>
           )}
         </li>
       )}
       className="w-full "
       renderInput={(params) => (
+    
         <TextField
           {...params}
          
@@ -127,8 +129,8 @@ console.log(value)
         
          
           placeholder={title}
-         
         />
+        
       )}
     />
   );
