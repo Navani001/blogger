@@ -12,7 +12,8 @@ export default function BasicPopover({ title, body, icon,isLoading=false,  title
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    console.log("hi",event.target)
+    setAnchorEl(event.target);
   };
 
   const handleClose = () => {
@@ -27,7 +28,7 @@ export default function BasicPopover({ title, body, icon,isLoading=false,  title
        <Button
   isLoading={isLoading}
          aria-describedby={id}
-       onClick={handleClick}
+       onPress={handleClick}
       
       className={" bg-black min-w-0 h-auto text-white rounded-[20px] text-xs gap-[2px] px-[0.5rem] py-[0.4rem] mr-3 "+ titlestyle}>  {!isLoading && icon} {title}</Button>
       {/* <Button      

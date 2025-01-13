@@ -14,8 +14,11 @@ const BlogPost = ({ params }: { params: any }) => {
   const [data, setData] = useState([]);
   const [peak, setPeak] = useState("2023/2/12");
   const [commentdata, setcommentdata] = useState([]);
+  const [viewData, setViewData] = useState([]);
+
   const [likepersondata, setlikepersondata] = useState([]);
   const [commentperson, setcommentperson] = useState([]);
+  const [viewpersondata, setviewpersondata] = useState([]);
   const [commentstate, setcommentState] = React.useState({
     series: [
       {
@@ -32,6 +35,25 @@ const BlogPost = ({ params }: { params: any }) => {
       },
       xaxis: {
         categories: ["1", "2", "3", "4", "5",'6','7'],
+      },
+    },
+  });
+  const [viewState, setViewState] = React.useState({
+    series: [
+      {
+        name: "Desktops",
+        data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      },
+    ],
+    options: {
+      toolbar: {
+        show: false,
+      },
+      chart: {
+        id: "example-chart",
+      },
+      xaxis: {
+        categories:["1", "2", "3", "4", "5",'6','7'],
       },
     },
   });
@@ -56,6 +78,7 @@ const BlogPost = ({ params }: { params: any }) => {
   });
   const [sort, setsort] = useState("month");
   const [commentsort, setcommentsort] = useState("week");
+  const [viewsort,setviewsort] = useState("week")
 
   const calculateDateDifference = (startDate: string, endDate: string) => {
     const start = parseISO(startDate);
@@ -121,13 +144,35 @@ const BlogPost = ({ params }: { params: any }) => {
     }
   }, [data, sort]);
   useEffect(() => {
+    if (viewData.length) {
+      const { seriesData, categories } = getFilteredData(
+        viewData,
+        viewsort
+      );
+
+      setcommentState((prev) => ({
+        ...prev,
+        series: [
+          {
+            name: viewsort.charAt(0).toUpperCase() + viewsort.slice(1),
+            data: seriesData,
+          },
+        ],
+        options: {
+          ...prev.options,
+          xaxis: { categories },
+        },
+      }));
+    }
+  }, [viewData, viewsort]);
+  useEffect(() => {
     if (commentdata.length) {
       const { seriesData, categories } = getFilteredData(
         commentdata,
         commentsort
       );
 
-      setcommentState((prev) => ({
+      setViewState((prev) => ({
         ...prev,
         series: [
           {
@@ -166,6 +211,15 @@ const BlogPost = ({ params }: { params: any }) => {
       })
         .then((response) => response.json())
         .then((data) => setData(data.data));
+        fetch(`/api/analysis/viewline?${params.toString()}`, {
+          next: { revalidate: 3600 },
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "max-age=3600",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => setViewData(data.data));
       fetch(`/api/analysis/commentline?${params.toString()}`, {
         next: { revalidate: 3600 },
         cache: "force-cache",
@@ -193,6 +247,15 @@ const BlogPost = ({ params }: { params: any }) => {
       })
         .then((response) => response.json())
         .then((data) => setcommentperson(data.data));
+        fetch(`/api/analysis/viewperson?${params.toString()}`, {
+          next: { revalidate: 3600 },
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "max-age=3600",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => setviewpersondata(data.data));
     };
 
     fetch_place();
@@ -238,7 +301,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
         {/* Charts Grid */}
 
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
   {/* Like Trends Chart */}
   <div className="bg-white rounded-lg shadow-lg p-6">
     <div className="mb-4 flex justify-between items-center">
@@ -255,8 +318,8 @@ const BlogPost = ({ params }: { params: any }) => {
       </select>
     </div>
     <Chart
-      options={state.options}
-      series={state.series}
+      options={viewState.options}
+      series={viewState.series}
       type="line"
       height={320}
     />
@@ -264,7 +327,7 @@ const BlogPost = ({ params }: { params: any }) => {
     <div className="mt-4 border-t pt-4">
       <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Likes</h3>
       <div className="max-h-40 overflow-y-auto">
-        {likepersondata.map((person: any, index: number) => (
+        {viewpersondata.map((person: any, index: number) => (
           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-sm font-medium text-gray-700">{person.username}</span>
             <span className="text-xs text-gray-500">
@@ -302,6 +365,41 @@ const BlogPost = ({ params }: { params: any }) => {
       <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Comments</h3>
       <div className="max-h-40 overflow-y-auto">
         {commentperson.map((person: any, index: number) => (
+          <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
+            <span className="text-sm font-medium text-gray-700">{person.username}</span>
+            <span className="text-xs text-gray-500">
+              {format(parseISO(person.created_at), 'MMM dd, yyyy')}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+  <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="mb-4 flex justify-between items-center">
+      <div>
+        <h2 className="text-lg font-semibold text-gray-700">View Trends</h2>
+        <p className="text-sm text-gray-500">Track engagement over time</p>
+      </div>
+      <select
+        className="border rounded p-1"
+        onChange={(e) => setviewsort(e.target.value)}
+      >
+        <option value="week">Last Week</option>
+        <option value="month">Last Month</option>
+      </select>
+    </div>
+    <Chart
+      options={state.options}
+      series={state.series}
+      type="line"
+      height={320}
+    />
+    {/* Recent Likes List */}
+    <div className="mt-4 border-t pt-4">
+      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Likes</h3>
+      <div className="max-h-40 overflow-y-auto">
+        {likepersondata.map((person: any, index: number) => (
           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-sm font-medium text-gray-700">{person.username}</span>
             <span className="text-xs text-gray-500">

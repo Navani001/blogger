@@ -54,6 +54,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
   useEffect(() => {
     const fetchcontent = async () => {
+     
       fetch("/api/content/get_content", {
         method: "POST",
         body: JSON.stringify({ url }),
@@ -71,6 +72,28 @@ const BlogPost = ({ params }: { params: any }) => {
           const params = new URLSearchParams({ blogid: data.data.id });
 
           // Fetch comments
+          try {
+            fetch(`/api/view?${params.toString()}`, {
+              next: { revalidate: 3600 }, // Cache for 1 hour
+              cache: "force-cache",
+              headers: {
+                "Cache-Control":
+                  "public, s-maxage=3600, stale-while-revalidate=86400",
+              },
+            }).then((response) => {
+              console.log(response.status)
+              if(response?.status!=200){
+                setOpen(true);
+                return new Error("Network response was not ok")
+              }
+              setliked(!liked);
+              if (!response.ok) throw new Error("Network response was not ok");
+        
+              return response.json();
+            });
+          } catch (error) {
+            setOpen(true);
+          }
           fetch(`/api/comment/get_comment?${params.toString()}`, {
             next: { revalidate: 3600 }, // Cache for 1 hour
             cache: "force-cache",
