@@ -13,14 +13,17 @@ import PaletteIcon from "@mui/icons-material/Palette";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { Button } from "@mui/material";
+
+import {Button} from "@nextui-org/react";
 import BasicPopover from "./popover";
+
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { cn } from "@nextui-org/theme";
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
   });
+  const [aiActive,setAiActive]=useState(false)
   const [row, setrow] = useState(3);
   const [col, setcol] = useState(3);
   const [customdata, setCustomData] = useState([{ id: 1, value: "Extend it" }]);
@@ -70,14 +73,18 @@ export const MenuBar = () => {
       const en: number = start + completion.length;
       rangeRef.current = { start, end: en };
       editor?.commands.insertContentAt(start, completion);
+      setAiActive(false)
     }
   }, [completion]);
   useEffect(() => {
+    setAiActive(true)
     customsumbit();
     console.log(custominput);
   }, [custominput]);
   useEffect(() => {
     if (messages[messages.length - 1]?.role === "assistant") {
+  setAiActive(false)
+
       const newContent = `<p>${messages[messages.length - 1].content}</p>`;
       editor?.commands.setContent(newContent);
     }
@@ -89,7 +96,10 @@ export const MenuBar = () => {
     console.log(i2);
     hs3();
   }, [i2]);
-
+const aiSumbit=()=>{
+  setAiActive(true)
+  handleSubmit()
+}
   const toggleCodeBlockWithAction = () => {
     if (!editor) return;
     const { state } = editor;
@@ -99,6 +109,7 @@ export const MenuBar = () => {
     const start = resolvedPos.start(resolvedPos.depth);
     const end = resolvedPos.end(resolvedPos.depth);
     rangeRef.current = { start, end };
+    setAiActive(true)
     setInput(parentNode.textContent || "");
   };
 
@@ -107,6 +118,7 @@ export const MenuBar = () => {
       title: "Auto complete",
       icon: <EditIcon sx={{ fontSize: "medium" }} />,
       action: toggleCodeBlockWithAction,
+      wantLoading:true
     },
     {
       title: "Bullet list",
@@ -179,6 +191,7 @@ export const MenuBar = () => {
 
   useEffect(() => {
     if (custommessage[custommessage.length - 1]?.role === "assistant") {
+      setAiActive(false)
       const content = custommessage[custommessage.length - 1].content;
       const newContent = `<p>${content}</p>`;
 
@@ -214,14 +227,24 @@ export const MenuBar = () => {
         <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
           {buttons.map((item, index) => (
             <div key={index}>
-              <button
+              {/* <button
+              
                 onClick={item.action}
                 className={item.isActive?.() ? "is-active" : "buttonn xl:gap-2"}
                 disabled={item.isDisabled?.()}
               >
                 <div>{item.icon}</div>
                 <div>{item.title}</div>
-              </button>
+              </button> */}
+              <Button
+              isLoading={item.title=="Auto complete" && aiActive}
+              onPress={item.action}
+              className={cn("p-0 min-w-0 rounded-none bg-transparent h-auto buttonn xl:gap-2",{" is-active ":item.isActive?.() })}
+              disabled={item.isDisabled?.()}
+            >
+              {(!aiActive || item.title!=="Auto complete") && <div>{item.icon}</div>}
+              <div>{item.title}</div>
+            </Button>
             </div>
           ))}
         </div>
@@ -242,22 +265,34 @@ export const MenuBar = () => {
               }
             )}
           >
-            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9] rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden">
+            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
               {buttons.map((item, index) => (
-                <button
-                  key={index}
-                  style={{ margin: "0", gap: 5 }}
-                  onClick={item.action}
-                  className={
-                    item.isActive?.()
-                      ? "is-active"
-                      : "buttonn lg:text-[13px] gap-3"
-                  }
-                  disabled={item.isDisabled?.()}
-                >
-                  <div>{item.title != "Color Picker" ? item.icon : ""}</div>
-                  <div>{item.title}</div>
-                </button>
+                // <button
+                //   key={index}
+
+                //   style={{ margin: "0", gap: 5 }}
+                //   onClick={item.action}
+                //   className={
+                //     item.isActive?.()
+                //       ? "is-active"
+                //       : "buttonn lg:text-[13px] gap-3"
+                //   }
+                //   disabled={item.isDisabled?.()}
+                // >
+                //   <div>{item.title != "Color Picker" ? item.icon : ""}</div>
+                //   <div>{item.title}</div>
+                // </button>
+                <Button
+              key={index}
+              isLoading={item.title=="Auto complete" && aiActive}
+                onPress={item.action}
+                className={cn("m-0 p-0 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",{" is-active ":item.isActive?.() })}
+                disabled={item.isDisabled?.()}
+              >
+                {(!aiActive || item.title!=="Auto complete")  && <div>{item.title != "Color Picker" ? item.icon : ""}</div>}
+                <div>{item.title}</div>
+              </Button>
+                
               ))}
             </div>
           </div>
@@ -265,6 +300,7 @@ export const MenuBar = () => {
         <div className="flex justify-center items-center text-[10px]">
           <BasicPopover
             title="AI"
+            isLoading={aiActive}
             titlestyle={{
               fontSize: {
                 xs: "10px",
@@ -299,7 +335,10 @@ export const MenuBar = () => {
                     className="w-[150px] sm:w-[200px] sm:text-[12px] md:w-[200px] lg:h-[40px] md:text-[13px] h-[30px] px-3 text-[10px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <button
-                    onClick={handleSubmit}
+                    onClick={
+                     
+                      aiSumbit
+                    }
                     className="w-[50px] h-[25px] px-1  text-[10px] font-medium lg:h-[33px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Generate
@@ -381,6 +420,7 @@ export const MenuBar = () => {
           />
           <BasicPopover
             title={"custom"}
+            isLoading={aiActive}
             titlestyle={{
               fontSize: {
                 xs: "10px",
@@ -403,6 +443,7 @@ export const MenuBar = () => {
                     className="flex-1 px-2 py-1.5 text-sm  w-[130px] sm:w-[170px] border rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
                   <button
+                  disabled={  aiActive}
                     onClick={() => custominputai(item.value)}
                     className="px-2 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >

@@ -3,9 +3,12 @@
 import * as React from "react";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { Button } from "@nextui-org/button";
+import { cn } from "@nextui-org/theme";
 
-export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"12px",   padding: "10px 15px"} }: any) {
+
+
+export default function BasicPopover({ title, body, icon,isLoading=false,  titlestyle = "" }: any) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {
@@ -21,7 +24,13 @@ export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"1
 
   return (
     <div>
-      <Button
+       <Button
+  isLoading={isLoading}
+         aria-describedby={id}
+       onClick={handleClick}
+      
+      className={" bg-black min-w-0 h-auto text-white rounded-[20px] text-xs gap-[2px] px-[0.5rem] py-[0.4rem] mr-3 "+ titlestyle}>  {!isLoading && icon} {title}</Button>
+      {/* <Button      
       
         sx={{
           borderRadius: "20px",
@@ -40,7 +49,7 @@ export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"1
         onClick={handleClick}
       >
         {icon} {title}
-      </Button>
+      </Button> */}
       <Popover
         id={id}
         open={open}
@@ -49,6 +58,10 @@ export default function BasicPopover({ title, body, icon,titlestyle={fontSize:"1
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
         }}
       >
         {body}

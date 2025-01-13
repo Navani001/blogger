@@ -58,7 +58,7 @@ const BlogHomepage = async () => {
             
                 <BasicPopover
                   title={""}
-                  titlestyle={{"&.MuiButton-root": {backgroundColor: "white"}}}
+                  titlestyle="bg-white"
                   body={
                     <div className="w-64 py-2">
                     {/* User Info */}
