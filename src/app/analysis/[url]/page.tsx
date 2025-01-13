@@ -12,7 +12,9 @@ const Chart = dynamic(() => import("react-apexcharts"), {
 const BlogPost = ({ params }: { params: any }) => {
   const unwrappedParams = use(params);
   const [data, setData] = useState([]);
-  const [peak, setPeak] = useState("2023/2/12");
+// Change to:
+const [peak, setPeak] = useState("2024-12-31T18:30:00.000Z");
+console.log(peak)
   const [commentdata, setcommentdata] = useState([]);
   const [viewData, setViewData] = useState([]);
 
@@ -172,7 +174,7 @@ const BlogPost = ({ params }: { params: any }) => {
         commentsort
       );
 
-      setViewState((prev) => ({
+    setcommentState((prev) => ({
         ...prev,
         series: [
           {
@@ -284,16 +286,16 @@ const BlogPost = ({ params }: { params: any }) => {
           />
           <MetricCard
             title="Comment Rate"
-            value={`${(
-              (commentdata.length / (data.length + commentdata.length)) *
-              100
-            ).toFixed(1)}%` }
+            value={viewData.length > 0 ? 
+              `${((commentdata.length / viewData.length) * 100).toFixed(1)}%` : 
+              '0%'
+            }
             subtitle="Comments per view"
             icon="💭"
           />
           <MetricCard
             title="Peak Engagement"
-            value={format(peak, "MM/dd/yyyy")}
+            value={"2020-12-31T18:30:00.000Z"!==peak?format(parseISO(peak), "MM/dd/yyyy"):"00:00"}
             subtitle="Most active day"
             icon="⭐"
           />
@@ -301,7 +303,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
         {/* Charts Grid */}
 
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center justify-center">
   {/* Like Trends Chart */}
   <div className="bg-white rounded-lg shadow-lg p-6">
     <div className="mb-4 flex justify-between items-center">
@@ -318,8 +320,8 @@ const BlogPost = ({ params }: { params: any }) => {
       </select>
     </div>
     <Chart
-      options={viewState.options}
-      series={viewState.series}
+      options={state.options}
+      series={state.series}
       type="line"
       height={320}
     />
@@ -327,14 +329,14 @@ const BlogPost = ({ params }: { params: any }) => {
     <div className="mt-4 border-t pt-4">
       <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Likes</h3>
       <div className="max-h-40 overflow-y-auto">
-        {viewpersondata.map((person: any, index: number) => (
+        {likepersondata.length>0 ? likepersondata.map((person: any, index: number) => (
           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-sm font-medium text-gray-700">{person.username}</span>
             <span className="text-xs text-gray-500">
               {format(parseISO(person.created_at), 'MMM dd, yyyy')}
             </span>
           </div>
-        ))}
+        )):<div>No data Found</div>}
       </div>
     </div>
   </div>
@@ -364,18 +366,18 @@ const BlogPost = ({ params }: { params: any }) => {
     <div className="mt-4 border-t pt-4">
       <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Comments</h3>
       <div className="max-h-40 overflow-y-auto">
-        {commentperson.map((person: any, index: number) => (
+        {commentperson.length>0 ? commentperson.map((person: any, index: number) => (
           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-sm font-medium text-gray-700">{person.username}</span>
             <span className="text-xs text-gray-500">
               {format(parseISO(person.created_at), 'MMM dd, yyyy')}
             </span>
           </div>
-        ))}
+        )):<div>No data Found</div>}
       </div>
     </div>
   </div>
-  <div className="bg-white rounded-lg shadow-lg p-6">
+  <div className="lg:col-span-2 max-w-2xl mx-auto w-full bg-white rounded-lg shadow-lg p-6 justify-self-center ">
     <div className="mb-4 flex justify-between items-center">
       <div>
         <h2 className="text-lg font-semibold text-gray-700">View Trends</h2>
@@ -390,23 +392,23 @@ const BlogPost = ({ params }: { params: any }) => {
       </select>
     </div>
     <Chart
-      options={state.options}
-      series={state.series}
+      options={viewState.options}
+      series={viewState.series}
       type="line"
       height={320}
     />
     {/* Recent Likes List */}
     <div className="mt-4 border-t pt-4">
-      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Likes</h3>
+      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent viewed</h3>
       <div className="max-h-40 overflow-y-auto">
-        {likepersondata.map((person: any, index: number) => (
+        {viewpersondata.length>0 ?viewpersondata.map((person: any, index: number) => (
           <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
             <span className="text-sm font-medium text-gray-700">{person.username}</span>
             <span className="text-xs text-gray-500">
               {format(parseISO(person.created_at), 'MMM dd, yyyy')}
             </span>
           </div>
-        ))}
+        )):<div>No data Found</div>}
       </div>
     </div>
   </div>
