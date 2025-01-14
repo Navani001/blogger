@@ -1,3 +1,4 @@
+"use client"
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,10 +16,11 @@ import TableChartIcon from "@mui/icons-material/TableChart";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 import {Button} from "@nextui-org/react";
-import BasicPopover from "./popover";
+
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { cn } from "@nextui-org/theme";
+import BasicPopover from "../popover";
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
@@ -75,12 +77,12 @@ export const MenuBar = () => {
       editor?.commands.insertContentAt(start, completion);
       setAiActive(false)
     }
-  }, [completion]);
+  }, [completion,editor]);
   useEffect(() => {
  
     customsumbit();
     console.log(custominput);
-  }, [custominput]);
+  }, [custominput,customsumbit]);
   useEffect(() => {
     if (messages[messages.length - 1]?.role === "assistant") {
   setAiActive(false)
@@ -88,14 +90,14 @@ export const MenuBar = () => {
       const newContent = `<p>${messages[messages.length - 1].content}</p>`;
       editor?.commands.setContent(newContent);
     }
-  }, [messages]);
+  }, [messages,editor]);
 
   if (!editor) return null;
 
   useEffect(() => {
     console.log(i2);
     hs3();
-  }, [i2]);
+  }, [i2,hs3]);
 const aiSumbit=()=>{
   setAiActive(true)
   handleSubmit()
@@ -157,7 +159,7 @@ const aiSumbit=()=>{
           <div
             style={{ backgroundColor: color }}
             className="w-full h-full rounded-full"
-          ></div>
+          />
         </div>
       ),
 
@@ -198,7 +200,7 @@ const aiSumbit=()=>{
       const { start, end } = customrange.current;
 
       console.log(start, end);
-      const docSize: any = editor?.state.doc.content.size;
+      const docSize: number = editor?.state.doc.content.size;
 
       const safeEnd = Math.min(Math.max(start, end), docSize);
       editor?.commands.deleteRange({ from: start, to: safeEnd });
@@ -206,8 +208,8 @@ const aiSumbit=()=>{
       customrange.current = { start, end: en };
       editor?.commands.insertContentAt(start, newContent);
     }
-  }, [custommessage]);
-  const custominputai = (customrequest: any) => {
+  }, [custommessage,editor]);
+  const custominputai = (customrequest: string) => {
     if (!editor) return;
     const { from, to } = editor.view.state.selection;
     console.log(from, to);
@@ -226,8 +228,8 @@ const aiSumbit=()=>{
       />
       <div className="flex justify-between w-full px-4">
         <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
-          {buttons.map((item, index) => (
-            <div key={index}>
+          {buttons.map((item, index:number) => (
+            <div key={item.title}>
               {/* <button
               
                 onClick={item.action}
@@ -238,7 +240,7 @@ const aiSumbit=()=>{
                 <div>{item.title}</div>
               </button> */}
               <Button
-              isLoading={item.title=="Auto complete" && aiActive}
+              isLoading={item.title==="Auto complete" && aiActive}
               onPress={item.action}
               className={cn("p-0 min-w-0 rounded-none bg-transparent h-auto buttonn xl:gap-2",{" is-active ":item.isActive?.() })}
               disabled={item.isDisabled?.()}
@@ -250,12 +252,13 @@ const aiSumbit=()=>{
           ))}
         </div>
         <div className="relative inline-block">
-          <button
-            onClick={() => setpopover(!popover)}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden"
-          >
-            <BsThreeDotsVertical className="w-5 h-5" />
-          </button>
+         
+<Button
+  onPress={() => setpopover(!popover)}
+  className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden min-w-0 bg-transparent"
+>
+  <BsThreeDotsVertical className="w-5 h-5" />
+</Button>
 
           <div
             className={cn(
@@ -284,13 +287,13 @@ const aiSumbit=()=>{
                 //   <div>{item.title}</div>
                 // </button>
                 <Button
-              key={index}
-              isLoading={item.title=="Auto complete" && aiActive}
+              key={item.title}
+              isLoading={item.title==="Auto complete" && aiActive}
                 onPress={item.action}
                 className={cn("m-0 p-0 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",{" is-active ":item.isActive?.() })}
                 disabled={item.isDisabled?.()}
               >
-                {(!aiActive || item.title!=="Auto complete")  && <div>{item.title != "Color Picker" ? item.icon : ""}</div>}
+                {(!aiActive || item.title!=="Auto complete")  && <div>{item.title !== "Color Picker" ? item.icon : ""}</div>}
                 <div>{item.title}</div>
               </Button>
                 
@@ -335,15 +338,15 @@ const aiSumbit=()=>{
                     placeholder="Enter your prompt..."
                     className="w-[150px] sm:w-[200px] sm:text-[12px] md:w-[200px] lg:h-[40px] md:text-[13px] h-[30px] px-3 text-[10px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                  <button
-                    onClick={
+                  <Button
+                    onPress={
                      
                       aiSumbit
                     }
                     className="w-[50px] h-[25px] px-1  text-[10px] font-medium lg:h-[33px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Generate
-                  </button>
+                  </Button>
                 </div>
               </div>
             }
@@ -378,29 +381,29 @@ const aiSumbit=()=>{
               <div className="p-2 lg:p-4 w-[150px] sm:w-[170px] md:w-[190px]  bg-white rounded-lg shadow-lg">
                 <div className="space-y-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="block text-sm font-medium text-gray-700 mb-1">
                       Rows
-                    </label>
+                    </div>
                     <input
                       type="number"
                       value={row}
-                      onChange={(e) => setrow(parseInt(e.target.value))}
+                      onChange={(e) => setrow( Number.parseInt(e.target.value))}
                       className="w-full h-[32px] md:h-[34px] px-2 py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <div className="block text-sm font-medium text-gray-700 mb-1">
                       Columns
-                    </label>
+                    </div>
                     <input
                       type="number"
                       value={col}
-                      onChange={(e) => setcol(parseInt(e.target.value))}
+                      onChange={(e) => setcol( Number.parseInt(e.target.value))}
                       className="w-full h-[32px] px-2 md:h-[34px] py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  <button
-                    onClick={() =>
+                  <Button
+                    onPress={() =>
                       editor
                         .chain()
                         .focus()
@@ -414,7 +417,7 @@ const aiSumbit=()=>{
                     className="w-full  h-[32px] md:h-[34px] bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
                   >
                     Create Table
-                  </button>
+                  </Button>
                 </div>
               </div>
             }
@@ -443,21 +446,21 @@ const aiSumbit=()=>{
                     ))}
                     className="flex-1 px-2 py-1.5 text-sm  w-[130px] sm:w-[170px] border rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                   />
-                  <button
+                  <Button
                   disabled={  aiActive}
                     onClick={() => custominputai(item.value)}
                     className="px-2 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
                   >
                     Go
-                  </button>
+                  </Button>
                 </div>
               ))}
-              <button
+              <Button
                 onClick={() => setCustomData([...customdata, { id: Date.now(), value: "" }])}
                 className="w-full px-2 py-1.5 text-xs text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
               >
                 + Add Prompt
-              </button>
+              </Button>
             </div>
             }
           />

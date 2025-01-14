@@ -2,7 +2,8 @@
 import { format, parseISO } from "date-fns";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import RecommendMap from "../recommenddata";
+import { RecommendMap } from "./recommenddata";
+
 
 const Recommend = () => {
 

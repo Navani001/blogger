@@ -377,7 +377,7 @@ console.log(peak)
       </div>
     </div>
   </div>
-  <div className="lg:col-span-2 max-w-2xl mx-auto w-full bg-white rounded-lg shadow-lg p-6 justify-self-center ">
+  <div className="lg:col-span-2 lg:max-w-[700px] lg:mx-auto w-full bg-white rounded-lg shadow-lg p-6 justify-self-center ">
     <div className="mb-4 flex justify-between items-center">
       <div>
         <h2 className="text-lg font-semibold text-gray-700">View Trends</h2>

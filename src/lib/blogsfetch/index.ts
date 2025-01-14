@@ -17,7 +17,6 @@ export const fetchblog = async (): Promise<Blog[]> => {
       headers: { 
         "Content-Type": "application/json"
       },
-      next: { revalidate: 3600 }
     });
 
     if (!response.ok) {

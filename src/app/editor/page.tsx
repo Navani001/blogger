@@ -1,6 +1,7 @@
 
 import { auth } from "@/lib/auth";
-import Tiptap from "../../lib/TextEditor";
+import { TiptapEditor } from "@/lib/editor";
+
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -11,7 +12,7 @@ const session = await auth();
   }
   return (
     <div className="bg-slate-50  overflow-hidden">
-          <Tiptap />
+          <TiptapEditor />
     </div>
   );
 }

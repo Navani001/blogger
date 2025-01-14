@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
-import Share from "@/lib/sharemodel";
+import Share from "@/lib/model/share/sharemodel";
 import CustomizedSnackbars from "@/lib/toast";
 
 const BlogPost = ({ params }: { params: any }) => {
@@ -26,7 +26,6 @@ const BlogPost = ({ params }: { params: any }) => {
 
   // Existing functionality remains the same
   const handlelike = () => {
-  
     const params = new URLSearchParams({ blogid });
     try {
       fetch(`/api/like/set_like?${params.toString()}`, {
@@ -37,14 +36,14 @@ const BlogPost = ({ params }: { params: any }) => {
             "public, s-maxage=3600, stale-while-revalidate=86400",
         },
       }).then((response) => {
-        console.log(response.status)
-        if(response?.status!=200){
+        console.log(response.status);
+        if (response?.status != 200) {
           setOpen(true);
-          return new Error("Network response was not ok")
+          return new Error("Network response was not ok");
         }
         setliked(!liked);
         if (!response.ok) throw new Error("Network response was not ok");
-  
+
         return response.json();
       });
     } catch (error) {
@@ -54,7 +53,6 @@ const BlogPost = ({ params }: { params: any }) => {
 
   useEffect(() => {
     const fetchcontent = async () => {
-     
       fetch("/api/content/get_content", {
         method: "POST",
         body: JSON.stringify({ url }),
@@ -81,14 +79,14 @@ const BlogPost = ({ params }: { params: any }) => {
                   "public, s-maxage=3600, stale-while-revalidate=86400",
               },
             }).then((response) => {
-              console.log(response.status)
-              if(response?.status!=200){
+              console.log(response.status);
+              if (response?.status != 200) {
                 setOpen(true);
-                return new Error("Network response was not ok")
+                return new Error("Network response was not ok");
               }
               setliked(!liked);
               if (!response.ok) throw new Error("Network response was not ok");
-        
+
               return response.json();
             });
           } catch (error) {
@@ -135,9 +133,9 @@ const BlogPost = ({ params }: { params: any }) => {
         headers: { "Content-type": "application/json" },
       });
 
-if(response?.status!=200){
-  setOpen(true);
-}
+      if (response?.status != 200) {
+        setOpen(true);
+      }
       if (response.ok) {
         const params = new URLSearchParams({ blogid });
         const newComments = await fetch(
@@ -148,7 +146,7 @@ if(response?.status!=200){
       }
     } catch (error) {
       setOpen(true);
-      console.log("hi iam here")
+      console.log("hi iam here");
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);

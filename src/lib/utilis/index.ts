@@ -1,0 +1,1 @@
+export {calculateReadTime} from './calculateReadTime'

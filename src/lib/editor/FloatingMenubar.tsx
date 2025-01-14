@@ -1,3 +1,4 @@
+"use client"
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useCurrentEditor } from "@tiptap/react";
 import { createPortal } from "react-dom";
@@ -86,7 +87,7 @@ const NavBar = ({ editor }: any) => {
       editor
         .chain()
         .focus()
-        .toggleHeading({ level: parseInt(level[1]) })
+        .toggleHeading({ level: Number.parseInt(level[1]) })
         .run();
     },
 
@@ -201,9 +202,9 @@ const NavBar = ({ editor }: any) => {
       )}`
     );
     if (["H1", "H2", "H3", "H4", "H5", "H6", "H7"].includes(action)) {
-      editorActions["Heading"](action);
+      editorActions.Heading(action);
     } else if (action in editorActions) {
-      editorActions[action + ""]();
+      editorActions[`${action}`]();
     }
   };
 
@@ -224,9 +225,9 @@ const NavBar = ({ editor }: any) => {
   return (
     <nav className="flex items-center w-[330px] md:w-[660px] lg:w-[820px] lg:text-[16px] gap-0.5 p-1 bg-gray-100 border-b lg:p-1 overflow-x-auto scrollbar-hide text-sm md:text-[14px]">
       {Object.entries(buttonGroups).map(([groupKey, group],index) => (
-        <div key={index} className="relative flex-shrink-0">
+        <div key={group.label} className="relative flex-shrink-0">
           <button
-            ref={(el) => {
+            ref={(el:any) => {
               //+
               if (el) {
                 //+
@@ -282,7 +283,7 @@ const NavBar = ({ editor }: any) => {
   );
 };
 
-const FloatingMenuBar = () => {
+export const  FloatingMenuBar = () => {
   const { editor } = useCurrentEditor();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const MENU_WIDTH = window.innerWidth>=660?660:330; // Width of your menu
@@ -315,7 +316,7 @@ const FloatingMenuBar = () => {
           const spaceOnRight = windowWidth - centerX;
           const spaceOnLeft = centerX;
 
-          let leftPos;
+          let leftPos:any;
           if (spaceOnRight >= MENU_WIDTH + PADDING) {
             leftPos = centerX;
           } else if (spaceOnLeft >= MENU_WIDTH + PADDING) {
@@ -341,7 +342,7 @@ const FloatingMenuBar = () => {
 
     editor.on('selectionUpdate', updateMenuPosition);
     return cleanup;
-  }, [editor, windowWidth, MENU_WIDTH, PADDING]);
+  }, [editor, windowWidth, MENU_WIDTH]);
 
   if (!menuPosition.visible) return null;
 
@@ -365,4 +366,3 @@ const FloatingMenuBar = () => {
   );
 };
 
-export default FloatingMenuBar;

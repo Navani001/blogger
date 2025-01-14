@@ -39,10 +39,10 @@ export async function POST(request: Request) {
     // Query database with type safety
 
     const result = await sql(
-      "SELECT  ROW_NUMBER() OVER (ORDER BY id) AS sno,id, title,url,status, (SELECT count(*) FROM user_interaction WHERE user_interaction.interaction_type='comment' AND blog_id = CAST(blogss.id AS varchar)) as comment, (SELECT count(*) FROM user_interaction WHERE user_interaction.interaction_type='like' and user_interaction.status=true AND blog_id = CAST(blogss.id AS varchar)) as like FROM blogss WHERE author_id=$1",
+      "SELECT  ROW_NUMBER() OVER (ORDER BY id) AS sno,id, title,url,status, (SELECT count(*) FROM user_interaction WHERE user_interaction.interaction_type='comment' AND blog_id = CAST(blogss.id AS varchar)) as comment,(SELECT count(*) FROM user_interaction WHERE user_interaction.interaction_type='view' AND blog_id = CAST(blogss.id AS varchar)) as view, (SELECT count(*) FROM user_interaction WHERE user_interaction.interaction_type='like' and user_interaction.status=true AND blog_id = CAST(blogss.id AS varchar)) as like FROM blogss WHERE author_id=$1",
       [id]
     );
-    // console.log(result)
+    console.log(result)
     // Return success response
     return NextResponse.json({
       data: result,

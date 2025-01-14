@@ -3,13 +3,13 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 
-
 import {
   TwitterShareButton,
   TwitterIcon,
   LinkedinShareButton,
 } from "react-share";
-import ShareBody from "./sharebody";
+import { ShareBody } from "./sharebody";
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -19,17 +19,17 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function Share() {
-  const [shareUrl, setShareUrl] = React.useState('');
+export function Share() {
+  const [shareUrl, setShareUrl] = React.useState("");
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   React.useEffect(() => {
     // Update shareUrl after component mounts
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       setShareUrl(window.location.href);
     }
   }, []);
@@ -44,7 +44,7 @@ export default function Share() {
         Share
       </Button>
 
-      <ShareBody open={open} setOpen={setOpen} shareUrl={shareUrl}></ShareBody>
+      <ShareBody open={open} setOpen={setOpen} shareUrl={shareUrl} />
     </React.Fragment>
   );
 }

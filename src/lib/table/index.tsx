@@ -34,6 +34,7 @@ export default function CustomPaginationActionsTable({
   isview,
   coloumn_remove = ['id'],
 }: any) {
+  console.log(rows)
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 

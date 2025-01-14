@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const RecommendMap = (props:any) => {
+export const RecommendMap = (props:any) => {
  const {data} = props;
 
 
@@ -73,4 +73,3 @@ const RecommendMap = (props:any) => {
   );
 };
 
-export default RecommendMap;

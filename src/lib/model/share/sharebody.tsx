@@ -29,7 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function ShareBody({
+export function ShareBody({
   open,
   setOpen,
   shareUrl,
