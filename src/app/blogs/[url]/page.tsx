@@ -73,7 +73,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
           // Fetch comments
           try {
-            fetch(`/api/view?${params.toString()}`, {
+            fetch(`/api/getview?${params.toString()}`, {
               next: { revalidate: 3600 }, // Cache for 1 hour
               cache: "force-cache",
               headers: {

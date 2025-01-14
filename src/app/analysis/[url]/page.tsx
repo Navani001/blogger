@@ -195,7 +195,7 @@ console.log(peak)
       const params = new URLSearchParams({
         blogid: url,
       });
-      fetch(`/api/peak?${params.toString()}`, {
+      fetch(`/api/analysis/peak?${params.toString()}`, {
         next: { revalidate: 3600 },
         cache: "force-cache",
         headers: {

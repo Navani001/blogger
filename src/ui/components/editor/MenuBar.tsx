@@ -25,6 +25,7 @@ import { PopOver } from "../popover";
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
+    api: "/api/ai/chat"
   });
   const [aiActive,setAiActive]=useState(false)
   const [row, setrow] = useState(3);
@@ -40,7 +41,7 @@ export const MenuBar = () => {
     input: i2,
     setInput,
     handleSubmit: hs3,
-  } = useCompletion({ api: "/api/completion" });
+  } = useCompletion({ api: "/api/ai/completion" });
   const {
     messages: custommessage,
     input: custominput,
@@ -48,7 +49,7 @@ export const MenuBar = () => {
     handleSubmit: customsumbit,
   } = useChat({
     id: "custom",
-    api: "/api/custom",
+    api: "/api/ai/custom",
   });
   const { editor } = useCurrentEditor();
 
