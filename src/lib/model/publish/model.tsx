@@ -10,11 +10,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Input, Select } from "@nextui-org/react";
 import { useCurrentEditor } from "@tiptap/react";
-import create_database from "../../blogcreate";
 
-import { SelectInputField } from "../../autocomplete";
+
 import ShareIcon from "@mui/icons-material/Share";
 import { ShareBody } from "../share";
+
+import { MultipleAutoComplete } from "@/lib/autocomplete/multipleAutoComplete";
+import { CreateBlog } from "@/lib/utilis";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -41,7 +43,7 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
     if (editor) {
       const content = editor.getHTML(); // Get content as HTML
       const jsonContent = editor.getJSON(); // Optionally, get content as JSON
-      const result = await create_database(content, title, url, desc, value);
+      const result = await CreateBlog(content, title, url, desc, value);
       console.log("content", content);
       try {
         const response = await fetch("/api/tags/set_tags", {
@@ -185,7 +187,7 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
             </Typography>
             <Typography>Enter the tags of your web page</Typography>
             <Typography gutterBottom sx={{}}>
-              <SelectInputField
+              <MultipleAutoComplete
                 title={"Enter tags"}
                 islabel={false}
                 autocompleteelement={autocompleteelement}

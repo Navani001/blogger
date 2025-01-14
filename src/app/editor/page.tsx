@@ -1,5 +1,5 @@
 
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/utilis/auth";
 import { TiptapEditor } from "@/lib/editor";
 
 import { redirect } from "next/navigation";

@@ -1,4 +1,4 @@
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/utilis/auth';
 import { NextResponse } from "next/server";
 
 var nodemailer = require('nodemailer')

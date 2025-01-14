@@ -1,12 +1,13 @@
 'use server';
 import { neon } from '@neondatabase/serverless';
-import { auth } from './auth';
 import { google } from "@ai-sdk/google";
 import { embed } from 'ai';
-import { calculateReadTime } from './utilis';
+import { calculateReadTime } from './calculateReadTime';
+import { auth } from './auth';
+
 //commit
 
-export default async function create_database(formData: any, title: string, url: any, desc: any, value: any) {
+export async function CreateBlog(formData: any, title: string, url: any, desc: any, value: any) {
     const session = await auth();
     const sql = neon(`${process.env.DATABASE_URL}`);
     const comment = formData;

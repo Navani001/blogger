@@ -1,8 +1,9 @@
 "use client";
 import { redirect } from "next/navigation";
-import CustomPaginationActionsTable from "@/lib/table";
+
 import { useEffect, useState } from "react";
 import { fetchblog } from "@/lib/blogsfetch";
+import { AnalysisTable } from "@/lib/table";
 
 interface RowData {
   title: string;
@@ -46,7 +47,7 @@ export default function Home() {
               </div>
             ) : (
             blogs.length!=0 ? 
-              <CustomPaginationActionsTable
+              <AnalysisTable
                 rows={blogs}
                 handleView={handleView}
                 isview={true}

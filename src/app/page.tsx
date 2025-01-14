@@ -3,20 +3,21 @@ import React from "react";
 import { Bookmark, User, Search as SearchIcon, UserIcon, GithubIcon, Radius } from "lucide-react";
 import { SignOut } from "@/lib/auth/signout-button";
 import { SignIn } from "@/lib/auth/signin-button";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/utilis/auth";
 import { redirect } from "next/navigation";
 import { MdLogout } from "react-icons/md";
 import { MdOutlineContactSupport } from "react-icons/md";
 import {FaGithub } from 'react-icons/fa';
 import { IoDocumentTextOutline } from "react-icons/io5";
 import Search from "@/lib/search";
-import BasicPopover from "@/lib/popover";
-import Recommend from "@/lib/recommend";
-import Tags from "@/lib/tag";
-import ContactUs from "@/lib/contactus";
+
+import {Recommend} from "@/lib/recommend";
+import {Tags} from "@/lib/tagDisplay";
+import ContactUs from "@/lib/contactbody/contact";
 import ContactBody from "@/lib/contactbody";
 import { LinkedinIcon } from "react-share";
 import { CardAbout } from "@/lib/card";
+import { PopOver } from "@/lib/popover";
 
 
 
@@ -56,7 +57,7 @@ const BlogHomepage = async () => {
               </a>
 
             
-                <BasicPopover
+                <PopOver
                   title={""}
                   titlestyle="bg-white"
                   body={

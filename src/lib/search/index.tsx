@@ -2,8 +2,8 @@
 
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { SelectInputField } from "../autocomplete";
-import SingleAutocomplet from "../singleautocomplete";
+import { SingleAutocomplete } from "../autocomplete";
+
 
 const Search = () => {
   const [rec, setRec] = useState([]);
@@ -33,7 +33,7 @@ const Search = () => {
 
   return (
     <div className="w-[250px] h-full bg-gray-50">
-      <SingleAutocomplet
+      <SingleAutocomplete
         autocompleteelement={rec}
         onclick={(url: any) => {
           console.log("Search", url);

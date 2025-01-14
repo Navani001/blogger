@@ -1,7 +1,7 @@
 "use server";
 
 import { neon } from "@neondatabase/serverless";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/utilis/auth";
 import { NextResponse } from "next/server";
 
 // Define types for blog data

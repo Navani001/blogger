@@ -8,13 +8,13 @@ import {
   changeVarient,
   helperTextStyle,
   requiredLabelStyle,
-} from './style';
+} from '../style';
 
 import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function SelectInputField({title="Required",islabel=false,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
+export function MultipleAutoComplete({title="Required",islabel=false,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
 
 React.useEffect(()=>{
 console.log(value)

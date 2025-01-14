@@ -2,8 +2,8 @@
 
 import * as React from "react";
 
-import ContactUs from "../contactus";
-import { auth } from "../auth";
+import ContactUs from "./contact";
+import { auth } from "../utilis/auth";
 
 export default async function ContactBody() {
     const session = await auth();

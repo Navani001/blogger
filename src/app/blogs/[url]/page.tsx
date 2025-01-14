@@ -10,8 +10,10 @@ import Image from "next/image";
 import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
-import Share from "@/lib/model/share/sharemodel";
-import CustomizedSnackbars from "@/lib/toast";
+
+import { Toast } from "@/lib/toast";
+import { Share } from "@/lib/model";
+
 
 const BlogPost = ({ params }: { params: any }) => {
   const unwrappedParams = use(params);
@@ -168,7 +170,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <CustomizedSnackbars
+      <Toast
         setOpen={setOpen}
         open={open}
         content={"User is Not Authorized"}

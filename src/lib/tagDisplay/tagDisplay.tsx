@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 import React from "react";
 
-export default function Tags() {
+export function Tags() {
   const [tags, settags] = React.useState([]);
   React.useEffect(() => {
     fetch(`/api/tags/get_tags`, {

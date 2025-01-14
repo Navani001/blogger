@@ -20,7 +20,8 @@ import {Button} from "@nextui-org/react";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { cn } from "@nextui-org/theme";
-import BasicPopover from "../popover";
+import { PopOver } from "../popover";
+
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
@@ -302,7 +303,7 @@ const aiSumbit=()=>{
           </div>
         </div>
         <div className="flex justify-center items-center text-[10px]">
-          <BasicPopover
+          <PopOver
             title="AI"
             isLoading={aiActive}
             titlestyle={{
@@ -352,7 +353,7 @@ const aiSumbit=()=>{
             }
           />
 
-          <BasicPopover
+          <PopOver
             icon={
               <TableChartIcon
                 className="md:text-lg"
@@ -422,7 +423,7 @@ const aiSumbit=()=>{
               </div>
             }
           />
-          <BasicPopover
+          <PopOver
             title={"custom"}
             isLoading={aiActive}
             titlestyle={{

@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 
-export default function SingleAutocomplet({title="Search..",autocompleteelement,value,setvalue,onclick=()=>{console.log(null)}}:any) {
+export function SingleAutocomplete({title="Search..",autocompleteelement,value,setvalue,onclick=()=>{console.log(null)}}:any) {
     console.log(autocompleteelement)
   return (
     <Autocomplete
