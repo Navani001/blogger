@@ -1,6 +1,6 @@
 
 import { auth } from "@/lib/utilis/auth";
-import { TiptapEditor } from "@/lib/editor";
+import { TiptapEditor } from "@/ui/components/editor";
 
 import { redirect } from "next/navigation";
 

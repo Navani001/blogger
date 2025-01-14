@@ -9,15 +9,15 @@ import { MdLogout } from "react-icons/md";
 import { MdOutlineContactSupport } from "react-icons/md";
 import {FaGithub } from 'react-icons/fa';
 import { IoDocumentTextOutline } from "react-icons/io5";
-import Search from "@/lib/search";
+import Search from "@/ui/components/search";
 
-import {Recommend} from "@/lib/recommend";
-import {Tags} from "@/lib/tagDisplay";
-import ContactUs from "@/lib/contactbody/contact";
-import ContactBody from "@/lib/contactbody";
+import {Recommend} from "@/ui/components/recommend";
+import {Tags} from "@/ui/components/tagDisplay";
+import ContactUs from "@/ui/components/contactbody/contact";
+import ContactBody from "@/ui/components/contactbody";
 import { LinkedinIcon } from "react-share";
-import { CardAbout } from "@/lib/card";
-import { PopOver } from "@/lib/popover";
+import { CardAbout } from "@/ui/components/card";
+import { PopOver } from "@/ui/components/popover";
 
 
 

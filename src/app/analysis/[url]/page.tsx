@@ -2,7 +2,7 @@
 import { differenceInDays, parseISO, format } from "date-fns";
 import React, { use, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { MetricCard } from "@/lib/metriccard";
+import { MetricCard } from "@/ui/components/metriccard";
 
 // Dynamically import ApexCharts with SSR disabled
 const Chart = dynamic(() => import("react-apexcharts"), {

@@ -11,8 +11,8 @@ import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
 
-import { Toast } from "@/lib/toast";
-import { Share } from "@/lib/model";
+import { Toast } from "@/ui/components/toast";
+import { Share } from "@/ui/components/model";
 
 
 const BlogPost = ({ params }: { params: any }) => {

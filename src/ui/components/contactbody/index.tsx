@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import ContactUs from "./contact";
-import { auth } from "../utilis/auth";
+import { auth } from "../../../lib/utilis/auth";
 
 export default async function ContactBody() {
     const session = await auth();

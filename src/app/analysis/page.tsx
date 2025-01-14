@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import { fetchblog } from "@/lib/blogsfetch";
-import { AnalysisTable } from "@/lib/table";
+import { AnalysisTable } from "@/ui/components/table";
 
 interface RowData {
   title: string;

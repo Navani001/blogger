@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import Dialog from "@mui/material/Dialog";
 import { Card } from "@mui/material";
-import { auth } from "../../utilis/auth";
+import { auth } from "../../../../lib/utilis/auth";
 
 export default  function ContactUs({name, email}:any) {
   

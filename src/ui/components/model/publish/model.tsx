@@ -13,10 +13,11 @@ import { useCurrentEditor } from "@tiptap/react";
 
 
 import ShareIcon from "@mui/icons-material/Share";
-import { ShareBody } from "../share";
 
-import { MultipleAutoComplete } from "@/lib/autocomplete/multipleAutoComplete";
+
+import { MultipleAutoComplete } from "@/ui/components/autocomplete/multipleAutoComplete";
 import { CreateBlog } from "@/lib/utilis";
+import { ShareBody } from "../share";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
