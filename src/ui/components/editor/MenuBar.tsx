@@ -228,7 +228,7 @@ const aiSumbit=()=>{
         rel="stylesheet"
       />
       <div className="flex justify-between w-full px-4">
-        <div className="xl:flex gap-4 2xl:gap-6 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
+        <div className="xl:flex gap-2 2xl:gap-4 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
           {buttons.map((item, index:number) => (
             <div key={item.title}>
               {/* <button
@@ -243,10 +243,10 @@ const aiSumbit=()=>{
               <Button
               isLoading={item.title==="Auto complete" && aiActive}
               onPress={item.action}
-              className={cn("p-0 min-w-0 rounded-none bg-transparent h-auto buttonn xl:gap-2",{" is-active ":item.isActive?.() })}
+              className={cn("p-1 min-w-0 rounded-none bg-transparent h-auto buttonn gap-1",{" is-active ":item.isActive?.() })}
               disabled={item.isDisabled?.()}
             >
-              {(!aiActive || item.title!=="Auto complete") && <div>{item.icon}</div>}
+             {(!aiActive || item.title!=="Auto complete") && <div>{item.icon}</div>}
               <div>{item.title}</div>
             </Button>
             </div>
@@ -270,7 +270,7 @@ const aiSumbit=()=>{
               }
             )}
           >
-            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg p-3 overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-5 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
+            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-3 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
               {buttons.map((item, index) => (
                 // <button
                 //   key={index}
@@ -291,7 +291,7 @@ const aiSumbit=()=>{
               key={item.title}
               isLoading={item.title==="Auto complete" && aiActive}
                 onPress={item.action}
-                className={cn("m-0 p-0 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",{" is-active ":item.isActive?.() })}
+                className={cn("m-0 p-[2px] lg:px-1 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",{" is-active ":item.isActive?.() })}
                 disabled={item.isDisabled?.()}
               >
                 {(!aiActive || item.title!=="Auto complete")  && <div>{item.title !== "Color Picker" ? item.icon : ""}</div>}

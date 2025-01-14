@@ -12,7 +12,6 @@ export default async function ContactBody() {
 
   return (
     <React.Fragment>
-  
      <ContactUs name={session?.user?.name} email={session?.user?.email}/>
     </React.Fragment>
   );
