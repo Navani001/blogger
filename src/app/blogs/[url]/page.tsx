@@ -39,7 +39,7 @@ const BlogPost = ({ params }: { params: any }) => {
         },
       }).then((response) => {
         console.log(response.status);
-        if (response?.status != 200) {
+        if (response?.status !== 200) {
           setOpen(true);
           return new Error("Network response was not ok");
         }
@@ -82,7 +82,7 @@ const BlogPost = ({ params }: { params: any }) => {
               },
             }).then((response) => {
               console.log(response.status);
-              if (response?.status != 200) {
+              if (response?.status !== 200) {
                 setOpen(true);
                 return new Error("Network response was not ok");
               }
@@ -119,7 +119,7 @@ const BlogPost = ({ params }: { params: any }) => {
         });
     };
     fetchcontent();
-  }, [url]);
+  }, [url,liked]);
 
   const handlecommentsumbit = async () => {
     if (!individualcomment.trim()) return;
@@ -135,7 +135,7 @@ const BlogPost = ({ params }: { params: any }) => {
         headers: { "Content-type": "application/json" },
       });
 
-      if (response?.status != 200) {
+      if (response?.status !== 200) {
         setOpen(true);
       }
       if (response.ok) {
@@ -160,9 +160,12 @@ const BlogPost = ({ params }: { params: any }) => {
   };
 
   useEffect(() => {
+    // biome-ignore lint/style/noVar: <explanation>
     var ads = document.getElementsByClassName("adsbygoogle").length;
+    // biome-ignore lint/style/noVar: <explanation>
     for (var i = 0; i < ads; i++) {
       try {
+        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {}
     }

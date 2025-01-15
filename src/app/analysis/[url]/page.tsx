@@ -215,7 +215,7 @@ console.log(peak)
     };
 
     fetch_place();
-  }, []);
+  }, [url]);
  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
