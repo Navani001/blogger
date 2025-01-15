@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';

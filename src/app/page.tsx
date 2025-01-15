@@ -9,15 +9,16 @@ import { MdLogout } from "react-icons/md";
 import { MdOutlineContactSupport } from "react-icons/md";
 import {FaGithub } from 'react-icons/fa';
 import { IoDocumentTextOutline } from "react-icons/io5";
-import Search from "@/ui/components/search";
+
 
 import {Recommend} from "@/ui/components/recommend";
 import {Tags} from "@/ui/components/tagDisplay";
-import ContactUs from "@/ui/components/contactbody/contact";
-import ContactBody from "@/ui/components/contactbody";
+
+
 import { LinkedinIcon } from "react-share";
 import { CardAbout } from "@/ui/components/card";
 import { PopOver } from "@/ui/components/popover";
+import { ContactBody, Search } from "@/ui/components";
 
 
 

@@ -10,14 +10,7 @@ import {
 } from "react-share";
 import { ShareBody } from "./sharebody";
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
+
 
 export function Share() {
   const [shareUrl, setShareUrl] = React.useState("");
