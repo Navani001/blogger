@@ -1,5 +1,4 @@
 
-import Tiptap from "../../lib/TextEditor";
 import { auth } from "@/lib/utilis/auth";
 import { SignIn } from "@/lib/auth/signin-button";
 
