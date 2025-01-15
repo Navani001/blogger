@@ -35,7 +35,7 @@ export const MenuBar = () => {
   const [popover, setpopover] = useState(false);
   const rangeRef = useRef({ start: 0, end: 0 });
   const customrange = useRef({ start: 0, end: 0 });
-  const [customrequest, setcustomrequest] = useState("Extend it");
+
   const {
     completion,
     input: i2,
@@ -273,21 +273,7 @@ const aiSumbit=()=>{
           >
             <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-3 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
               {buttons.map((item, index) => (
-                // <button
-                //   key={index}
-
-                //   style={{ margin: "0", gap: 5 }}
-                //   onClick={item.action}
-                //   className={
-                //     item.isActive?.()
-                //       ? "is-active"
-                //       : "buttonn lg:text-[13px] gap-3"
-                //   }
-                //   disabled={item.isDisabled?.()}
-                // >
-                //   <div>{item.title != "Color Picker" ? item.icon : ""}</div>
-                //   <div>{item.title}</div>
-                // </button>
+          
                 <Button
               key={item.title}
               isLoading={item.title==="Auto complete" && aiActive}

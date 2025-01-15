@@ -140,14 +140,7 @@ export function ShareBody({
                 Linkedin
               </div>
             </LinkedinShareButton>
-            {/* <Button
-              variant="contained"
-              startIcon={<LinkedInIcon />}
-              onClick={() => shareToSocialMedia('linkedin')}
-              sx={{ backgroundColor: '#0A66C2' }}
-            >
-              LinkedIn
-            </Button> */}
+         
           </div>
         </DialogContent>
 

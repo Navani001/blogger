@@ -31,26 +31,7 @@ export  function PopOver({ title, body, icon,isLoading=false,  titlestyle = "" }
        onPress={handleClick}
       
       className={" bg-black min-w-0 h-auto text-white rounded-[20px] text-xs gap-[2px] px-[0.5rem] py-[0.4rem] mr-3 "+ titlestyle}>  {!isLoading && icon} {title}</Button>
-      {/* <Button      
-      
-        sx={{
-          borderRadius: "20px",
-       
-          minWidth: "0px",
-   
-          textTransform: "none",
-          marginRight: "10px",
-          "&.MuiButton-root": {
-            backgroundColor: "black"
-          },
-          ...(titlestyle || {})
-        }}
-        aria-describedby={id}
-        variant="contained"
-        onClick={handleClick}
-      >
-        {icon} {title}
-      </Button> */}
+
       <Popover
         id={id}
         open={open}
