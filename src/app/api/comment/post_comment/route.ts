@@ -2,7 +2,7 @@
 import { neon } from '@neondatabase/serverless';
 import { auth } from '@/lib/utilis/auth'; 
 import { NextResponse } from "next/server";
-export async function POST(request: Request, res:any) {
+export async function POST(request: Request) {
     const session =await auth()
     const sql = neon(`${process.env.DATABASE_URL}`);
 

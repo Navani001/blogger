@@ -24,6 +24,8 @@ const NavBar = ({ editor }: any) => {
     if (url === null) {
       return;
     }
+    //
+
 
     // empty
     if (url === "") {
@@ -142,7 +144,6 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().deleteTable().run();
     },
   };
-
   const buttonGroups = {
     text: {
       label: "Text",
