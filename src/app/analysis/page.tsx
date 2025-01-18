@@ -1,8 +1,9 @@
 "use client";
 import { redirect } from "next/navigation";
-import CustomPaginationActionsTable from "@/lib/table";
+
 import { useEffect, useState } from "react";
 import { fetchblog } from "@/lib/blogsfetch";
+import { AnalysisTable } from "@/ui/components/table";
 
 interface RowData {
   title: string;
@@ -41,12 +42,12 @@ export default function Home() {
           <div className="p-6">
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto" />
                 <p className="mt-4 text-gray-600">Loading blog posts...</p>
               </div>
             ) : (
-            blogs.length!=0 ? 
-              <CustomPaginationActionsTable
+            blogs.length!==0 ? 
+              <AnalysisTable
                 rows={blogs}
                 handleView={handleView}
                 isview={true}

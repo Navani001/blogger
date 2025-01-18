@@ -1,0 +1,1 @@
+export {AnalysisTable} from './table'

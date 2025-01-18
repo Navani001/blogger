@@ -1,7 +1,7 @@
 // import { signOut } from "@/auth.ts"
 
 import { MdLogout } from "react-icons/md"
-import { signOut } from "../auth"
+import { signOut } from "../utilis/auth"
 
  
 export function SignOut() {

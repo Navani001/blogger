@@ -10,8 +10,10 @@ import Image from "next/image";
 import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
-import Share from "@/lib/sharemodel";
-import CustomizedSnackbars from "@/lib/toast";
+
+import { Toast } from "@/ui/components/toast";
+import { Share } from "@/ui/components/model";
+
 
 const BlogPost = ({ params }: { params: any }) => {
   const unwrappedParams = use(params);
@@ -26,7 +28,6 @@ const BlogPost = ({ params }: { params: any }) => {
 
   // Existing functionality remains the same
   const handlelike = () => {
-  
     const params = new URLSearchParams({ blogid });
     try {
       fetch(`/api/like/set_like?${params.toString()}`, {
@@ -37,14 +38,14 @@ const BlogPost = ({ params }: { params: any }) => {
             "public, s-maxage=3600, stale-while-revalidate=86400",
         },
       }).then((response) => {
-        console.log(response.status)
-        if(response?.status!=200){
+        console.log(response.status);
+        if (response?.status !== 200) {
           setOpen(true);
-          return new Error("Network response was not ok")
+          return new Error("Network response was not ok");
         }
         setliked(!liked);
         if (!response.ok) throw new Error("Network response was not ok");
-  
+
         return response.json();
       });
     } catch (error) {
@@ -54,7 +55,6 @@ const BlogPost = ({ params }: { params: any }) => {
 
   useEffect(() => {
     const fetchcontent = async () => {
-     
       fetch("/api/content/get_content", {
         method: "POST",
         body: JSON.stringify({ url }),
@@ -73,7 +73,7 @@ const BlogPost = ({ params }: { params: any }) => {
 
           // Fetch comments
           try {
-            fetch(`/api/view?${params.toString()}`, {
+            fetch(`/api/getview?${params.toString()}`, {
               next: { revalidate: 3600 }, // Cache for 1 hour
               cache: "force-cache",
               headers: {
@@ -81,14 +81,14 @@ const BlogPost = ({ params }: { params: any }) => {
                   "public, s-maxage=3600, stale-while-revalidate=86400",
               },
             }).then((response) => {
-              console.log(response.status)
-              if(response?.status!=200){
+              console.log(response.status);
+              if (response?.status !== 200) {
                 setOpen(true);
-                return new Error("Network response was not ok")
+                return new Error("Network response was not ok");
               }
               setliked(!liked);
               if (!response.ok) throw new Error("Network response was not ok");
-        
+
               return response.json();
             });
           } catch (error) {
@@ -119,7 +119,7 @@ const BlogPost = ({ params }: { params: any }) => {
         });
     };
     fetchcontent();
-  }, [url]);
+  }, [url,liked]);
 
   const handlecommentsumbit = async () => {
     if (!individualcomment.trim()) return;
@@ -135,9 +135,9 @@ const BlogPost = ({ params }: { params: any }) => {
         headers: { "Content-type": "application/json" },
       });
 
-if(response?.status!=200){
-  setOpen(true);
-}
+      if (response?.status !== 200) {
+        setOpen(true);
+      }
       if (response.ok) {
         const params = new URLSearchParams({ blogid });
         const newComments = await fetch(
@@ -148,7 +148,7 @@ if(response?.status!=200){
       }
     } catch (error) {
       setOpen(true);
-      console.log("hi iam here")
+      console.log("hi iam here");
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);
@@ -160,9 +160,12 @@ if(response?.status!=200){
   };
 
   useEffect(() => {
+    // biome-ignore lint/style/noVar: <explanation>
     var ads = document.getElementsByClassName("adsbygoogle").length;
+    // biome-ignore lint/style/noVar: <explanation>
     for (var i = 0; i < ads; i++) {
       try {
+        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch (e) {}
     }
@@ -170,7 +173,7 @@ if(response?.status!=200){
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <CustomizedSnackbars
+      <Toast
         setOpen={setOpen}
         open={open}
         content={"User is Not Authorized"}

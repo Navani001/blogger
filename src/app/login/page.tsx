@@ -1,6 +1,5 @@
 
-import Tiptap from "../../lib/TextEditor";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/utilis/auth";
 import { SignIn } from "@/lib/auth/signin-button";
 
 export default async function Home() {

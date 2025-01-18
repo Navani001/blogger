@@ -1,14 +1,12 @@
 "use client";
-import { differenceInDays, parseISO, format } from "date-fns";
+import {  parseISO, format } from "date-fns";
 import React, { use, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { MetricCard } from "@/lib/metriccard";
+
+import { MetricCard } from "@/ui/components/metriccard";
+import { GraphFormat } from "@/ui/components";
+import {  getFilteredData } from "@/lib/utilis";
 
 // Dynamically import ApexCharts with SSR disabled
-const Chart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-  loading: () => <div>Loading Chart...</div>,
-});
 const BlogPost = ({ params }: { params: any }) => {
   const unwrappedParams = use(params);
   const [data, setData] = useState([]);
@@ -82,50 +80,6 @@ console.log(peak)
   const [commentsort, setcommentsort] = useState("week");
   const [viewsort,setviewsort] = useState("week")
 
-  const calculateDateDifference = (startDate: string, endDate: string) => {
-    const start = parseISO(startDate);
-    console.log(start);
-    const end = parseISO(endDate);
-    return differenceInDays(end, start);
-  };
-  const getFilteredData = (data: any[], timeRange: string) => {
-    const series: { [key: string]: number } = {};
-    const today = new Date();
-    let days = 7;
-
-    switch (timeRange) {
-      case "week":
-        days = 7;
-        break;
-      case "month":
-        days = 30;
-        break;
-      default:
-        days = 7;
-    }
-
-    // Initialize series object
-    for (let i = 1; i <= days; i++) {
-      series[i] = 0;
-    }
-
-    // Filter and count data
-    data.forEach((item: any) => {
-      const diffDays = calculateDateDifference(
-        item.created_at,
-        today.toISOString()
-      );
-      if (diffDays <= days) {
-        series[diffDays] = (series[diffDays] || 0) + 1;
-      }
-    });
-
-    return {
-      seriesData: Object.values(series),
-      categories: Object.keys(series),
-      timeRange,
-    };
-  };
   useEffect(() => {
     if (data.length) {
       const { seriesData, categories } = getFilteredData(data, sort);
@@ -152,7 +106,7 @@ console.log(peak)
         viewsort
       );
 
-      setcommentState((prev) => ({
+      setViewState((prev) => ({
         ...prev,
         series: [
           {
@@ -195,7 +149,7 @@ console.log(peak)
       const params = new URLSearchParams({
         blogid: url,
       });
-      fetch(`/api/peak?${params.toString()}`, {
+      fetch(`/api/analysis/peak?${params.toString()}`, {
         next: { revalidate: 3600 },
         cache: "force-cache",
         headers: {
@@ -261,7 +215,7 @@ console.log(peak)
     };
 
     fetch_place();
-  }, []);
+  }, [url]);
  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
@@ -304,113 +258,23 @@ console.log(peak)
         {/* Charts Grid */}
 
 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center justify-center">
+
   {/* Like Trends Chart */}
   <div className="bg-white rounded-lg shadow-lg p-6">
-    <div className="mb-4 flex justify-between items-center">
-      <div>
-        <h2 className="text-lg font-semibold text-gray-700">Like Trends</h2>
-        <p className="text-sm text-gray-500">Track engagement over time</p>
-      </div>
-      <select
-        className="border rounded p-1"
-        onChange={(e) => setsort(e.target.value)}
-      >
-        <option value="week">Last Week</option>
-        <option value="month">Last Month</option>
-      </select>
-    </div>
-    <Chart
-      options={state.options}
-      series={state.series}
-      type="line"
-      height={320}
-    />
+<GraphFormat setsort={setsort} title={"Like"} state={state} comments={likepersondata}/>
+
+  
     {/* Recent Likes List */}
-    <div className="mt-4 border-t pt-4">
-      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Likes</h3>
-      <div className="max-h-40 overflow-y-auto">
-        {likepersondata.length>0 ? likepersondata.map((person: any, index: number) => (
-          <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
-            <span className="text-sm font-medium text-gray-700">{person.username}</span>
-            <span className="text-xs text-gray-500">
-              {format(parseISO(person.created_at), 'MMM dd, yyyy')}
-            </span>
-          </div>
-        )):<div>No data Found</div>}
-      </div>
-    </div>
+
   </div>
 
   {/* Comment Activity Chart */}
   <div className="bg-white rounded-lg shadow-lg p-6">
-    <div className="mb-4 flex justify-between items-center">
-      <div>
-        <h2 className="text-lg font-semibold text-gray-700">Comment Activity</h2>
-        <p className="text-sm text-gray-500">User interaction patterns</p>
-      </div>
-      <select
-        className="border rounded p-1"
-        onChange={(e) => setcommentsort(e.target.value)}
-      >
-        <option value="week">Last Week</option>
-        <option value="month">Last Month</option>
-      </select>
-    </div>
-    <Chart
-      options={commentstate.options}
-      series={commentstate.series}
-      type="line"
-      height={320}
-    />
-    {/* Recent Comments List */}
-    <div className="mt-4 border-t pt-4">
-      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent Comments</h3>
-      <div className="max-h-40 overflow-y-auto">
-        {commentperson.length>0 ? commentperson.map((person: any, index: number) => (
-          <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
-            <span className="text-sm font-medium text-gray-700">{person.username}</span>
-            <span className="text-xs text-gray-500">
-              {format(parseISO(person.created_at), 'MMM dd, yyyy')}
-            </span>
-          </div>
-        )):<div>No data Found</div>}
-      </div>
-    </div>
+    <GraphFormat setsort={setcommentsort} title={"Comment"} state={commentstate} comments={commentperson}/>
+   
   </div>
-  <div className="lg:col-span-2 max-w-2xl mx-auto w-full bg-white rounded-lg shadow-lg p-6 justify-self-center ">
-    <div className="mb-4 flex justify-between items-center">
-      <div>
-        <h2 className="text-lg font-semibold text-gray-700">View Trends</h2>
-        <p className="text-sm text-gray-500">Track engagement over time</p>
-      </div>
-      <select
-        className="border rounded p-1"
-        onChange={(e) => setviewsort(e.target.value)}
-      >
-        <option value="week">Last Week</option>
-        <option value="month">Last Month</option>
-      </select>
-    </div>
-    <Chart
-      options={viewState.options}
-      series={viewState.series}
-      type="line"
-      height={320}
-    />
-    {/* Recent Likes List */}
-    <div className="mt-4 border-t pt-4">
-      <h3 className="text-sm font-semibold text-gray-600 mb-2">Recent viewed</h3>
-      <div className="max-h-40 overflow-y-auto">
-        {viewpersondata.length>0 ?viewpersondata.map((person: any, index: number) => (
-          <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100">
-            <span className="text-sm font-medium text-gray-700">{person.username}</span>
-            <span className="text-xs text-gray-500">
-              {format(parseISO(person.created_at), 'MMM dd, yyyy')}
-            </span>
-          </div>
-        )):<div>No data Found</div>}
-      </div>
-    </div>
+  <div className="lg:col-span-2 lg:max-w-[700px] lg:mx-auto w-full bg-white rounded-lg shadow-lg p-6 justify-self-center ">
+  <GraphFormat setsort={setviewsort} title={"View"} state={viewState} comments={viewpersondata}/>
   </div>
 </div>
 
