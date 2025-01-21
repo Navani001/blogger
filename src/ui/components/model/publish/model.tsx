@@ -10,13 +10,8 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { Input, Select } from "@nextui-org/react";
 import { useCurrentEditor } from "@tiptap/react";
-
-
 import ShareIcon from "@mui/icons-material/Share";
-
-
 import { MultipleAutoComplete } from "@/ui/components/autocomplete/multipleAutoComplete";
 import { CreateBlog } from "@/lib/utilis";
 import { ShareBody } from "../share";
@@ -30,82 +25,124 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export function Publish({ title, settitle }: { title: string; settitle: (arg0: string)=>void }) {
+const validateURL = (url: string): string => {
+  if (!url.trim()) return "URL is required";
+  if (url.includes(" ")) return "URL cannot contain spaces";
+  
+  // Check for special characters except for - and _
+  const specialCharsRegex = /[!@#$%^&*()+={}\[\]|\\:;"'<>,?~`]/;
+  if (specialCharsRegex.test(url)) {
+    return "URL cannot contain special characters except - and _";
+  }
+
+  // Check length
+  if (url.length < 3) return "URL must be at least 3 characters long";
+  if (url.length > 50) return "URL must be less than 50 characters";
+
+  // Check for starting/ending hyphens
+  if (url.startsWith("-") || url.endsWith("-")) {
+    return "URL cannot start or end with a hyphen";
+  }
+
+  // Check for consecutive hyphens
+  if (url.includes("--")) {
+    return "URL cannot contain consecutive hyphens";
+  }
+
+  // Only allow letters, numbers, hyphens, and underscores
+  const validCharactersRegex = /^[a-zA-Z0-9-_]+$/;
+  if (!validCharactersRegex.test(url)) {
+    return "URL can only contain letters, numbers, hyphens, and underscores";
+  }
+
+  return "valid";
+};
+
+export function Publish({ title, settitle }: any) {
   const [value, setValue] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [autocompleteelement, setautocompleteelement] = React.useState([]);
   const [shareUrl, setShareUrl] = React.useState(window.location.origin);
   const [opensharepage, setopensharepage] = React.useState(false);
-  const [estimateTime, setEstimateTime] = React.useState(5);
   const { editor } = useCurrentEditor();
   const [desc, setdesc] = React.useState("");
   const [url, seturl] = React.useState("");
-  const handleSubmitblog = async () => {
-    console.log("title", title);
-    console.log(editor);
-    if (editor) {
-      const content = editor.getHTML(); // Get content as HTML
-      const jsonContent = editor.getJSON(); // Optionally, get content as JSON
-      const result = await CreateBlog(content, title, url, desc, value);
-      console.log("content", content);
-      try {
-        const response = await fetch("/api/tags/set_tags", {
-          method: "POST",
-          body: JSON.stringify({
-            blogid: result[0].id,
-            tags: value,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        });
+  const [errors, setErrors] = React.useState<any>({});
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
+  const validateForm = () => {
+    const newErrors: any = {};
+    if (!title.trim()) newErrors.title = "Title is required";
+    
+    const urlValidation = validateURL(url);
+    if (urlValidation !== "valid") newErrors.url = urlValidation;
+    
+    if (!desc.trim()) newErrors.desc = "Description is required";
+    if (value.length === 0) newErrors.tags = "At least one tag is required";
+    if (!editor?.getHTML()) newErrors.content = "Content is required";
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmitblog = async (e: any) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    if (!validateForm()) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const content = editor?.getHTML();
+      const result = await CreateBlog(content, title, url, desc, value);
+      
+      const response = await fetch("/api/tags/set_tags", {
+        method: "POST",
+        body: JSON.stringify({
+          blogid: result[0].id,
+          tags: value,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      if (!response.ok) throw new Error('Failed to set tags');
+      
+      setShareUrl(`${shareUrl}/blogs/${url}`);
+      setopensharepage(true);
+    } catch (error) {
+      console.error("Error publishing blog:", error);
+      setErrors({ submit: "Failed to publish blog. Please try again." });
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    seturl(newUrl);
+    const urlValidation = validateURL(newUrl);
+    setErrors({ ...errors, url: urlValidation !== "valid" ? urlValidation : "" });
+  };
+
   React.useEffect(() => {
     fetch("/api/tags/get_tags", {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      next: { revalidate: 3600 },
       cache: "force-cache",
       headers: {
         "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
       })
-      .then((data) => setautocompleteelement(data.data));
+      .then((data) => setautocompleteelement(data.data))
+      .catch((error) => console.error("Error fetching tags:", error));
   }, []);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handledialogClose = () => {
-    setOpen(false);
-  };
-  const handleConfirmPublish = async () => {
-    console.log("closing");
-    handleSubmitblog(); // Ensure this is spelled correctly if it's "handleSubmit"
-    console.log("Start");
-    setShareUrl(`${shareUrl}/blogs/${url}`);
-    await new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log("After 2 seconds");
-        resolve();
-      }, 2000);
-    });
-
-    console.log("End");
-    setopensharepage(true);
-
-    // setOpen(false); // Assuming this updates a state or toggles a modal.
-  };
 
   return (
     <React.Fragment>
@@ -123,7 +160,7 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
           justifyContent: "center",
           alignItems: "center",
         }}
-        onClick={handleClickOpen}
+        onClick={() => setOpen(true)}
       >
         <ShareIcon
           sx={{
@@ -139,6 +176,7 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
           Publish
         </div>
       </Button>
+
       {!opensharepage ? (
         <BootstrapDialog aria-labelledby="customized-dialog-title" open={open}>
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
@@ -146,7 +184,7 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
           </DialogTitle>
           <IconButton
             aria-label="close"
-            onClick={handledialogClose}
+            onClick={() => setOpen(false)}
             sx={(theme) => ({
               position: "absolute",
               right: 8,
@@ -156,77 +194,120 @@ export function Publish({ title, settitle }: { title: string; settitle: (arg0: s
           >
             <CloseIcon />
           </IconButton>
-          <DialogContent
-            dividers
-            sx={{
-              width: {
-                xs: "350px",
-                sm: "500px",
-              },
-              height: "auto",
-            }}
-          >
-            <Typography>Enter the title of your web page</Typography>
-            <Typography gutterBottom sx={{}}>
-              <input
-                placeholder="Enter the title"
-                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2 focus:outline-blue-500"
-                value={title}
-                onChange={(e) => {
-                  settitle(e.target.value);
-                }}
-              />
-            </Typography>
-            <Typography>Enter the url your web page</Typography>
-            <Typography>
-              <input
-                placeholder="Enter the url"
-                className="p-2 w-full rounded-[5px] border-1 mb-3 mt-2 focus:outline-blue-500 !important"
-                value={url}
-                onChange={(e) => {
-                  seturl(e.target.value);
-                }}
-              />
-            </Typography>
-            <Typography>Enter the tags of your web page</Typography>
-            <Typography gutterBottom sx={{}}>
-              <MultipleAutoComplete
-                title={"Enter tags"}
-                islabel={false}
-                autocompleteelement={autocompleteelement}
-                value={value}
-                setValue={setValue}
-              />
-            </Typography>
-            <Typography>Enter the description of your web page</Typography>
-            <Typography gutterBottom sx={{}}>
-              <input
-                placeholder="Enter the description"
-                className="p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500"
-                value={desc}
-                onChange={(e) => {
-                  setdesc(e.target.value);
-                }}
-              />
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button
+          <form onSubmit={handleSubmitblog}>
+            <DialogContent
+              dividers
               sx={{
-                backgroundColor: "blue",
-                padding: "8px 12px",
-                margin: "5px 0",
-                color: "#ffffff",
-                fontWeight: "500",
-                border: "none",
-                borderRadius: "12px",
+                width: {
+                  xs: "350px",
+                  sm: "500px",
+                },
+                height: "auto",
               }}
-              autoFocus
-              onClick={handleConfirmPublish}
             >
-              comfirm Publish
-            </Button>
-          </DialogActions>
+              <div className="space-y-4">
+                <div>
+                  <Typography>Enter the title of your web page</Typography>
+                  <input
+                    required
+                    placeholder="Enter the title"
+                    className={`p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500 ${
+                      errors && errors.title ? 'border-red-500' : ''
+                    }`}
+                    value={title}
+                    onChange={(e) => {
+                      settitle(e.target.value);
+                      setErrors({ ...errors, title: '' });
+                    }}
+                  />
+                  {errors.title && (
+                    <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+                  )}
+                </div>
+
+                <div>
+                  <Typography>Enter the url for your web page</Typography>
+                  <div className="flex items-center space-x-1">
+                  
+                    <input
+                      required
+                      placeholder="enter-url-slug"
+                      className={`p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500 ${
+                     ''
+                      }`}
+                      value={url}
+                      onChange={handleUrlChange}
+                    />
+                  </div>
+                  {errors.url && (
+                    <p className="text-red-500 text-sm mt-1 ml-1">{errors.url}</p>
+                  )}
+                
+                </div>
+
+                <div>
+                  <Typography>Enter the tags of your web page</Typography>
+                  <MultipleAutoComplete
+                    title={"Enter tags"}
+                    islabel={false}
+                    autocompleteelement={autocompleteelement}
+                    value={value}
+                    setValue={(newValue: any) => {
+                      setValue(newValue);
+                      setErrors({ ...errors, tags: '' });
+                    }}
+                  />
+                  {errors.tags && (
+                    <p className="text-red-500 text-sm mt-1">{errors.tags}</p>
+                  )}
+                </div>
+
+                <div>
+                  <Typography>Enter the description of your web page</Typography>
+                  <input
+                    required
+                    placeholder="Enter the description"
+                    className={`p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500 ${
+                      errors.desc ? 'border-red-500' : ''
+                    }`}
+                    value={desc}
+                    onChange={(e) => {
+                      setdesc(e.target.value);
+                      setErrors({ ...errors, desc: '' });
+                    }}
+                  />
+                  {errors.desc && (
+                    <p className="text-red-500 text-sm mt-1">{errors.desc}</p>
+                  )}
+                </div>
+
+                {errors.submit && (
+                  <p className="text-red-500 text-sm mt-1">{errors.submit}</p>
+                )}
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                sx={{
+                  backgroundColor: "blue",
+                  padding: "8px 12px",
+                  margin: "5px 0",
+                  color: "#ffffff",
+                  fontWeight: "500",
+                  border: "none",
+                  borderRadius: "12px",
+                  '&:disabled': {
+                    backgroundColor: 'gray',
+                    cursor: 'not-allowed'
+                  }
+                }}
+              >
+                {isSubmitting ? 'Publishing...' : 'Confirm Publish'}
+              </Button>
+            </DialogActions>
+          </form>
         </BootstrapDialog>
       ) : (
         <ShareBody
