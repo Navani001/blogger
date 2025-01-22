@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import { useCurrentEditor } from "@tiptap/react";
 import ShareIcon from "@mui/icons-material/Share";
 import { MultipleAutoComplete } from "@/ui/components/autocomplete/multipleAutoComplete";
-import { CreateBlog } from "@/lib/utilis";
+import { CreateBlog, validateURL } from "@/lib/utilis";
 import { ShareBody } from "../share";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -25,38 +25,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const validateURL = (url: string): string => {
-  if (!url.trim()) return "URL is required";
-  if (url.includes(" ")) return "URL cannot contain spaces";
-  
-  // Check for special characters except for - and _
-  const specialCharsRegex = /[!@#$%^&*()+={}\[\]|\\:;"'<>,?~`]/;
-  if (specialCharsRegex.test(url)) {
-    return "URL cannot contain special characters except - and _";
-  }
 
-  // Check length
-  if (url.length < 3) return "URL must be at least 3 characters long";
-  if (url.length > 50) return "URL must be less than 50 characters";
-
-  // Check for starting/ending hyphens
-  if (url.startsWith("-") || url.endsWith("-")) {
-    return "URL cannot start or end with a hyphen";
-  }
-
-  // Check for consecutive hyphens
-  if (url.includes("--")) {
-    return "URL cannot contain consecutive hyphens";
-  }
-
-  // Only allow letters, numbers, hyphens, and underscores
-  const validCharactersRegex = /^[a-zA-Z0-9-_]+$/;
-  if (!validCharactersRegex.test(url)) {
-    return "URL can only contain letters, numbers, hyphens, and underscores";
-  }
-
-  return "valid";
-};
 
 export function Publish({ title, settitle }: any) {
   const [value, setValue] = React.useState([]);
@@ -97,11 +66,12 @@ export function Publish({ title, settitle }: any) {
     try {
       const content = editor?.getHTML();
       const result = await CreateBlog(content, title, url, desc, value);
-      
+      console.log(result);
+      if(result.message=="success"){
       const response = await fetch("/api/tags/set_tags", {
         method: "POST",
         body: JSON.stringify({
-          blogid: result[0].id,
+          blogid: result.data[0].id,
           tags: value,
         }),
         headers: {
@@ -113,6 +83,10 @@ export function Publish({ title, settitle }: any) {
       
       setShareUrl(`${shareUrl}/blogs/${url}`);
       setopensharepage(true);
+    }else{
+      console.log('Failed to set')
+      setErrors({ ...errors, url: "Url already existes" })
+    }
     } catch (error) {
       console.error("Error publishing blog:", error);
       setErrors({ submit: "Failed to publish blog. Please try again." });

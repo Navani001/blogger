@@ -11,7 +11,11 @@ export async function CreateBlog(formData: any, title: string, url: any, desc: a
     const session = await auth();
     const sql = neon(`${process.env.DATABASE_URL}`);
     const comment = formData;
-    
+    const check=await sql(`select url from blogss where url='${url}'`)
+    console.log(check)
+    if(check.length!==0){
+        return {message:"Blog already exist with same URL",status:400}
+    }
     const text = `${title} ${comment}`;
     const model = google.textEmbeddingModel('text-embedding-004', {
         outputDimensionality: 384
@@ -31,5 +35,5 @@ export async function CreateBlog(formData: any, title: string, url: any, desc: a
         [title, comment, url, session?.user?.id, "published", vectorString,desc,readTime.minutes]);
         // const r:any=await sql("INSERT INTO login (username, password, email, avatar_url, role,preference_embedding) VALUES ('ram', '234', 'ram@gmail.com', 'www.google.com', 'user',$1)",[vectorString])
     const result2: any = await sql('INSERT INTO blog_metrics (blog_id) VALUES ($1)', [result[0].id]);
-    return result;
+    return {message:"success",data:result};
 }
