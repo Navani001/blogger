@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,12 +11,11 @@ import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import RedoIcon from "@mui/icons-material/Redo";
 import UndoIcon from "@mui/icons-material/Undo";
 import PaletteIcon from "@mui/icons-material/Palette";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+
 import TableChartIcon from "@mui/icons-material/TableChart";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
-import {Button} from "@nextui-org/react";
-
+import { Button } from "@nextui-org/react";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { cn } from "@nextui-org/theme";
@@ -25,9 +24,9 @@ import { PopOver } from "../popover";
 export const MenuBar = () => {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     id: "creation",
-    api: "/api/ai/chat"
+    api: "/api/ai/chat",
   });
-  const [aiActive,setAiActive]=useState(false)
+  const [aiActive, setAiActive] = useState(false);
   const [row, setrow] = useState(3);
   const [col, setcol] = useState(3);
   const [customdata, setCustomData] = useState([{ id: 1, value: "Extend it" }]);
@@ -77,33 +76,32 @@ export const MenuBar = () => {
       const en: number = start + completion.length;
       rangeRef.current = { start, end: en };
       editor?.commands.insertContentAt(start, completion);
-      setAiActive(false)
+      setAiActive(false);
     }
-  }, [completion,editor]);
+  }, [completion, editor]);
   useEffect(() => {
- 
     customsumbit();
     console.log(custominput);
-  }, [custominput,customsumbit]);
+  }, [custominput, customsumbit]);
   useEffect(() => {
     if (messages[messages.length - 1]?.role === "assistant") {
-  setAiActive(false)
+      setAiActive(false);
 
       const newContent = `<p>${messages[messages.length - 1].content}</p>`;
       editor?.commands.setContent(newContent);
     }
-  }, [messages,editor]);
+  }, [messages, editor]);
 
   if (!editor) return null;
 
   useEffect(() => {
     console.log(i2);
     hs3();
-  }, [i2,hs3]);
-const aiSumbit=()=>{
-  setAiActive(true)
-  handleSubmit()
-}
+  }, [i2, hs3]);
+  const aiSumbit = () => {
+    setAiActive(true);
+    handleSubmit();
+  };
   const toggleCodeBlockWithAction = () => {
     if (!editor) return;
     const { state } = editor;
@@ -113,7 +111,7 @@ const aiSumbit=()=>{
     const start = resolvedPos.start(resolvedPos.depth);
     const end = resolvedPos.end(resolvedPos.depth);
     rangeRef.current = { start, end };
-    setAiActive(true)
+    setAiActive(true);
     setInput(parentNode.textContent || "");
   };
 
@@ -122,7 +120,7 @@ const aiSumbit=()=>{
       title: "Auto complete",
       icon: <EditIcon sx={{ fontSize: "medium" }} />,
       action: toggleCodeBlockWithAction,
-      wantLoading:true
+      wantLoading: true,
     },
     {
       title: "Bullet list",
@@ -188,14 +186,14 @@ const aiSumbit=()=>{
 
     {
       title: "Add image",
-      icon: <AddPhotoAlternateIcon sx={{ fontSize: "medium" }} />,
+      icon: <UndoIcon sx={{ fontSize: "medium" }} />,
       action: addImage,
     },
   ];
 
   useEffect(() => {
     if (custommessage[custommessage.length - 1]?.role === "assistant") {
-      setAiActive(false)
+      setAiActive(false);
       const content = custommessage[custommessage.length - 1].content;
       const newContent = `<p>${content}</p>`;
 
@@ -210,7 +208,7 @@ const aiSumbit=()=>{
       customrange.current = { start, end: en };
       editor?.commands.insertContentAt(start, newContent);
     }
-  }, [custommessage,editor]);
+  }, [custommessage, editor]);
   const custominputai = (customrequest: string) => {
     if (!editor) return;
     const { from, to } = editor.view.state.selection;
@@ -218,7 +216,7 @@ const aiSumbit=()=>{
 
     customrange.current = { start: from, end: to };
     const selectedText = editor.state.doc.textBetween(from, to);
-    setAiActive(true)
+    setAiActive(true);
     setcustominput(selectedText + customrequest);
   };
 
@@ -230,7 +228,7 @@ const aiSumbit=()=>{
       />
       <div className="flex justify-between w-full px-4">
         <div className="xl:flex gap-2 2xl:gap-4 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
-          {buttons.map((item, index:number) => (
+          {buttons.map((item, index: number) => (
             <div key={item.title}>
               {/* <button
               
@@ -242,25 +240,29 @@ const aiSumbit=()=>{
                 <div>{item.title}</div>
               </button> */}
               <Button
-              isLoading={item.title==="Auto complete" && aiActive}
-              onPress={item.action}
-              className={cn("p-1 min-w-0 rounded-none bg-transparent h-auto buttonn gap-1",{" is-active ":item.isActive?.() })}
-              disabled={item.isDisabled?.()}
-            >
-             {(!aiActive || item.title!=="Auto complete") && <div>{item.icon}</div>}
-              <div>{item.title}</div>
-            </Button>
+                isLoading={item.title === "Auto complete" && aiActive}
+                onPress={item.action}
+                className={cn(
+                  "p-1 min-w-0 rounded-none bg-transparent h-auto buttonn gap-1",
+                  { " is-active ": item.isActive?.() }
+                )}
+                disabled={item.isDisabled?.()}
+              >
+                {(!aiActive || item.title !== "Auto complete") && (
+                  <div>{item.icon}</div>
+                )}
+                <div>{item.title}</div>
+              </Button>
             </div>
           ))}
         </div>
         <div className="relative inline-block">
-         
-<Button
-  onPress={() => setpopover(!popover)}
-  className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden min-w-0 bg-transparent"
->
-  <BsThreeDotsVertical className="w-5 h-5" />
-</Button>
+          <Button
+            onPress={() => setpopover(!popover)}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden min-w-0 bg-transparent"
+          >
+            <BsThreeDotsVertical className="w-5 h-5" />
+          </Button>
 
           <div
             className={cn(
@@ -273,18 +275,21 @@ const aiSumbit=()=>{
           >
             <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-3 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
               {buttons.map((item, index) => (
-          
                 <Button
-              key={item.title}
-              isLoading={item.title==="Auto complete" && aiActive}
-                onPress={item.action}
-                className={cn("m-0 p-[2px] lg:px-1 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",{" is-active ":item.isActive?.() })}
-                disabled={item.isDisabled?.()}
-              >
-                {(!aiActive || item.title!=="Auto complete")  && <div>{item.title !== "Color Picker" ? item.icon : ""}</div>}
-                <div>{item.title}</div>
-              </Button>
-                
+                  key={item.title}
+                  isLoading={item.title === "Auto complete" && aiActive}
+                  onPress={item.action}
+                  className={cn(
+                    "m-0 p-[2px] lg:px-1 text-[12px] min-w-0 rounded-none bg-transparent h-auto buttonn lg:text-[12px] xl:hidden lg:flex lg:items-center lg:justify-center ",
+                    { " is-active ": item.isActive?.() }
+                  )}
+                  disabled={item.isDisabled?.()}
+                >
+                  {(!aiActive || item.title !== "Auto complete") && (
+                    <div>{item.title !== "Color Picker" ? item.icon : ""}</div>
+                  )}
+                  <div>{item.title}</div>
+                </Button>
               ))}
             </div>
           </div>
@@ -327,10 +332,7 @@ const aiSumbit=()=>{
                     className="w-[150px] sm:w-[200px] sm:text-[12px] md:w-[200px] lg:h-[40px] md:text-[13px] h-[30px] px-3 text-[10px] border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <Button
-                    onPress={
-                     
-                      aiSumbit
-                    }
+                    onPress={aiSumbit}
                     className="w-[50px] h-[25px] px-1  text-[10px] font-medium lg:h-[33px] text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     Generate
@@ -375,7 +377,7 @@ const aiSumbit=()=>{
                     <input
                       type="number"
                       value={row}
-                      onChange={(e) => setrow( Number.parseInt(e.target.value))}
+                      onChange={(e) => setrow(Number.parseInt(e.target.value))}
                       className="w-full h-[32px] md:h-[34px] px-2 py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -386,7 +388,7 @@ const aiSumbit=()=>{
                     <input
                       type="number"
                       value={col}
-                      onChange={(e) => setcol( Number.parseInt(e.target.value))}
+                      onChange={(e) => setcol(Number.parseInt(e.target.value))}
                       className="w-full h-[32px] px-2 md:h-[34px] py-2 text-sm border rounded-md focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -424,32 +426,41 @@ const aiSumbit=()=>{
             }}
             body={
               <div className="p-3 space-y-2">
-              {customdata.map((item, index) => (
-                <div key={item.id} className="flex items-center gap-2">
-                  <input
-                    placeholder="Enter prompt"
-                    value={item.value}
-                    onChange={(e) => setCustomData(customdata.map((d, i) => 
-                      i === index ? { ...d, value: e.target.value } : d
-                    ))}
-                    className="flex-1 px-2 py-1.5 text-sm  w-[130px] sm:w-[170px] border rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                  />
-                  <Button
-                  disabled={  aiActive}
-                    onClick={() => custominputai(item.value)}
-                    className="px-2 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  >
-                    Go
-                  </Button>
-                </div>
-              ))}
-              <Button
-                onClick={() => setCustomData([...customdata, { id: Date.now(), value: "" }])}
-                className="w-full px-2 py-1.5 text-xs text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
-              >
-                + Add Prompt
-              </Button>
-            </div>
+                {customdata.map((item, index) => (
+                  <div key={item.id} className="flex items-center gap-2">
+                    <input
+                      placeholder="Enter prompt"
+                      value={item.value}
+                      onChange={(e) =>
+                        setCustomData(
+                          customdata.map((d, i) =>
+                            i === index ? { ...d, value: e.target.value } : d
+                          )
+                        )
+                      }
+                      className="flex-1 px-2 py-1.5 text-sm  w-[130px] sm:w-[170px] border rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <Button
+                      disabled={aiActive}
+                      onClick={() => custominputai(item.value)}
+                      className="px-2 py-1.5 text-xs bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    >
+                      Go
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  onClick={() =>
+                    setCustomData([
+                      ...customdata,
+                      { id: Date.now(), value: "" },
+                    ])
+                  }
+                  className="w-full px-2 py-1.5 text-xs text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
+                >
+                  + Add Prompt
+                </Button>
+              </div>
             }
           />
         </div>
