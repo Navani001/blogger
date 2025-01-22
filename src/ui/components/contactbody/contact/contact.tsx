@@ -225,7 +225,7 @@ export function ContactUs({ name, email }: any) {
                       ringOffset: 2,
                       ringColor: "primary.light",
                     },
-                  }}
+                  }}   
                 >
                   Send Message
                 </Button>

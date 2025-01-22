@@ -1,34 +1,30 @@
 "use client";
 import { redirect } from "next/navigation";
 import React from "react";
-
+import axios from "axios";
 export function Tags() {
   const [tags, settags] = React.useState([]);
   React.useEffect(() => {
-    fetch(`/api/tags/get_tags`, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-      cache: "force-cache",
-      headers: {
-        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+    axios
+      .get("/api/tags/get_tags", {
+        headers: {
+          "Cache-Control":
+            "public, s-maxage=3600, stale-while-revalidate=86400",
+        },
       })
-      .then((data) => settags(data.data));
+      .then((response) => {
+        settags(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching tags:", error);
+      });
   }, []);
-  React.useEffect(() => {
-    console.log(tags);
-  }, [tags]);
+
   return (
     <div className="flex gap-3 scrollbar-default overflow-x-scroll">
       {tags.length != 0 ? (
-        tags.map((tags: any,index) => (
+        tags.map((tags: any, index) => (
           <button
-        
             key={index}
             onClick={() => {
               redirect(`/trending/${tags.name}`);
@@ -39,7 +35,7 @@ export function Tags() {
           </button>
         ))
       ) : (
-        <div>Loaging</div>
+        <div>Loading</div>
       )}
     </div>
   );

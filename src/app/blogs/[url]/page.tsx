@@ -15,7 +15,7 @@ import { Toast } from "@/ui/components/toast";
 import { Share } from "@/ui/components/model";
 
 
-const BlogPost = ({ params }: { params: any }) => {
+const BlogPost = ({ params }:any) => {
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
   const [open, setOpen] = React.useState(false);
