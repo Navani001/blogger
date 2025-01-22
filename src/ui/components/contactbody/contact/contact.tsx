@@ -2,63 +2,108 @@
 
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import Dialog from "@mui/material/Dialog";
 import { Card } from "@mui/material";
-import { auth } from "../../../../lib/utilis/auth";
 
-export  function ContactUs({name, email}:any) {
-  
-  const [formData, setFormData] = React.useState({
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormErrors {
+  subject?: string;
+  message?: string;
+}
+
+export function ContactUs({ name, email }: any) {
+  const [loading, setLoading] = React.useState(false);
+  const [formData, setFormData] = React.useState<FormData>({
     name,
     email,
-    subject: '',
-    message: ''
+    subject: "",
+    message: "",
   });
 
-  const handleSubmit =async (e:any) => {
-    e.preventDefault();
-    console.log("hello everyone")
-    // Add form submission logic here
-    console.log('Form submitted:', formData);
-    await fetch("/api/send", {
-      method: "POST",
-      body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
-      headers: { "Content-type": "application/json" },
-      next: { revalidate: 3600 },
-  // Cache for 1 hour
-      cache: "force-cache",
-   
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Network response was not ok");
-        return response.json();
-      })
-      handleClose()
-
-  };
-
-  const handleChange = (e:any) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [errors, setErrors] = React.useState<FormErrors>({});
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const validateForm = (): FormErrors => {
+    const errors: FormErrors = {};
+
+    if (!formData.subject.trim()) {
+      errors.subject = "Subject is required";
+    } else if (formData.subject.length < 3) {
+      errors.subject = "Subject must be at least 3 characters";
+    } else if (formData.subject.length > 100) {
+      errors.subject = "Subject must be less than 100 characters";
+    }
+
+    if (!formData.message.trim()) {
+      errors.message = "Message is required";
+    } else if (formData.message.length < 10) {
+      errors.message = "Message must be at least 10 characters";
+    } else if (formData.message.length > 1000) {
+      errors.message = "Message must be less than 1000 characters";
+    }
+
+    return errors;
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const validationErrors = validateForm();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-type": "application/json" },
+        next: { revalidate: 3600 },
+        cache: "force-cache",
+      });
+
+      if (!response.ok) throw new Error("Network response was not ok");
+      handleClose();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    // Clear error when user starts typing
+    if (errors[e.target.name as keyof FormErrors]) {
+      setErrors({
+        ...errors,
+        [e.target.name]: undefined,
+      });
+    }
+  };
+
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <React.Fragment>
       <Button
         variant="outlined"
-        className=""
         onClick={handleClickOpen}
         sx={{
           color: "gray",
@@ -68,12 +113,9 @@ export  function ContactUs({name, email}:any) {
           padding: "0",
         }}
       >
-        contact Us
+        Contact Us
       </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
+      <Dialog open={open} onClose={handleClose}>
         <div className="lg:col-span-2">
           <Card className="p-6">
             <form onSubmit={handleSubmit} method="POST" className="space-y-6">
@@ -89,11 +131,9 @@ export  function ContactUs({name, email}:any) {
                     type="text"
                     name="name"
                     id="name"
-         disabled
+                    disabled
                     value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md  focus:ring-blue-500 focus:border-blue-500"
-                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
@@ -105,14 +145,12 @@ export  function ContactUs({name, email}:any) {
                     Email
                   </label>
                   <input
-                   disabled
                     type="email"
                     name="email"
                     id="email"
+                    disabled
                     value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md  focus:ring-blue-500 focus:border-blue-500"
-                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -130,9 +168,14 @@ export  function ContactUs({name, email}:any) {
                   id="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md  focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.subject ? "border-red-500" : "border-gray-300"
+                  }`}
                   required
                 />
+                {errors.subject && (
+                  <p className="mt-1 text-sm text-red-600">{errors.subject}</p>
+                )}
               </div>
 
               <div>
@@ -148,19 +191,44 @@ export  function ContactUs({name, email}:any) {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
+                    errors.message ? "border-red-500" : "border-gray-300"
+                  }`}
                   required
                 />
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+                )}
               </div>
 
               <div>
-                <button
+                <Button
                   type="submit"
-                  className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  variant="contained"
+                  startIcon={<Send />}
+                  disabled={loading}
+                  sx={{
+                    bgcolor: "primary.main",
+                    "&:hover": {
+                      bgcolor: "primary.dark",
+                    },
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 1,
+                    textTransform: "none",
+                    fontSize: "1rem",
+                    fontWeight: 500,
+                    boxShadow: 1,
+                    "&:focus": {
+                      outline: "none",
+                      ring: 2,
+                      ringOffset: 2,
+                      ringColor: "primary.light",
+                    },
+                  }}
                 >
-                  <Send className="w-5 h-5 mr-2" />
                   Send Message
-                </button>
+                </Button>
               </div>
             </form>
           </Card>

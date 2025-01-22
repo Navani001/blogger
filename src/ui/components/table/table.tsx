@@ -30,8 +30,8 @@ interface TableProps {
 
 export function AnalysisTable({
   rows,
-  handleView,
-  isview,
+  handleView=()=>{console.log()},
+  isview=true,
   coloumn_remove = ['id'],
 }: any) {
   console.log(rows)
