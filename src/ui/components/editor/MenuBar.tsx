@@ -1,4 +1,6 @@
 "use client";
+// No import needed - remove the line entirely
+
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -10,8 +12,8 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import RedoIcon from "@mui/icons-material/Redo";
 import UndoIcon from "@mui/icons-material/Undo";
-import PaletteIcon from "@mui/icons-material/Palette";
 
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import TableChartIcon from "@mui/icons-material/TableChart";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
@@ -186,7 +188,7 @@ export const MenuBar = () => {
 
     {
       title: "Add image",
-      icon: <UndoIcon sx={{ fontSize: "medium" }} />,
+      icon: <AddPhotoAlternateIcon sx={{ fontSize: "medium" }} />,
       action: addImage,
     },
   ];

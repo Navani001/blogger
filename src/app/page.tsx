@@ -1,26 +1,28 @@
-
 import React from "react";
-import { Bookmark, User, Search as SearchIcon, UserIcon, GithubIcon, Radius } from "lucide-react";
+import {
+  Bookmark,
+  User,
+  Search as SearchIcon,
+  UserIcon,
+  GithubIcon,
+  Radius,
+} from "lucide-react";
 import { SignOut } from "@/lib/auth/signout-button";
 import { SignIn } from "@/lib/auth/signin-button";
 import { auth } from "@/lib/utilis/auth";
 import { redirect } from "next/navigation";
 import { MdLogout } from "react-icons/md";
 import { MdOutlineContactSupport } from "react-icons/md";
-import {FaGithub } from 'react-icons/fa';
+import { FaGithub } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
 
-
-import {Recommend} from "@/ui/components/recommend";
-import {Tags} from "@/ui/components/tagDisplay";
-
+import { Recommend } from "@/ui/components/recommend";
+import { Tags } from "@/ui/components/tagDisplay";
 
 import { LinkedinIcon } from "react-share";
 import { CardAbout } from "@/ui/components/card";
 import { PopOver } from "@/ui/components/popover";
 import { ContactBody, Search } from "@/ui/components";
-
-
 
 const BlogHomepage = async () => {
   const session = await auth();
@@ -37,7 +39,7 @@ const BlogHomepage = async () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex-shrink-0">
               <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400">
-              Blogix
+                Blogix
               </span>
             </div>
 
@@ -57,40 +59,47 @@ const BlogHomepage = async () => {
                 Write a blog
               </a>
 
-            
-                <PopOver
-                  title={""}
-                  titlestyle="bg-white"
-                  body={
-                    <div className="w-64 py-2">
+              <PopOver
+                title={""}
+                titlestyle="bg-white"
+                body={
+                  <div className="w-64 py-2">
                     {/* User Info */}
                     <div className="px-4 py-3 border-b">
                       <div className="flex items-center space-x-3">
                         <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-600 font-medium">{session.user.name?.slice(0,2)}</span>
+                          <span className="text-gray-600 font-medium">
+                            {session.user.name?.slice(0, 2)}
+                          </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{session.user.name}</p>
-                          <p className="text-xs text-gray-500">{session.user.email}</p>
+                          <p className="text-sm font-medium text-gray-900">
+                            {session.user.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {session.user.email}
+                          </p>
                         </div>
                       </div>
                     </div>
-                  
+
                     {/* Navigation Links */}
                     <div className="py-2">
-                    
-                      <a href="/analysis" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <a
+                        href="/analysis"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
                         {/* <DocumentTextIcon className="h-4 w-4 mr-3 text-gray-400" /> */}
-                        <IoDocumentTextOutline  className="h-4 w-4 mr-1 text-gray-700" />
+                        <IoDocumentTextOutline className="h-4 w-4 mr-1 text-gray-700" />
                         Blogs Analysis
                       </a>
                       <div className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         {/* <CogIcon className="h-4 w-4 mr-3 text-gray-400" /> */}
                         <MdOutlineContactSupport className="h-4 w-4 mr-1 text-gray-700" />
-                  <ContactBody/>
+                        <ContactBody />
                       </div>
                     </div>
-                  
+
                     {/* Logout Button */}
                     <div className="px-4 py-2 border-t">
                       {/* <button 
@@ -101,24 +110,26 @@ const BlogHomepage = async () => {
                         
                         Sign out
                       </button> */}
-                  
+
                       <SignOut />
                     </div>
                   </div>
-                  }
-                  icon={<User className="h-5 w-5 text-gray-600" />}
-                />
-             
+                }
+                icon={<User className="h-5 w-5 text-gray-600" />}
+              />
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section - More Dynamic */}
-      <div className="relative overflow-hidden bg-white" style={{
-      msOverflowStyle: 'none',
-      scrollbarWidth: 'none'
-    }}>
+      <div
+        className="relative overflow-hidden bg-white"
+        style={{
+          msOverflowStyle: "none",
+          scrollbarWidth: "none",
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-24">
             <div className="relative z-10">
@@ -137,27 +148,22 @@ const BlogHomepage = async () => {
       </div>
 
       {/* Featured Posts - Card Layout */}
-      <Recommend/>
-   
+      <Recommend />
+
       {/* Topics Section - More Interactive */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
-        Explore Blogs with Tags
+          Explore Blogs with Tags
         </h2>
-       <Tags/>
+        <Tags />
       </div>
 
-    
       {/* Footer - Personal Project */}
-<footer className="bg-gray-50 border-t border-gray-100">
- 
-<CardAbout/>
-</footer>
+      <footer className="bg-gray-50 border-t border-gray-100">
+        <CardAbout />
+      </footer>
     </div>
   );
 };
 
-
 export default BlogHomepage;
-
-

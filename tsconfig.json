@@ -32,6 +32,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/titleautocomplete"
-  ],
+, "jest.setup.js", "jest.setup.js"  ],
   "exclude": ["node_modules"]
 }

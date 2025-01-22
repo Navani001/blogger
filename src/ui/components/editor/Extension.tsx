@@ -17,6 +17,21 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Gapcursor from '@tiptap/extension-gapcursor'
 import Highlight from '@tiptap/extension-highlight'
+import { all, createLowlight } from 'lowlight'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
+// create a lowlight instance with all languages loaded
+const lowlight = createLowlight(all)
+
+// This is only an example, all supported languages are already loaded above
+// but you can also register only specific languages to reduce bundle-size
+lowlight.register('html', html)
+lowlight.register('css', css)
+lowlight.register('js', js)
+lowlight.register('ts', ts)
 
 export const extensions = [
     Document,
@@ -33,6 +48,9 @@ export const extensions = [
     TableHeader,
     TableCell,
     Highlight.configure({ multicolor: true }),
+    CodeBlockLowlight.configure({
+      lowlight,
+    }),
     Link.configure({
       openOnClick: false,
       autolink: true,
