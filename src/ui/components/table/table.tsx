@@ -30,11 +30,12 @@ interface TableProps {
 
 export function AnalysisTable({
   rows,
-  handleView=()=>{console.log()},
-  isview=true,
-  coloumn_remove = ['id'],
+  handleView = () => {
+    console.log();
+  },
+  isview = true,
+  coloumn_remove = ["id"],
 }: any) {
-  console.log(rows)
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -89,25 +90,25 @@ export function AnalysisTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentPageRows.map((row:any, index:any) => (
+            {currentPageRows.map((row: any, index: any) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {Object.keys(row).map((key) => 
+                {Object.keys(row).map(
+                  (key) =>
                     !coloumn_remove.includes(key) && (
-                   
-                  <TableCell
-                    key={key}
-                    align={key === "name" ? "left" : "right"}
-                    component={key === "name" ? "th" : "td"}
-                    scope={key === "name" ? "row" : undefined}
-                  >
-                    {/* {key} */}
-                    {row[key]}
-                  </TableCell>
-                   
-                ))}
+                      <TableCell
+                        key={key}
+                        align={key === "name" ? "left" : "right"}
+                        component={key === "name" ? "th" : "td"}
+                        scope={key === "name" ? "row" : undefined}
+                      >
+                        {/* {key} */}
+                        {row[key]}
+                      </TableCell>
+                    )
+                )}
                 {isview && (
                   <TableCell align="center">
                     <IconButton
