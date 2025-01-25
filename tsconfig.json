@@ -26,6 +26,7 @@
    
     }
   },
+  "types": ["cypress","node", "babel__core", "babel__generator", "babel__template"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
