@@ -1,4 +1,4 @@
-import { getFilteredData } from '../../../lib/utilis/FilterData';
+import { getFilteredData } from '../../src/lib/utilis/FilterData';
 
 describe('getFilteredData', () => {
   const today = new Date('2024-03-15');

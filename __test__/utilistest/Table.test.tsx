@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { AnalysisTable } from "././../../../ui/components/table";
+import { AnalysisTable } from "../../src/ui/components/table";
 import "@testing-library/jest-dom";
 
 describe("AnalysisTable", () => {

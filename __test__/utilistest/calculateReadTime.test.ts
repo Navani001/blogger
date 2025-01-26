@@ -1,4 +1,4 @@
-import { calculateReadTime } from '../../../lib/utilis/calculateReadTime';
+import { calculateReadTime } from '../../src/lib/utilis/calculateReadTime';
 
 describe('calculateReadTime', () => {
   it('should calculate basic reading time for plain text', () => {

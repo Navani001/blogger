@@ -1,4 +1,4 @@
-import { ContactUs } from "././../../../ui/components/contactbody/contact";
+import { ContactUs } from "../../src/ui/components/contactbody/contact";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -12,7 +12,7 @@ describe("ContactUs Dialog Component", () => {
     render(<ContactUs {...mockProps} />);
   });
 
- 
+
 
 
 

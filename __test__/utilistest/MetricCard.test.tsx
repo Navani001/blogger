@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { MetricCard } from "../../../ui/components/metriccard/metricCard";
+import { MetricCard } from "../../src/ui/components/metriccard/metricCard";
 import "@testing-library/jest-dom";
 import 'cross-fetch/polyfill';
 describe("MetricCard", () => {

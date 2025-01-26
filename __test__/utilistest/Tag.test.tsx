@@ -1,6 +1,6 @@
 import { render, screen, waitFor, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Tags } from "./../../../ui/components/tagDisplay/tagDisplay";
+import { Tags } from "../../src/ui/components/tagDisplay/tagDisplay";
 import axios from "axios";
 
 jest.mock("axios");

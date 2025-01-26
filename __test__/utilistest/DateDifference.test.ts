@@ -1,4 +1,4 @@
-import { calculateDateDifference } from '../../../lib/utilis/DateDifference';
+import { calculateDateDifference } from '../../src/lib/utilis/DateDifference';
 
 describe('calculateDateDifference', () => {
   it('should calculate date difference correctly', () => {

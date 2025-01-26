@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { CardAbout } from './../../../ui/components/card/card';
+import { CardAbout } from '../../src/ui/components/card/card';
 import userEvent from '@testing-library/user-event';
 
 describe('CardAbout Component', () => {
@@ -11,7 +11,7 @@ describe('CardAbout Component', () => {
 
   test('renders initial component with truncated description', () => {
     render(<CardAbout {...defaultProps} />);
-    
+
     expect(screen.getByText(/About this Project/i)).toBeInTheDocument();
     expect(screen.getByText(/See More/i)).toBeInTheDocument();
     expect(screen.getByText(/This is a test description.+\.\.\./i)).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('CardAbout Component', () => {
 
   test('renders social media links', () => {
     render(<CardAbout />);
-    
+
     expect(screen.getByRole('link', { name: /github/i })).toHaveAttribute(
       'href',
       'https://github.com/Navani001'
@@ -34,7 +34,7 @@ describe('CardAbout Component', () => {
 
   test('renders contact section with email', () => {
     render(<CardAbout />);
-    
+
     expect(screen.getByText(/Contact/i)).toBeInTheDocument();
     expect(screen.getByText(/Have questions or suggestions?/i)).toBeInTheDocument();
     expect(screen.getByText('navaneetha2006krishnan@gmail.com')).toHaveAttribute(

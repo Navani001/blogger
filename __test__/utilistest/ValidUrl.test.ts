@@ -1,4 +1,4 @@
-import { validateURL } from "../../../lib/utilis/ValidUrl";
+import { validateURL } from "../../src/lib/utilis/ValidUrl";
 
 
 
