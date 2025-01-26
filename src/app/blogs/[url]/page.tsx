@@ -15,7 +15,7 @@ import { Toast } from "@/ui/components/toast";
 import { Share } from "@/ui/components/model";
 
 
-const BlogPost = ({ params }:any) => {
+const BlogPost = ({ params }: any) => {
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
   const [open, setOpen] = React.useState(false);
@@ -119,7 +119,7 @@ const BlogPost = ({ params }:any) => {
         });
     };
     fetchcontent();
-  }, [url,liked]);
+  }, [url]);
 
   const handlecommentsumbit = async () => {
     if (!individualcomment.trim()) return;
@@ -167,7 +167,7 @@ const BlogPost = ({ params }:any) => {
       try {
         // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) {}
+      } catch (e) { }
     }
   }, []);
 
@@ -199,12 +199,12 @@ const BlogPost = ({ params }:any) => {
           <div className="flex gap-6">
             <button
               onClick={handlelike}
+              data-test-id='Like-field'
               className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors"
             >
               <Heart
-                className={`w-6 h-6 ${
-                  liked ? "fill-red-500 text-red-500" : ""
-                }`}
+                className={`w-6 h-6 ${liked ? "fill-red-500 text-red-500" : ""
+                  }`}
               />
               <span className="text-sm font-medium">Like</span>
             </button>
@@ -235,6 +235,7 @@ const BlogPost = ({ params }:any) => {
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
           <div className="mb-6">
             <Textarea
+              data-test-id="Comment-field"
               classNames={{
                 input: "p-2  rounded-lg bg-[#F4F3FA] bg-clip-border",
                 inputWrapper: "p-0",
