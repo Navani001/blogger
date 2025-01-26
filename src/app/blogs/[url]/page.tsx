@@ -155,9 +155,6 @@ const BlogPost = ({ params }: any) => {
     }
   };
 
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   useEffect(() => {
     // biome-ignore lint/style/noVar: <explanation>
@@ -235,7 +232,7 @@ const BlogPost = ({ params }: any) => {
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
           <div className="mb-6">
             <Textarea
-              data-test-id="Comment-field"
+              data-test-id="Commentfield"
               classNames={{
                 input: "p-2  rounded-lg bg-[#F4F3FA] bg-clip-border",
                 inputWrapper: "p-0",

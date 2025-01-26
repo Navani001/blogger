@@ -115,7 +115,7 @@ const BlogHomepage = async () => {
                     </div>
                   </div>
                 }
-                icon={<User className="h-5 w-5 text-gray-600" />}
+                icon={<span data-test-id="Profile"><User className="h-5 w-5 text-gray-600" /></span>}
               />
             </div>
           </div>

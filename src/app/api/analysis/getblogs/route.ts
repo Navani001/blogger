@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     // Parse and validate request body
     const body = await request.json();
     const { id } = body;
-
+console.log(id)
     if (!id) {
       return NextResponse.json(
         { error: "ID is required" },
