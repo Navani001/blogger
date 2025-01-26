@@ -16,7 +16,7 @@ Cypress.Commands.add("Login", () => {
    
     Login();
 })
-Cypress.Commands.add("Publish", (url) => {
+Cypress.Commands.add("Publish", (url:string) => {
    
     Publish(url);
 })
@@ -33,7 +33,7 @@ function Login(){
     cy.get('[type="password"]').type('123')
     cy.get(':nth-child(9) > .MuiButtonBase-root').click()
 }
-function Publish(url){
+function Publish(url:string){
   cy.Login()
    cy.get('.flex > .px-4').click()
    cy.get('.tiptap').type('testing with cypress')
