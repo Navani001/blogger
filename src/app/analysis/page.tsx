@@ -5,10 +5,7 @@ import { useEffect, useState } from "react";
 import { fetchblog } from "@/lib/blogsfetch";
 import { AnalysisTable } from "@/ui/components/table";
 
-interface BlogData {
-  id: string;
-  [key: string]: any;
-}
+
 export default function Home() {
   const [blogs, setblogs] = useState([]);
   const [loading,setloading]=useState(true)

@@ -1,6 +1,6 @@
 "use server";
 import { neon } from "@neondatabase/serverless";
-export async function getUserFromDb(email: any, password: any) {
+export async function getUserFromDb(email: string, password: string) {
 
 
   // Connect to the Neon database

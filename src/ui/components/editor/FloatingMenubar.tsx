@@ -85,7 +85,7 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().clearNodes().run();
     },
 
-    Heading: (level: any) => {
+    Heading: (level: string) => {
       editor
         .chain()
         .focus()

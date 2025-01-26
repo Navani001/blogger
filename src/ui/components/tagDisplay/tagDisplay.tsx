@@ -5,7 +5,7 @@ import axios from "axios";
 interface Tag {
   name: string;
   id?: number;
-  [key: string]: any;
+
 }
 export function Tags() {
   const [tags, settags] = React.useState([]);
