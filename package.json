@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watchAll",
+    "test:watch": "jest --watchAll",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
