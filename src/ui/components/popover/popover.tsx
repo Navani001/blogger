@@ -11,7 +11,7 @@ interface PopOverProps {
   body: React.ReactNode;
   icon?: React.ReactNode;
   isLoading?: boolean;
-  titlestyle?: string;
+  titlestyle?: any;
 }
 
 

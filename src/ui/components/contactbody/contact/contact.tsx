@@ -18,7 +18,7 @@ interface FormErrors {
   message?: string;
 }
 
-export function ContactUs({ name, email }: {name:string, email:string}) {
+export function ContactUs({ name, email }: any) {
   const [loading, setLoading] = React.useState(false);
   const [formData, setFormData] = React.useState<FormData>({
     name,
