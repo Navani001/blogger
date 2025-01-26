@@ -230,7 +230,7 @@ const BlogPost = ({ params }: any) => {
 
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
-          <div className="mb-6">
+          <div className="mb-6 ">
             <Textarea
               data-test-id="Commentfield"
               classNames={{
