@@ -7,7 +7,7 @@ declare global {
 }
 import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
-import { Navbar, NavbarBrand, Button, Textarea } from "@nextui-org/react";
+import { Navbar, NavbarBrand, Button, Textarea, cn } from "@nextui-org/react";
 
 import { Heart, Share2, MessageCircle } from "lucide-react";
 
@@ -238,10 +238,11 @@ const BlogPost = ({ params }: any) => {
             />
           </div>
           <Button
-            color="primary"
+    color="primary"
             onClick={handlecommentsumbit}
             isLoading={isSubmitting}
-            className="w-full sm:w-auto mb-4"
+            isDisabled={individualcomment.length<3}
+            className={cn("w-full sm:w-auto mb-4 ")}
           >
             Post Comment
           </Button>
