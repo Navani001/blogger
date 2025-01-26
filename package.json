@@ -26,10 +26,7 @@
     "@nextui-org/system": "^2.4.4",
     "@nextui-org/theme": "^2.4.3",
     "@tailwindcss/typography": "^0.5.15",
-    "@tiptap-pro/extension-details": "^2.17.0",
-    "@tiptap-pro/extension-details-summary": "^2.17.0",
-    "@tiptap-pro/extension-emoji": "^2.17.0",
-    "@tiptap-pro/extension-unique-id": "^2.17.0",
+  
     "@tiptap/extension-code-block-lowlight": "^2.11.2",
     "@tiptap/extension-color": "^2.10.4",
     "@tiptap/extension-font-family": "^2.11.0",
