@@ -157,15 +157,8 @@ const BlogPost = ({ params }: any) => {
 
 
   useEffect(() => {
-    // biome-ignore lint/style/noVar: <explanation>
-    var ads = document.getElementsByClassName("adsbygoogle").length;
-    // biome-ignore lint/style/noVar: <explanation>
-    for (var i = 0; i < ads; i++) {
-      try {
-        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-      } catch (e) { }
-    }
+
+    ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
   }, []);
 
   return (
