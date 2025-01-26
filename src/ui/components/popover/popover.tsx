@@ -6,9 +6,16 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@nextui-org/button";
 import { cn } from "@nextui-org/theme";
 
+interface PopOverProps {
+  title: string;
+  body: React.ReactNode;
+  icon?: React.ReactNode;
+  isLoading?: boolean;
+  titlestyle?: string;
+}
 
 
-export  function PopOver({ title, body, icon,isLoading=false,  titlestyle = "" }: any) {
+export function PopOver({ title, body, icon, isLoading = false, titlestyle = "" }: PopOverProps) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event: any) => {

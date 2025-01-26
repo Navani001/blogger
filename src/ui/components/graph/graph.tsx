@@ -3,8 +3,23 @@ import { parseISO,format } from "date-fns";
 import { Chart } from "../chart";
 
 // Dynamically import ApexCharts with SSR disabled
+interface Comment {
+  username: string;
+  created_at: string;
+}
 
-export const GraphFormat = ({ comments, state, setsort,title }:any) => {
+interface GraphState {
+  options: any;
+  series: any[];
+}
+
+interface GraphFormatProps {
+  comments: Comment[];
+  state: GraphState;
+  setsort: (value: string) => void;
+  title: string;
+}
+export const GraphFormat = ({ comments, state, setsort, title }: GraphFormatProps) => {
     return (
      <div>
         <div className="mb-4 flex justify-between items-center">

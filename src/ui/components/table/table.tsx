@@ -22,10 +22,11 @@ interface RowData {
   [key: string]: any;
 }
 
-interface TableProps {
+interface AnalysisTableProps {
   rows: RowData[];
   handleView?: (row: RowData) => void;
   isview?: boolean;
+  coloumn_remove?: string[];
 }
 
 export function AnalysisTable({
@@ -35,7 +36,7 @@ export function AnalysisTable({
   },
   isview = true,
   coloumn_remove = ["id"],
-}: any) {
+}: AnalysisTableProps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -90,7 +91,7 @@ export function AnalysisTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {currentPageRows.map((row: any, index: any) => (
+            {currentPageRows.map((row: RowData, index: number) => (
               <TableRow
                 key={index}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

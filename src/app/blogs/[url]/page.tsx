@@ -1,10 +1,6 @@
 "use client";
 
-declare global {
-  interface Window {
-    adsbygoogle: any;
-  }
-}
+
 import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { Navbar, NavbarBrand, Button, Textarea, cn } from "@nextui-org/react";

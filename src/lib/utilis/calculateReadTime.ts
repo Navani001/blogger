@@ -1,4 +1,4 @@
-export const calculateReadTime = (content:any, options = {}) => {
+export const calculateReadTime = (content:string, options = {}) => {
     // Default options
     const defaults = {
       wordsPerMinute: 200,        // Average reading speed

@@ -33,7 +33,7 @@ export async function CreateBlog(formData: any, title: string, url: any, desc: a
  
     const result: any = await sql('INSERT INTO blogss (title, content, url, author_id, status, content_embedding,descs,read_time) VALUES ($1, $2, $3, $4, $5, $6,$7,$8) RETURNING id', 
         [title, comment, url, session?.user?.id, "published", vectorString,desc,readTime.minutes]);
-        // const r:any=await sql("INSERT INTO login (username, password, email, avatar_url, role,preference_embedding) VALUES ('ram', '234', 'ram@gmail.com', 'www.google.com', 'user',$1)",[vectorString])
+      
     const result2: any = await sql('INSERT INTO blog_metrics (blog_id) VALUES ($1)', [result[0].id]);
     return {message:"success",data:result};
 }

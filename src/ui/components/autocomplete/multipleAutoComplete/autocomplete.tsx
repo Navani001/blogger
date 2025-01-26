@@ -46,15 +46,7 @@ console.log(value)
         // Suggest the creation of a new value
         const isExisting = options.some((option: any) => inputValue === option[searchfield]);
 
-        // if (inputValue !== '' && !isExisting) {
-        //   reordered.push({
-        //     inputValue,
-        //     title: 'Add ' + inputValue,
-        //     isAddOption: true,
-        //   });
-        // }
-        // const top10 = reordered.slice(0, 7);
-        // console.log(top10);
+       
         return reordered;
       }}
       id='fixed-tags-demo'

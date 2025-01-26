@@ -128,7 +128,7 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().redo().run();
     },
 
-    setColor: (color: any) => {
+    setColor: (color: string) => {
       editor.chain().focus().setColor(color).run();
     },
     Paragraph: () => {
@@ -317,7 +317,7 @@ export const  FloatingMenuBar = () => {
           const spaceOnRight = windowWidth - centerX;
           const spaceOnLeft = centerX;
 
-          let leftPos:any;
+          let leftPos:number;
           if (spaceOnRight >= MENU_WIDTH + PADDING) {
             leftPos = centerX;
           } else if (spaceOnLeft >= MENU_WIDTH + PADDING) {

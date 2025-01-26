@@ -2,6 +2,11 @@
 import { redirect } from "next/navigation";
 import React from "react";
 import axios from "axios";
+interface Tag {
+  name: string;
+  id?: number;
+  [key: string]: any;
+}
 export function Tags() {
   const [tags, settags] = React.useState([]);
   React.useEffect(() => {
@@ -23,7 +28,7 @@ export function Tags() {
   return (
     <div className="flex gap-3 scrollbar-default overflow-x-scroll">
       {tags.length != 0 ? (
-        tags.map((tags: any, index) => (
+        tags.map((tags: Tag, index:number) => (
           <button
             key={index}
             onClick={() => {

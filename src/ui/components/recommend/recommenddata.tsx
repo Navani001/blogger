@@ -2,15 +2,28 @@
 import { format, parseISO } from "date-fns";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
+interface PostData {
+  url: string;
+  category?: string;
+  read_time?: string;
+  title: string;
+  descs?: string;
+  avatar_url?: string;
+  username?: string;
+  created_at: string;
+}
 
-export const RecommendMap = (props:any) => {
+interface RecommendMapProps {
+  data: PostData[];
+}
+export const RecommendMap = (props: RecommendMapProps) => {
  const {data} = props;
 
 
   return (
     <div className="flex gap-6 overflow-x-auto scrollbar-hide">
       {data.length > 0 ? (
-        data.map((post: any, index:any) => (
+        data.map((post: PostData, index:number) => (
           <div
             key={index}
             onClick={() => {

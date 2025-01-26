@@ -35,7 +35,7 @@ export const Search = () => {
     <div className="w-[250px] h-full bg-gray-50">
       <SingleAutocomplete
         autocompleteelement={rec}
-        onclick={(url: any) => {
+        onclick={(url: string) => {
           console.log("Search", url);
           redirect(`/blogs/${url}`);
         }}
@@ -43,9 +43,6 @@ export const Search = () => {
         value={value}
       />
 
-      {/* <SelectInputField title="Search.." islabel={false}   varient="" autocompleteelement={rec} value={value} multiple={true} searchfield="title" onclick={(url:any)=>{
-          console.log('Search', url);
-          redirect(`/blogs/${url}`)}} setValue={setvalue}></SelectInputField> */}
     </div>
   );
 };

@@ -27,7 +27,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 
 
-export function Publish({ title, settitle }: any) {
+export function Publish({ title, settitle }: {title: string, settitle:(a:string)=>void}) {
   const [value, setValue] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [autocompleteelement, setautocompleteelement] = React.useState([]);

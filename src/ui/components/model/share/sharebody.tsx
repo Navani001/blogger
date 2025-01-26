@@ -29,13 +29,19 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+interface ShareBodyProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  shareUrl: string;
+  setopensharepage: (open: boolean) => void;
+}
 
 export function ShareBody({
   open,
   setOpen,
   shareUrl,
   setopensharepage,
-}: any) {
+}: ShareBodyProps) {
   const [showCopyAlert, setShowCopyAlert] = React.useState(false);
 
   const handleClose = () => {
