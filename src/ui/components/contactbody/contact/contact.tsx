@@ -106,14 +106,14 @@ export function ContactUs({ name, email }: any) {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          color: "gray",
+          color: "black",
           textTransform: "none",
           fontSize: "14px",
           border: 0,
           padding: "0",
         }}
       >
-        Contact Us
+        <span className="text-gray-700">Contact Us</span>
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <div className="lg:col-span-2">
@@ -168,9 +168,8 @@ export function ContactUs({ name, email }: any) {
                   id="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.subject ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${errors.subject ? "border-red-500" : "border-gray-300"
+                    }`}
                   required
                 />
                 {errors.subject && (
@@ -191,9 +190,8 @@ export function ContactUs({ name, email }: any) {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.message ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${errors.message ? "border-red-500" : "border-gray-300"
+                    }`}
                   required
                 />
                 {errors.message && (
@@ -225,7 +223,7 @@ export function ContactUs({ name, email }: any) {
                       ringOffset: 2,
                       ringColor: "primary.light",
                     },
-                  }}   
+                  }}
                 >
                   Send Message
                 </Button>
