@@ -15,12 +15,12 @@ import { padding, SxProps, Theme } from '@mui/system';
 import { Box, Checkbox, InputAdornment } from '@mui/material';
 
 const filter = createFilterOptions();
-export function MultipleAutoComplete({title="Required",islabel=false,varient = 'checked',multiple=true, onclick=()=>{console.log(null)},startIcon = false, value,setValue,error = false,searchfield="name", disabled = false ,autocompleteelement}: any) {
+export function MultipleAutoComplete({ title = "Required", islabel = false, varient = 'checked', multiple = true, onclick = () => { console.log(null) }, startIcon = false, value, setValue, error = false, searchfield = "name", disabled = false, autocompleteelement }: any) {
 
-React.useEffect(()=>{
-console.log(value)
+  React.useEffect(() => {
+    console.log(value)
 
-},[value])
+  }, [value])
   return (
     <Autocomplete
       isOptionEqualToValue={(option: any, value: any) => option[searchfield] === value.name}
@@ -29,9 +29,9 @@ console.log(value)
       disabled={disabled}
       disableCloseOnSelect
       sx={{
-        
-        '& .MuiFilledInput-root,':{
-          padding:'10px 0 10px 0',
+
+        '& .MuiFilledInput-root,': {
+          padding: '10px 0 10px 0',
         },
       }}
       filterOptions={(options: any, params: any) => {
@@ -46,7 +46,7 @@ console.log(value)
         // Suggest the creation of a new value
         const isExisting = options.some((option: any) => inputValue === option[searchfield]);
 
-       
+
         return reordered;
       }}
       id='fixed-tags-demo'
@@ -58,17 +58,20 @@ console.log(value)
       getOptionLabel={(option) => option[searchfield]}
       renderOption={(props, option, { selected }) => (
         <li
-        
+
           {...props}
+          key={option.id}
+
           style={
             option.isAddOption
               ? {
-                  color: '#2196f3',
-                  borderTop: '1px solid #E5E8EB',
-                 
-                }
+                color: '#2196f3',
+                borderTop: '1px solid #E5E8EB',
+
+              }
               : { display: 'flex', width: '100%', height: '100%' }
           }
+
         >
           {varient === 'checked' ? (
             <>
@@ -91,39 +94,39 @@ console.log(value)
                 style={{ marginRight: 8 }}
                 checked={selected}
                 icon={<img />}
-              
+
               />
             </Box>
           ) : (
-            <Box onClick={()=>onclick(option["url"])} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {/* {option[searchfield]} */}
-            {option["url"]}
+            <Box onClick={() => onclick(option["url"])} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              {/* {option[searchfield]} */}
+              {option["url"]}
             </Box>
           )}
         </li>
       )}
       className="w-full "
       renderInput={(params) => (
-    
+
         <TextField
           {...params}
-         
+
           sx={
             {
               ...helperTextStyle,
               ...(error ? changeBackground : {}),
               ...(disabled ? changeBackground2 : {}),
               ...changeVarient,
-   
- 
-              
+
+
+
             } as SxProps<Theme>
           }
-        
-         
+
+
           placeholder={title}
         />
-        
+
       )}
     />
   );
