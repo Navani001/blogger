@@ -22,6 +22,7 @@ Authentication: NextAuth with Google Authentication
 AI: Next AI SDK for content generation and recommendation systems
 Testing: Cypress (end-to-end testing) and Jest (unit and integration testing)
 Containerization: Docker
+Google Ads: Revenue
 ```
 # 🖥️ Installation
 Prerequisites
