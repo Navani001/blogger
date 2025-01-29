@@ -229,23 +229,15 @@ export const MenuBar = () => {
         rel="stylesheet"
       />
       <div className="flex justify-between w-full px-4">
-        <div className="xl:flex gap-2 2xl:gap-4 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px] hidden xl:p-3">
+        <div className="xl:flex gap-2  2xl:gap-5 xl:gap-5 2xl:text-[15px] bg-[#f0f4f9] rounded-[20px] overflow-hidden items-center  shadow-md text-[13px]  hidden xl:p-3">
           {buttons.map((item, index: number) => (
             <div key={item.title}>
-              {/* <button
-              
-                onClick={item.action}
-                className={item.isActive?.() ? "is-active" : "buttonn xl:gap-2"}
-                disabled={item.isDisabled?.()}
-              >
-                <div>{item.icon}</div>
-                <div>{item.title}</div>
-              </button> */}
+             
               <Button
                 isLoading={item.title === "Auto complete" && aiActive}
                 onPress={item.action}
                 className={cn(
-                  "p-1 min-w-0 rounded-none bg-transparent h-auto buttonn gap-1",
+                  "p-1 min-w-0 rounded-none bg-transparent  h-auto buttonn gap-1",
                   { " is-active ": item.isActive?.() }
                 )}
                 disabled={item.isDisabled?.()}
@@ -261,7 +253,7 @@ export const MenuBar = () => {
         <div className="relative inline-block">
           <Button
             onPress={() => setpopover(!popover)}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors xl:hidden min-w-0 bg-transparent"
+            className="p-2 rounded-full hover:bg-blue-900 transition-colors xl:hidden min-w-0 bg-transparent"
           >
             <BsThreeDotsVertical className="w-5 h-5" />
           </Button>
@@ -275,7 +267,7 @@ export const MenuBar = () => {
               }
             )}
           >
-            <div className="grid grid-cols-3 w-[340px]  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] md:overflow-scroll shadow-lg overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-3 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
+            <div className="grid grid-cols-3 w-[340px] pl-2  gap-2 bg-[#f0f4f9]  rounded-[20px] lg:w-[1000px] lg:flex md:w-[700px] lg:p-2 md:p-2 sm:p-1 md:overflow-scroll shadow-lg overflow-y-auto text-[12px] md:grid md:grid-cols-5 md:text-[14px] scrollbar-hide lg:gap-3 lg:text-[14px] xl:hidden lg:justify-center lg:items-center">
               {buttons.map((item, index) => (
                 <Button
                   key={item.title}
@@ -422,7 +414,7 @@ export const MenuBar = () => {
                 xs: "10px",
                 sm: "12px",
                 md: "12px",
-                lg: "13px",
+                lg: "14px",
               },
               padding: "5px 10px",
             }}
@@ -458,7 +450,7 @@ export const MenuBar = () => {
                       { id: Date.now(), value: "" },
                     ])
                   }
-                  className="w-full px-2 py-1.5 text-xs text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50"
+                  className="w-full px-2 py-1.5 text-xs text-black border  rounded-md hover:bg-blue-500"
                 >
                   + Add Prompt
                 </Button>

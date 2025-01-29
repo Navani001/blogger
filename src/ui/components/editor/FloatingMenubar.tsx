@@ -4,11 +4,11 @@ import { useCurrentEditor } from "@tiptap/react";
 import { createPortal } from "react-dom";
 import {
   ChevronDown,
-  Wand2,
+
   Type,
   ListOrdered,
   Code,
-  History,
+
   Image,
   Palette,
 } from "lucide-react";
@@ -77,11 +77,11 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().toggleCode().run();
     },
 
-    Clear_Marks: () => {
+    ClearMarks: () => {
       editor.chain().focus().unsetAllMarks().run();
     },
 
-    Clear_Nodes: () => {
+    ClearNodes: () => {
       editor.chain().focus().clearNodes().run();
     },
 
@@ -93,15 +93,15 @@ const NavBar = ({ editor }: any) => {
         .run();
     },
 
-    Bullet_List: () => {
+    BulletList: () => {
       editor.chain().focus().toggleBulletList().run();
     },
 
-    Ordered_List: () => {
+    OrderedList: () => {
       editor.chain().focus().toggleOrderedList().run();
     },
 
-    Code_Block: () => {
+    CodeBlock: () => {
       editor.chain().focus().toggleCodeBlock().run();
     },
 
@@ -109,14 +109,14 @@ const NavBar = ({ editor }: any) => {
       editor.chain().focus().toggleBlockquote().run();
     },
 
-    Horizontal_Rule: () => {
+    HorizontalRule: () => {
       editor.chain().focus().setHorizontalRule().run();
     },
     MergeorSpilit: () => {
       editor.chain().focus().mergeOrSplit().run();
     },
 
-    Hard_Break: () => {
+    HardBreak: () => {
       editor.chain().focus().setHardBreak().run();
     },
 
@@ -158,12 +158,12 @@ const NavBar = ({ editor }: any) => {
     lists: {
       label: "Lists",
       icon: <ListOrdered size={12} />,
-      items: ["Bullet_List", "Ordered_List"],
+      items: ["Bullet List", "Ordered List"],
     },
     blocks: {
       label: "Blocks",
       icon: <Code size={12} />,
-      items: ["Code_Block", "Blockquote", "Horizontal_Rule", "Hard_Break"],
+      items: ["Code Block", "Blockquote", "Horizontal Rule", "Hard Break"],
     },
 
     insert: {
@@ -187,7 +187,7 @@ const NavBar = ({ editor }: any) => {
     format: {
       label: "Format",
       icon: <Palette size={12} />,
-      items: ["Clear_Marks", "Clear_Nodes"],
+      items: ["Clear Marks", "Clear Nodes"],
     },
     table: {
       label: "Table",
@@ -197,15 +197,11 @@ const NavBar = ({ editor }: any) => {
   };
 
   const handleButtonClick = (action: any) => {
-    console.log(
-      `Button clicked: ${["H1", "H2", "H3", "H4", "H5", "H6", "H7"].includes(
-        action
-      )}`
-    );
+   console.log()
     if (["H1", "H2", "H3", "H4", "H5", "H6", "H7"].includes(action)) {
       editorActions.Heading(action);
-    } else if (action in editorActions) {
-      editorActions[`${action}`]();
+    } else if (action.replace(' ', '') in editorActions) {
+      editorActions[`${action.replace(' ', '') }`]();
     }
   };
 
@@ -287,7 +283,7 @@ const NavBar = ({ editor }: any) => {
 export const  FloatingMenuBar = () => {
   const { editor } = useCurrentEditor();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const MENU_WIDTH = window.innerWidth>=660?660:330; // Width of your menu
+  const MENU_WIDTH = window.innerWidth >= 660 ? window.innerWidth >= 800 ? 820 : 660:330; // Width of your menu
   const PADDING = 20; // Padding from edges
 
   useEffect(() => {
@@ -354,7 +350,7 @@ export const  FloatingMenuBar = () => {
         top: menuPosition.top+20,
         left: menuPosition.left,
         zIndex: 1000,
-        border: "1px solid #ddd",
+        border: "0px solid #ddd",
         borderRadius: "10px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
         padding: "0px",

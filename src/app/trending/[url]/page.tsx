@@ -53,7 +53,7 @@ useEffect(()=>{console.log(data)},[data])
             <div
               key={index}
               onClick={() => redirect(`/blogs/${post.url}`)}
-              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+              className="bg-white shadow-light-xlll rounded-lg hover:shadow-light-xlll transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">

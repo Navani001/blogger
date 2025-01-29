@@ -63,6 +63,7 @@
     "react-icons": "^5.4.0",
     "react-share": "^5.1.1",
     "sass": "^1.83.0",
+    "sitemap": "^8.0.0",
     "styled-components": "^6.1.13",
     "web-streams-polyfill": "^4.1.0",
     "zod": "^3.24.1",

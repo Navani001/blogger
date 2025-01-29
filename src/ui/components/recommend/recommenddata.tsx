@@ -29,7 +29,7 @@ export const RecommendMap = (props: RecommendMapProps) => {
             onClick={() => {
               redirect(`/blogs/${post.url}` || "/login");
             }}
-            className="flex-none w-[350px] snap-start bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="flex-none m-3  shadow-light-xlll  hover:shadow-light-xlll w-[350px] snap-start bg-white rounded-lg transition-shadow duration-300"
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
