@@ -21,11 +21,16 @@ const BlogPost = ({ params }: any) => {
   const [individualcomment, setindividualcomment] = useState("");
   const [content, setcontent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [isLoadingLiked, setIsLoadingLiked] = useState(false);
   // Existing functionality remains the same
   const handlelike = () => {
     const params = new URLSearchParams({ blogid });
+    if(!isLoadingLiked)
+    {
+      console.log("liking ")
+   
     try {
+      setIsLoadingLiked(true)
       fetch(`/api/like/set_like?${params.toString()}`, {
         next: { revalidate: 3600 }, // Cache for 1 hour
         cache: "force-cache",
@@ -46,8 +51,17 @@ const BlogPost = ({ params }: any) => {
       });
     } catch (error) {
       setOpen(true);
+    }finally {
+      setIsLoadingLiked(false)
     }
-  };
+  }
+  else{
+    console.log("Like loading")
+  }
+}
+  useEffect(()=>{
+console.log(isLoadingLiked)
+  },[isLoadingLiked])
 
   useEffect(() => {
     const fetchcontent = async () => {
@@ -144,7 +158,7 @@ const BlogPost = ({ params }: any) => {
       }
     } catch (error) {
       setOpen(true);
-      console.log("hi iam here");
+    
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);
@@ -184,13 +198,12 @@ const BlogPost = ({ params }: any) => {
         <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm mb-8">
           <div className="flex gap-6">
             <button
-              onClick={handlelike}
+              onClick={ handlelike}
               data-test-id='Like-field'
-              className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors"
+              className="flex items-center gap-2 text-gray-600  transition-colors"
             >
               <Heart
-                className={`w-6 h-6 ${liked ? "fill-red-500 text-red-500" : ""
-                  }`}
+              className={`w-6 h-6 ${liked ? "fill-red-500  text-red-500" : ""}`}
               />
               <span className="text-sm font-medium">Like</span>
             </button>
