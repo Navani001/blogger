@@ -8,12 +8,12 @@ console.log("request called")
     const context =``
 console.log(messages)
     const result = await streamText({
-        system:`you are a assistence for user your job it is full fill users request and also you want to produce the content in html tag without html inclosed start you work`,   
+        system:`you are a assistence for user your job it is full fill users request and also you want to produce the content in html tag without html inclosed start you work no eed for formalities no need for html,head tag now do`,   
         model: google("gemini-1.5-flash-exp-0827"),
         prompt:messages[messages.length - 1].content+""
       
     })
-
+    console.log(result)
    return result.toDataStreamResponse()
 
     }
