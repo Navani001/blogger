@@ -73,13 +73,18 @@ export const MenuBar = () => {
 
   useEffect(() => {
     const { start, end } = rangeRef.current;
+    console.log(completion)
     if (completion) {
-      editor?.commands.deleteRange({ from: start, to: end });
-      const en: number = start + completion.length;
+      const docSize:any = editor?.state.doc.content.size;
+
+      const safeEnd = Math.min(Math.max(start, end), docSize);
+      editor?.commands.deleteRange({ from: start, to: safeEnd });
+      const en: number = start + completion.length-1;
       rangeRef.current = { start, end: en };
       editor?.commands.insertContentAt(start, completion);
       setAiActive(false);
     }
+   
   }, [completion, editor]);
   useEffect(() => {
     customsumbit();
@@ -108,6 +113,7 @@ export const MenuBar = () => {
     if (!editor) return;
     const { state } = editor;
     const { from } = state.selection;
+    
     const resolvedPos = state.doc.resolve(from);
     const parentNode = resolvedPos.node(resolvedPos.depth);
     const start = resolvedPos.start(resolvedPos.depth);
