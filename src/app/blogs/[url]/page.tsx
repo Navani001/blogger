@@ -167,7 +167,7 @@ const BlogPost = ({ params }: any) => {
 
   useEffect(() => {
     // Initialize AdSense (optional, as the script should handle this automatically)
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
   }, []);
 
   return (
