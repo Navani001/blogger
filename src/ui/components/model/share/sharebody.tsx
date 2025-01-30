@@ -139,7 +139,7 @@ export function ShareBody({
             </Button>
 
             <TwitterShareButton url={shareUrl} title={"share this page"} className="w-32">
-              <div className="gap-0 flex p-[14px] bg-[#1DA1F2]  rounded-md items-center text-white">
+              <div className="flex p-[14px] gap-2 bg-[#1DA1F2]  rounded-md items-center text-white">
                 <ImTwitter size={20} className="m"/>
                 Twitter</div>
             </TwitterShareButton>
