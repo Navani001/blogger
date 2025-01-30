@@ -206,7 +206,7 @@ const BlogPost = ({ params }: any) => {
 
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
-          <div className="mb-6">
+          <div className="mb-8">
             <Textarea
               data-test-id="Commentfield"
               classNames={{
@@ -225,7 +225,7 @@ const BlogPost = ({ params }: any) => {
             onClick={handlecommentsumbit}
             isLoading={isSubmitting}
             isDisabled={individualcomment.length < 3}
-            className={cn("w-full sm:w-auto mb-4")}
+            className={cn("w-full sm:w-auto mb-5")}
           >
             Post Comment
           </Button>
