@@ -1,7 +1,7 @@
 "use client";
 import "./styles.scss";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
-import { Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, Spinner } from "@nextui-org/react";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useChat } from "ai/react";
@@ -29,9 +29,14 @@ export const TiptapEditor = () => {
     []
   );
 
-  if (!isMounted) {
-    return <div className="w-full p-8">Loading editor...</div>;
-  }
+  
+    if (!isMounted) {
+      return (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex  items-center justify-center">
+          <Spinner size="lg" /> {/* Display a spinner while loading */}
+        </div>
+      );
+    }
 
   return (
     <div className="m-5 rounded-lg shadow-2xl bg-[#f9fbfd] overflow-y-auto relative">

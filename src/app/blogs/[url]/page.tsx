@@ -1,15 +1,11 @@
 "use client";
 
-
 import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
-import { Navbar, NavbarBrand, Button, Textarea, cn } from "@nextui-org/react";
-
+import { Navbar, NavbarBrand, Button, Textarea, cn, Spinner } from "@nextui-org/react";
 import { Heart, Share2, MessageCircle } from "lucide-react";
-
 import { Toast } from "@/ui/components/toast";
 import { Share } from "@/ui/components/model";
-
 
 const BlogPost = ({ params }: any) => {
   const unwrappedParams = use(params);
@@ -22,20 +18,20 @@ const BlogPost = ({ params }: any) => {
   const [content, setcontent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingLiked, setIsLoadingLiked] = useState(false);
-  // Existing functionality remains the same
+  const [isLoading, setIsLoading] = useState(true); // New loading state
+
   const handlelike = () => {
     const params = new URLSearchParams({ blogid });
     if (!isLoadingLiked) {
-      console.log("liking ")
+      console.log("liking ");
 
       try {
-        setIsLoadingLiked(true)
+        setIsLoadingLiked(true);
         fetch(`/api/like/set_like?${params.toString()}`, {
           next: { revalidate: 3600 }, // Cache for 1 hour
           cache: "force-cache",
           headers: {
-            "Cache-Control":
-              "public, s-maxage=3600, stale-while-revalidate=86400",
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
           },
         }).then((response) => {
           console.log(response.status);
@@ -51,82 +47,64 @@ const BlogPost = ({ params }: any) => {
       } catch (error) {
         setOpen(true);
       } finally {
-        setIsLoadingLiked(false)
+        setIsLoadingLiked(false);
       }
+    } else {
+      console.log("Like loading");
     }
-    else {
-      console.log("Like loading")
-    }
-  }
+  };
+
   useEffect(() => {
-    console.log(isLoadingLiked)
-  }, [isLoadingLiked])
+    console.log(isLoadingLiked);
+  }, [isLoadingLiked]);
 
   useEffect(() => {
     const fetchcontent = async () => {
-      fetch("/api/content/get_content", {
-        method: "POST",
-        body: JSON.stringify({ url }),
-        headers: { "Content-type": "application/json" },
-        next: { revalidate: 3600 }, // Cache for 1 hour
-        cache: "force-cache",
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Network response was not ok");
-          return response.json();
-        })
-        .then((data) => {
-          setcontent(data.data.content);
-          setblogid(data.data.id);
-          const params = new URLSearchParams({ blogid: data.data.id });
-
-          // Fetch comments
-          try {
-            fetch(`/api/getview?${params.toString()}`, {
-              next: { revalidate: 3600 }, // Cache for 1 hour
-              cache: "force-cache",
-              headers: {
-                "Cache-Control":
-                  "public, s-maxage=3600, stale-while-revalidate=86400",
-              },
-            }).then((response) => {
-              console.log(response.status);
-              if (response?.status !== 200) {
-                setOpen(true);
-                return new Error("Network response was not ok");
-              }
-              setliked(!liked);
-              if (!response.ok) throw new Error("Network response was not ok");
-
-              return response.json();
-            });
-          } catch (error) {
-            setOpen(true);
-          }
-          fetch(`/api/comment/get_comment?${params.toString()}`, {
-            next: { revalidate: 3600 }, // Cache for 1 hour
-            cache: "force-cache",
-            headers: {
-              "Cache-Control":
-                "public, s-maxage=3600, stale-while-revalidate=86400",
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => setcomment(data.data));
-
-          // Fetch like status
-          fetch(`/api/like/get_like?${params.toString()}`, {
-            next: { revalidate: 3600 }, // Cache for 1 hour
-            cache: "force-cache",
-            headers: {
-              "Cache-Control":
-                "public, s-maxage=3600, stale-while-revalidate=86400",
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => setliked(data.data));
+      setIsLoading(true); // Set loading to true before fetching data
+      try {
+        const contentResponse = await fetch("/api/content/get_content", {
+          method: "POST",
+          body: JSON.stringify({ url }),
+          headers: { "Content-type": "application/json" },
+          next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
         });
+
+        if (!contentResponse.ok) throw new Error("Network response was not ok");
+        const contentData = await contentResponse.json();
+        setcontent(contentData.data.content);
+        setblogid(contentData.data.id);
+
+        const params = new URLSearchParams({ blogid: contentData.data.id });
+
+        // Fetch comments
+        const commentsResponse = await fetch(`/api/comment/get_comment?${params.toString()}`, {
+          next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        });
+        const commentsData = await commentsResponse.json();
+        setcomment(commentsData.data);
+
+        // Fetch like status
+        const likeResponse = await fetch(`/api/like/get_like?${params.toString()}`, {
+          next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
+          headers: {
+            "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        });
+        const likeData = await likeResponse.json();
+        setliked(likeData.data);
+      } catch (error) {
+        setOpen(true);
+      } finally {
+        setIsLoading(false); // Set loading to false after fetching data
+      }
     };
+
     fetchcontent();
   }, [url]);
 
@@ -149,26 +127,30 @@ const BlogPost = ({ params }: any) => {
       }
       if (response.ok) {
         const params = new URLSearchParams({ blogid });
-        const newComments = await fetch(
-          `/api/comment/get_comment?${params.toString()}`
-        ).then((res) => res.json());
+        const newComments = await fetch(`/api/comment/get_comment?${params.toString()}`).then((res) => res.json());
         setcomment(newComments.data);
         setindividualcomment("");
       }
     } catch (error) {
       setOpen(true);
-
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-
   useEffect(() => {
     // Initialize AdSense (optional, as the script should handle this automatically)
-    ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+    // ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
   }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -188,22 +170,17 @@ const BlogPost = ({ params }: any) => {
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <article className="bg-white rounded-xl shadow-sm p-8 prose prose-lg max-w-none mb-8">
-          <div
-            dangerouslySetInnerHTML={{ __html: content }}
-            className="article-content"
-          />
+          <div dangerouslySetInnerHTML={{ __html: content }} className="article-content" />
         </article>
 
         <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm mb-8">
           <div className="flex gap-6">
             <button
               onClick={handlelike}
-              data-test-id='Like-field'
-              className="flex items-center gap-2 text-gray-600  transition-colors"
+              data-test-id="Like-field"
+              className="flex items-center gap-2 text-gray-600 transition-colors"
             >
-              <Heart
-                className={`w-6 h-6 ${liked ? "fill-red-500  text-red-500" : ""}`}
-              />
+              <Heart className={`w-6 h-6 ${liked ? "fill-red-500 text-red-500" : ""}`} />
               <span className="text-sm font-medium">Like</span>
             </button>
 
@@ -212,9 +189,7 @@ const BlogPost = ({ params }: any) => {
 
           <div className="flex items-center gap-2 text-gray-600">
             <MessageCircle className="w-6 h-6" />
-            <span className="text-sm font-medium">
-              {comment.length} Comments
-            </span>
+            <span className="text-sm font-medium">{comment.length} Comments</span>
           </div>
         </div>
 
@@ -231,11 +206,11 @@ const BlogPost = ({ params }: any) => {
 
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h3 className="text-xl font-semibold mb-6">Comments</h3>
-          <div className="mb-6 ">
+          <div className="mb-6">
             <Textarea
               data-test-id="Commentfield"
               classNames={{
-                input: "p-2  rounded-lg bg-[#F4F3FA] bg-clip-border",
+                input: "p-2 rounded-lg bg-[#F4F3FA] bg-clip-border",
                 inputWrapper: "p-0",
               }}
               className="w-full rounded-lg"
@@ -250,25 +225,20 @@ const BlogPost = ({ params }: any) => {
             onClick={handlecommentsumbit}
             isLoading={isSubmitting}
             isDisabled={individualcomment.length < 3}
-            className={cn("w-full sm:w-auto mb-4 ")}
+            className={cn("w-full sm:w-auto mb-4")}
           >
             Post Comment
           </Button>
           <div className="space-y-4">
             {comment?.map((item: any, index: number) => (
-              <div
-                key={index}
-                className="border-b border-gray-100 last:border-0 pb-4 last:pb-0"
-              >
+              <div key={index} className="border-b border-gray-100 last:border-0 pb-4 last:pb-0">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
                     {item.username?.substring(0, 2) || "A"}
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">
-                        {item.username || "Anonymous"}
-                      </span>
+                      <span className="font-medium">{item.username || "Anonymous"}</span>
                       <span className="text-sm text-gray-500">
                         {new Date(item.created_at).toLocaleDateString()}
                       </span>
