@@ -1,6 +1,6 @@
 "use client";
-// No import needed - remove the line entirely
-
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import { BiCustomize } from "react-icons/bi";
 import { useCurrentEditor } from "@tiptap/react";
 import { useChat, useCompletion } from "ai/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -424,6 +424,21 @@ export const MenuBar = () => {
               },
               padding: "5px 10px",
             }}
+            icon={
+         
+              <AutoFixHighIcon 
+          className="md:text-lg"
+                sx={{
+                  fontSize: {
+                    xs: "10px",
+                    sm: "14px",
+                    md: "13px",
+                    lg: "13px",
+                  },
+                  marginRight: "8px",
+                }}
+                />
+            }
             body={
               <div className="p-3 space-y-2">
                 {customdata.map((item, index) => (
