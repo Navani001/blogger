@@ -66,7 +66,7 @@ export function ShareBody({
     const encodedUrl = encodeURIComponent(window.location.href);
 
     const encodedDesc = encodeURIComponent(
-      ""
+      "Hey! I just published a new blog post that I think you'll enjoy. I've put my thoughts into words and would love to hear what you think about it. Check it out and let me know your thoughts! 📝✨"
     );
 
     const shareUrls = {
