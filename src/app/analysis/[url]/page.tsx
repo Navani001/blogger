@@ -76,7 +76,7 @@ console.log(peak)
       },
     },
   });
-  const [sort, setsort] = useState("month");
+  const [sort, setsort] = useState("week");
   const [commentsort, setcommentsort] = useState("week");
   const [viewsort,setviewsort] = useState("week")
 
