@@ -11,11 +11,7 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
       callbacks: {
         async signIn({ user, account, profile }) {
           if (account?.provider === "google") {
-            try {
-             
-              // const existingUser = await prisma.user.findUnique({
-              //   where: { email: user.email! },
-              // })
+              try {
            const data= await getidFromDb(user.email,user.image,user.name)
           
             if(data && user){
@@ -31,14 +27,13 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
           return true
         },
         async session({ session, token }:any) {
-          // Attach additional user data to the session
+    
           session.user.id = token.id;
           session.user.name = token.name;
           session.user.email = token.email;
           return session;
         },
         async jwt({ token, user }) {
-          // Add user data to token for session callback
           if (user) {
             token.id = user.id;
             token.name = user.name;
@@ -49,7 +44,12 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
       },
     
      
-    providers:[Google, Credentials({
+    providers:[Google({
+         
+            authorization:{
+                      url: `https://accounts.google.com/o/oauth2/auth/authorize?response_type=code&prompt=login`
+            }             
+}), Credentials({
         // You can specify which fields should be submitted, by adding keys to the `credentials` object.
         // e.g. domain, username, password, 2FA token, etc.
         credentials: {
