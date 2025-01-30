@@ -66,7 +66,7 @@ export function ShareBody({
     const encodedUrl = encodeURIComponent(window.location.href);
 
     const encodedDesc = encodeURIComponent(
-      "i have created a blogs yeah check it out "
+      ""
     );
 
     const shareUrls = {
@@ -138,8 +138,8 @@ export function ShareBody({
               WhatsApp
             </Button>
 
-            <TwitterShareButton url={shareUrl} title={"share this page"} className="w-32">
-              <div className="flex gap-2 p-[14] bg-[#1DA1F2] rounded-md items-center text-white">
+            <TwitterShareButton url={shareUrl} title={"share this page"} className="w-32 bg-[#1DA1F2]">
+              <div className="flex gap-2 p-[14] bg-[#1DA1F2]  rounded-md items-center text-white">
                 <ImTwitter size={20}/>
                 Twitter</div>
             </TwitterShareButton>
