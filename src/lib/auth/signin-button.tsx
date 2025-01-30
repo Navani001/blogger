@@ -16,7 +16,7 @@ export function SignIn() {
       signIn("credentials", {
         email,
         password,
-        redirect: false
+        redirect: true
       })
       .then(result => {
         if (result?.error) {

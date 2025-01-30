@@ -166,10 +166,7 @@ console.log(isLoadingLiked)
   };
 
 
-  useEffect(() => {
 
-    ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
-  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
