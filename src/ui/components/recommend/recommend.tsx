@@ -57,7 +57,7 @@ export const Recommend = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
           For You
         </h2>
-        <div className="bg-transparent rounded-xl p-6">
+        <div className="bg-transparent rounded-xl p-0">
           <RecommendMap data={rec} />
         </div>
       </div>
@@ -65,7 +65,7 @@ export const Recommend = () => {
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
           Trending Today
         </h2>
-        <div className="bg-transparent rounded-xl p-6">
+        <div className="bg-transparent rounded-xl p-0">
           <RecommendMap data={trending} />
         </div>
       </div>

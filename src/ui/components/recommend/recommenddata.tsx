@@ -3,6 +3,7 @@ import { format, parseISO } from "date-fns";
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { cn } from "@nextui-org/theme";
 interface PostData {
   url: string;
   category?: string;
@@ -30,7 +31,7 @@ export const RecommendMap = (props: RecommendMapProps) => {
             onClick={() => {
               route.push(`/blogs/${post.url}` || "/login");
             }}
-            className="flex-none m-3  shadow-light-xlll  hover:shadow-light-xlll w-[350px] snap-start bg-white rounded-lg transition-shadow duration-300"
+            className={cn("flex-none m-3  shadow-light-xlll  hover:shadow-light-xlll w-[350px] snap-start bg-white rounded-lg transition-shadow duration-300",{"ml-1":index==0})}
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
