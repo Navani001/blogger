@@ -9,6 +9,7 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
       },
       
       callbacks: {
+        
         async signIn({ user, account, profile }) {
           if (account?.provider === "google") {
               try {
@@ -48,7 +49,8 @@ export const {handlers,signIn,signOut,auth}=NextAuth({
          
             authorization:{
                       url: `https://accounts.google.com/o/oauth2/auth/authorize?response_type=code&prompt=login`
-            }             
+            },
+                        
 }), Credentials({
         // You can specify which fields should be submitted, by adding keys to the `credentials` object.
         // e.g. domain, username, password, 2FA token, etc.

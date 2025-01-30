@@ -72,7 +72,10 @@ export function SignIn() {
         <div className="flex justify-center">
           <Button sx={{backgroundColor:'#EFEEFB' , color:'black' , marginBottom:'12px' ,fontWeight:'600' , textTransform:'none'}} className="w-full py-[10px] rounded-md border-none flex gap-2" onClick={async () => {
       
-            await signIn("google", { redirectTo: "/" }
+            await signIn("google", {
+              redirectTo: "/",
+              callbackUrl: new URL( "http://localhost:4000").href, }
+              
             )
           }}><span className="text-xl"><FcGoogle /></span> Login with Google</Button>
         </div>
