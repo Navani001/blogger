@@ -2,6 +2,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useCurrentEditor } from "@tiptap/react";
 import { createPortal } from "react-dom";
+import { RiFontSizeAi } from "react-icons/ri";
+import { CiLink } from "react-icons/ci";
+import { CiViewTable } from "react-icons/ci";
+import { FaRemoveFormat } from "react-icons/fa";
+
+import { TbHeading } from "react-icons/tb";
 import {
   ChevronDown,
 
@@ -147,33 +153,35 @@ const NavBar = ({ editor }: any) => {
   const buttonGroups = {
     text: {
       label: "Text",
-      icon: <Type size={12} />,
+      icon: <Type size={14} />,
       items: ["Bold", "Italic", "Strike", "Code", "Paragraph", "Underline"],
     },
     headings: {
       label: "Headings",
-      icon: <Type size={12} className="font-bold" />,
+
+      icon: <TbHeading size={16}/>,
       items: ["H1", "H2", "H3", "H4", "H5", "H6"],
     },
     lists: {
       label: "Lists",
-      icon: <ListOrdered size={12} />,
+      icon: <ListOrdered size={14} />,
       items: ["Bullet List", "Ordered List"],
     },
+
     blocks: {
       label: "Blocks",
-      icon: <Code size={12} />,
+      icon: <Code size={14} />,
       items: ["Code Block", "Blockquote", "Horizontal Rule", "Hard Break"],
     },
 
     insert: {
       label: "Insert",
-      icon: <Image size={12} />,
+      icon: < CiLink size={17} />,
       items: ["Link"],
     },
     font: {
       label: "Font",
-      icon: <Image size={12} />,
+      icon: <RiFontSizeAi size={13}/>,
       items: [
         "Inter",
         "Comic Sans MS",
@@ -184,14 +192,15 @@ const NavBar = ({ editor }: any) => {
       ],
     },
 
+
     format: {
       label: "Format",
-      icon: <Palette size={12} />,
+      icon: < FaRemoveFormat />,
       items: ["Clear Marks", "Clear Nodes"],
     },
     table: {
       label: "Table",
-      icon: <Image size={12} />,
+      icon: <CiViewTable size={15} />,
       items: ["MergeorSpilit", "Delete"],
     },
   };
@@ -220,7 +229,7 @@ const NavBar = ({ editor }: any) => {
   };
 
   return (
-    <nav className="flex items-center w-[330px] md:w-[660px] lg:w-[820px] lg:text-[16px] gap-0.5 p-1 bg-gray-100 border-b lg:p-1 overflow-x-auto scrollbar-hide text-sm md:text-[14px]">
+    <nav className="flex items-center w-[330px] md:w-[660px] lg:w-[820px] lg:text-[16px] gap-3 p-1 bg-gray-100 border-b lg:p-1 overflow-x-auto scrollbar-hide text-sm md:text-[14px]">
       {Object.entries(buttonGroups).map(([groupKey, group],index) => (
         <div key={group.label} className="relative flex-shrink-0">
           <button
@@ -231,7 +240,7 @@ const NavBar = ({ editor }: any) => {
                 buttonRefs.current[groupKey] = el; //+
               } //+
             }}
-            className="text-[10px]  md:text-[14px] lg:text-[16px] lg:gap-3 flex items-center gap-1 md:gap-2 px-1 py-1 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
+            className="text-[10px]  md:text-[14px] lg:text-[16px] lg:gap-2 flex items-center gap-1 md:gap-2 px-1 py-1 text-gray-700 hover:bg-gray-50 rounded-sm transition-colors"
             onClick={() => toggleDropdown(groupKey)}
           >
             {group.icon}
