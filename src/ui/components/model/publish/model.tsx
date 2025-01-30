@@ -205,7 +205,7 @@ export function Publish({ title, settitle }: {title: string, settitle:(a:string)
                   
                     <input
                       required
-                      placeholder="enter-url-slug"
+                      placeholder="Enter url slug"
                       className={`p-2 w-full rounded-[5px] border-1 mt-2 focus:outline-blue-500 ${
                      ''
                       }`}
