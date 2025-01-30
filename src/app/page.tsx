@@ -16,6 +16,7 @@ import { Tags } from "@/ui/components/tagDisplay";
 import { CardAbout } from "@/ui/components/card";
 import { PopOver } from "@/ui/components/popover";
 import { ContactBody, Search } from "@/ui/components";
+import Image from "next/image";
 
 
 const BlogHomepage = async () => {
@@ -25,6 +26,7 @@ const BlogHomepage = async () => {
     redirect("/login");
   }
 
+  console.log(session.user)
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Navigation - Modern and Sticky */}
@@ -62,15 +64,22 @@ const BlogHomepage = async () => {
                     <div className="px-4 py-3 border-b">
                       <div className="flex items-center space-x-3">
                         <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-600 font-medium">
-                            {session.user.name?.slice(0, 2)}
-                          </span>
+                          <Image
+                            src={session.user.image || ''}
+                            alt={`${session.user.name}'s avatar`}
+                            width={40}
+                            height={40}
+                            className="object-fit rounded-full"
+                            style={{
+                              objectFit: 'cover', // cover, contain, none
+                            }}
+                          />
                         </div>
                         <div>
                           <p className="text-sm font-medium text-gray-900">
                             {session.user.name}
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs w-40 truncate text-gray-500">
                             {session.user.email}
                           </p>
                         </div>

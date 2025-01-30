@@ -5,6 +5,15 @@ const nextConfig: NextConfig = {
   
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '/a/**',
+      },
+    ],
+  },
   webpack: (config) => {
     
     config.resolve.fallback = { fs: false };

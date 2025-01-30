@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
 import { Spinner } from "@nextui-org/react"; // Import a spinner component
+import Image from "next/image";
 
 const BlogPost = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -82,15 +83,17 @@ const BlogPost = ({ params }: { params: any }) => {
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div className="flex items-center">
                     <div className="h-10 w-10 rounded-full bg-gray-200 overflow-hidden">
-                      <img
+                      <Image
                         src={post.avatar_url}
                         alt={`${post.username}'s avatar`}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+                        width={40}
+                        height={40}
+                        className="object-fit"
+                        style={{
+                          objectFit: 'cover', // cover, contain, none
                         }}
                       />
+
                     </div>
                     <div className="ml-3">
                       <p className="text-sm font-medium text-gray-900">{post.username}</p>

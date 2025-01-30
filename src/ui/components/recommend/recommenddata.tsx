@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@nextui-org/theme";
+import Image from "next/image";
 interface PostData {
   url: string;
   category?: string;
@@ -48,13 +49,14 @@ export const RecommendMap = (props: RecommendMapProps) => {
                 <div className="flex items-center">
                   <div className="h-8 w-8 rounded-full bg-gray-200 overflow-hidden">
                     {post.avatar_url ? (
-                      <img
+                      <Image
                         src={post.avatar_url}
                         alt={`${post.username}'s avatar`}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+                      width={32}
+                      height={32}
+                        className="object-fit"
+                        style={{
+                          objectFit: 'cover', // cover, contain, none
                         }}
                       />
                     ) : (
