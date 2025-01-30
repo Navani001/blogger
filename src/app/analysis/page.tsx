@@ -1,5 +1,5 @@
 "use client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import { fetchblog } from "@/lib/blogsfetch";
@@ -7,6 +7,7 @@ import { AnalysisTable } from "@/ui/components/table";
 
 
 export default function Home() {
+   const router = useRouter();
   const [blogs, setblogs] = useState([]);
   const [loading,setloading]=useState(true)
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function Home() {
   }, []);
   const handleView = (row: any) => {
     console.log("Viewing:", row);
-    redirect(`analysis/${row.id}`);
+    router.push(`analysis/${row.id}`);
   };
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">

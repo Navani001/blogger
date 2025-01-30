@@ -1,11 +1,12 @@
 "use client";
 
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { SingleAutocomplete } from "../autocomplete";
 
 
 export const Search = () => {
+  const router = useRouter();
   const [rec, setRec] = useState([]);
   const [value, setvalue] = useState([]);
   useEffect(() => {
@@ -37,7 +38,7 @@ export const Search = () => {
         autocompleteelement={rec}
         onclick={(url: string) => {
           console.log("Search", url);
-          redirect(`/blogs/${url}`);
+          router.push(`/blogs/${url}`);
         }}
         setvalue={setvalue}
         value={value}

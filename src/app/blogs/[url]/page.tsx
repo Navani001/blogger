@@ -25,43 +25,42 @@ const BlogPost = ({ params }: any) => {
   // Existing functionality remains the same
   const handlelike = () => {
     const params = new URLSearchParams({ blogid });
-    if(!isLoadingLiked)
-    {
+    if (!isLoadingLiked) {
       console.log("liking ")
-   
-    try {
-      setIsLoadingLiked(true)
-      fetch(`/api/like/set_like?${params.toString()}`, {
-        next: { revalidate: 3600 }, // Cache for 1 hour
-        cache: "force-cache",
-        headers: {
-          "Cache-Control":
-            "public, s-maxage=3600, stale-while-revalidate=86400",
-        },
-      }).then((response) => {
-        console.log(response.status);
-        if (response?.status !== 200) {
-          setOpen(true);
-          return new Error("Network response was not ok");
-        }
-        setliked(!liked);
-        if (!response.ok) throw new Error("Network response was not ok");
 
-        return response.json();
-      });
-    } catch (error) {
-      setOpen(true);
-    }finally {
-      setIsLoadingLiked(false)
+      try {
+        setIsLoadingLiked(true)
+        fetch(`/api/like/set_like?${params.toString()}`, {
+          next: { revalidate: 3600 }, // Cache for 1 hour
+          cache: "force-cache",
+          headers: {
+            "Cache-Control":
+              "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        }).then((response) => {
+          console.log(response.status);
+          if (response?.status !== 200) {
+            setOpen(true);
+            return new Error("Network response was not ok");
+          }
+          setliked(!liked);
+          if (!response.ok) throw new Error("Network response was not ok");
+
+          return response.json();
+        });
+      } catch (error) {
+        setOpen(true);
+      } finally {
+        setIsLoadingLiked(false)
+      }
+    }
+    else {
+      console.log("Like loading")
     }
   }
-  else{
-    console.log("Like loading")
-  }
-}
-  useEffect(()=>{
-console.log(isLoadingLiked)
-  },[isLoadingLiked])
+  useEffect(() => {
+    console.log(isLoadingLiked)
+  }, [isLoadingLiked])
 
   useEffect(() => {
     const fetchcontent = async () => {
@@ -158,7 +157,7 @@ console.log(isLoadingLiked)
       }
     } catch (error) {
       setOpen(true);
-    
+
       console.error("Failed to post comment:", error);
     } finally {
       setIsSubmitting(false);
@@ -166,7 +165,9 @@ console.log(isLoadingLiked)
   };
 
 
-
+  useEffect(() => {
+    // ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({})
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -195,12 +196,12 @@ console.log(isLoadingLiked)
         <div className="flex items-center justify-between bg-white p-4 rounded-lg shadow-sm mb-8">
           <div className="flex gap-6">
             <button
-              onClick={ handlelike}
+              onClick={handlelike}
               data-test-id='Like-field'
               className="flex items-center gap-2 text-gray-600  transition-colors"
             >
               <Heart
-              className={`w-6 h-6 ${liked ? "fill-red-500  text-red-500" : ""}`}
+                className={`w-6 h-6 ${liked ? "fill-red-500  text-red-500" : ""}`}
               />
               <span className="text-sm font-medium">Like</span>
             </button>
@@ -244,10 +245,10 @@ console.log(isLoadingLiked)
             />
           </div>
           <Button
-    color="primary"
+            color="primary"
             onClick={handlecommentsumbit}
             isLoading={isSubmitting}
-            isDisabled={individualcomment.length<3}
+            isDisabled={individualcomment.length < 3}
             className={cn("w-full sm:w-auto mb-4 ")}
           >
             Post Comment

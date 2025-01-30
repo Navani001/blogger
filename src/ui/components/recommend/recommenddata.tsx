@@ -1,7 +1,8 @@
 "use client";
 import { format, parseISO } from "date-fns";
-import { redirect } from "next/navigation";
+
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 interface PostData {
   url: string;
   category?: string;
@@ -19,7 +20,7 @@ interface RecommendMapProps {
 export const RecommendMap = (props: RecommendMapProps) => {
  const {data} = props;
 
-
+  const route = useRouter();
   return (
     <div className="flex gap-6 overflow-x-auto scrollbar-hide">
       {data.length > 0 ? (
@@ -27,7 +28,7 @@ export const RecommendMap = (props: RecommendMapProps) => {
           <div
             key={index}
             onClick={() => {
-              redirect(`/blogs/${post.url}` || "/login");
+              route.push(`/blogs/${post.url}` || "/login");
             }}
             className="flex-none m-3  shadow-light-xlll  hover:shadow-light-xlll w-[350px] snap-start bg-white rounded-lg transition-shadow duration-300"
           >

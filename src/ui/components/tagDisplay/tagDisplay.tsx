@@ -1,5 +1,5 @@
 "use client";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import axios from "axios";
 interface Tag {
@@ -8,6 +8,7 @@ interface Tag {
 
 }
 export function Tags() {
+  const router = useRouter();
   const [tags, settags] = React.useState([]);
   React.useEffect(() => {
     axios
@@ -32,7 +33,7 @@ export function Tags() {
           <button
             key={index}
             onClick={() => {
-              redirect(`/trending/${tags.name}`);
+              router.push(`/trending/${tags.name}`);
             }}
             className="px-6 py-3 rounded-full border border-gray-200 hover:border-blue-500 hover:text-blue-600 transition-colors text-gray-700 font-medium"
           >

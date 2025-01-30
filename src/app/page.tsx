@@ -3,24 +3,16 @@ import {
   Bookmark,
   User,
   Search as SearchIcon,
-  UserIcon,
-  GithubIcon,
-  Radius,
 } from "lucide-react";
-
 import { SignOut } from "@/lib/auth/signout-button";
 import { SignIn } from "@/lib/auth/signin-button";
 import { auth } from "@/lib/utilis/auth";
 import { redirect } from "next/navigation";
 import { MdLogout } from "react-icons/md";
 import { MdOutlineContactSupport } from "react-icons/md";
-
 import { IoDocumentTextOutline } from "react-icons/io5";
-
 import { Recommend } from "@/ui/components/recommend";
 import { Tags } from "@/ui/components/tagDisplay";
-
-import { LinkedinIcon } from "react-share";
 import { CardAbout } from "@/ui/components/card";
 import { PopOver } from "@/ui/components/popover";
 import { ContactBody, Search } from "@/ui/components";
@@ -28,9 +20,6 @@ import { ContactBody, Search } from "@/ui/components";
 
 const BlogHomepage = async () => {
   const session = await auth();
-
-
-
 
   if (!session?.user) {
     redirect("/login");

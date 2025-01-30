@@ -2,12 +2,12 @@
 
 
 import { format, parseISO } from "date-fns";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
 
 
 const BlogPost = ({ params }: { params: any }) => {
- 
+  const router = useRouter();
   const unwrappedParams = use(params);
   const { url } = unwrappedParams as { url: string };
   const [loading,setLoading]=useState(true)
@@ -52,7 +52,7 @@ useEffect(()=>{console.log(data)},[data])
           {data?.length>0 && data.map((post:any, index) => (
             <div
               key={index}
-              onClick={() => redirect(`/blogs/${post.url}`)}
+              onClick={() => router.push(`/blogs/${post.url}`)}
               className="bg-white shadow-light-xlll rounded-lg hover:shadow-light-xlll transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
             >
               <div className="p-6">
