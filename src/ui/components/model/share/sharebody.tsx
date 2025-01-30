@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { Input } from "@nextui-org/react";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { ImTwitter } from "react-icons/im";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
@@ -19,6 +19,8 @@ import Alert from "@mui/material/Alert";
 import {
   TwitterShareButton,
   TwitterIcon,
+
+  LinkedinIcon,
   LinkedinShareButton,
 } from "react-share";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -131,18 +133,19 @@ export function ShareBody({
               startIcon={<WhatsAppIcon />}
               onClick={() => shareToSocialMedia("whatsapp")}
               sx={{ backgroundColor: "#25D366" }}
+              className="w-32"
             >
               WhatsApp
             </Button>
 
-            <TwitterShareButton url={shareUrl} title={"share this page"}>
-              <div className="flex gap-2 p-3 bg-[#1DA1F2] rounded-md">
-                <TwitterIcon size={25}/>
+            <TwitterShareButton url={shareUrl} title={"share this page"} className="w-32">
+              <div className="flex gap-2 p-[14] bg-[#1DA1F2] rounded-md items-center text-white">
+                <ImTwitter size={20}/>
                 Twitter</div>
             </TwitterShareButton>
-            <LinkedinShareButton  url={shareUrl} title={"share this page"}>
-              <div className="bg-[#0A66C2] p-3 rounded-md flex gap-2">
-                <LinkedInIcon />
+            <LinkedinShareButton url={shareUrl} title={"share this page"} className="w-32">
+              <div className="bg-[#007AB5] p-[6px] rounded-md flex items-center gap-0 text-white">
+                <LinkedinIcon size={40} />
                 Linkedin
               </div>
             </LinkedinShareButton>

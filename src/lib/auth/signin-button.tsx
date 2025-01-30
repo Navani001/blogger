@@ -4,6 +4,8 @@ import { cn } from "@nextui-org/theme"
 import { signIn } from "next-auth/react"
 import Image from "next/image"
 import { useState } from "react"
+import { FcGoogle } from "react-icons/fc";
+
 
 export function SignIn() {
   const [error, setError] = useState("")
@@ -68,11 +70,11 @@ export function SignIn() {
         </div>
         <div className="w-full h-[1px] bg-[#4c4c4e] mb-3"></div>
         <div className="flex justify-center">
-          <Button sx={{backgroundColor:'#EFEEFB' , color:'black' , marginBottom:'12px' ,fontWeight:'600' , textTransform:'none'}} className="w-full py-[10px] rounded-md border-none" onClick={async () => {
+          <Button sx={{backgroundColor:'#EFEEFB' , color:'black' , marginBottom:'12px' ,fontWeight:'600' , textTransform:'none'}} className="w-full py-[10px] rounded-md border-none flex gap-2" onClick={async () => {
       
             await signIn("google", { redirectTo: "/" }
             )
-          }}>Signin or login with Google</Button>
+          }}><span className="text-xl"><FcGoogle /></span> Login with Google</Button>
         </div>
       </div>
     </form>
