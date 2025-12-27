@@ -20,7 +20,7 @@ export function SignIn() {
         password,
         redirect: true
       })
-      .then(result => {
+      .then((result:any) => {
         if (result?.error) {
           setError(result.error)
         } else {
